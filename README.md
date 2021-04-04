@@ -1,1 +1,2 @@
 # nyp-proje
+sametia.q
