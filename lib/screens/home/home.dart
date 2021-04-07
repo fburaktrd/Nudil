@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/models/tarihkart.dart';
 import 'package:flutter_first_app/services/auth.dart';
 
 class Home extends StatelessWidget {
@@ -21,6 +22,12 @@ class Home extends StatelessWidget {
               },
             )
           ],
-        ));
+        ),
+        body: TarihKart(),
+        
+        
+        
+        );
+        
   }
 }
