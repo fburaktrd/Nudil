@@ -31,6 +31,10 @@ dependencies:
   firebase_auth: ^0.14.0+5
   cloud_firestore: ^0.13.0+1
   firebase_core: ^0.4.2+1
+<<<<<<< HEAD
+=======
+  provider: ^5.0.0
+>>>>>>> parent of 86051c9 (Revert "User sign up and in added")
 
 dev_dependencies:
   flutter_test:

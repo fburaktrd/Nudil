@@ -7,8 +7,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+<<<<<<< HEAD
 import '../lib/main.dart';
 
+=======
+
+import 'package:nyp_proje/lib/main.dart';
+>>>>>>> parent of 86051c9 (Revert "User sign up and in added")
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.

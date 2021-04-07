@@ -1,18 +1,17 @@
-
 # nyp_proje
 
-A new Flutter project.
+## 07.04.2021
+-Kullanıcı girişi ve kayıt olma eklendi.
+-main.dart dosyasının içerisindekileri kaldırdım başka bir yere kaydettim.
+-main.dart dosyasına yazmamamız lazım onun yerine oluşturacağımız sayfalar adında dart dosyası açıp onları return ettirmemiz gerekiyor.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
+<<<<<<< HEAD
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 blaba
+=======
+## Uygulamaya giriş yapmak için
+-Email: admin@gmail.com
+-Şifre: pampastech
+>>>>>>> parent of 86051c9 (Revert "User sign up and in added")
