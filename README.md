@@ -8,3 +8,4 @@ main.dart dosyasına yazmamamız lazım onun yerine oluşturacağımız sayfalar
 ## Uygulamaya giriş yapmak için
 -Email: admin@gmail.com
 -Şifre: pampastech
+aaaa
