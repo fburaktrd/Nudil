@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_first_app/services/auth.dart';
 
 class SignIn extends StatefulWidget {
@@ -9,81 +10,193 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
-  // text field state
+
+  
   String email = '';
-  String password = '';
-  String error = '';
+  String pass = '';
+  String error='';
+  
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
     return Scaffold(
-      backgroundColor: Colors.red[100],
-      appBar: AppBar(
-        backgroundColor: Colors.red[400],
-        elevation: 0.0,
-        title: Text('Sign in to our_app_name'),
-        actions: <Widget>[
-          FlatButton.icon(
-              icon: Icon(Icons.person),
-              label: Text('Register'),
-              onPressed: () {
-                widget.toggleView();
-              })
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 20.0),
-              TextFormField(
-                  validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                  onChanged: (val) {
-                    setState(() => email = val);
-                  }),
-              SizedBox(
-                height: 20.0,
-              ),
-              TextFormField(
-                  obscureText: true,
-                  validator: (val) =>
-                      val.length < 6 ? 'Enter a password 6+ chars long' : null,
-                  onChanged: (val) {
-                    setState(() => password = val);
-                  }),
-              SizedBox(
-                height: 20.0,
-              ),
-              RaisedButton(
-                color: Colors.pink[400],
-                child: Text(
-                  'Sign in',
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () async {
-                  if (_formKey.currentState.validate()) {
-                    dynamic result = await _auth.signInWithEmailAndPassword(
-                        email, password);
+      resizeToAvoidBottomInset: false,
+      
+      body:GestureDetector(
 
-                    if (result == null) {
-                      setState(() => error = 'Could not sign in with those credentials.');
-                    }
-                  }
-                },
+      onTap: (){
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if(!currentFocus.hasPrimaryFocus){
+          currentFocus.unfocus();
+        }
+
+      },
+      child: Stack(
+          
+          
+          
+            children: [
+              Container(
+
+
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/dodl.jpg"),
+                    colorFilter: ColorFilter.mode(Colors.blue, BlendMode.darken),
+                    fit: BoxFit.cover
+                    
+                    ),
+                    
+                ),
+
+
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+
+
               ),
-              SizedBox(height: 12.0),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red, fontSize: 14.0),
-              )
+
+
+            Align(
+              alignment: Alignment(0,.33),
+              
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  
+                  children: [
+                    Text(
+                      
+                      "Hawli",
+                      style: TextStyle(
+                        fontSize: 50,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 4,
+                        
+                        
+                      ),
+                    ),
+                    
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.black38,
+                        backgroundBlendMode: BlendMode.darken
+                      ),
+                      width: MediaQuery.of(context).size.width/1.5,
+                        child: TextFormField(
+                          
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            prefixIcon: Icon(
+                              Icons.mail_rounded,
+                              size: 35,
+                              color: Colors.white.withAlpha(225),
+                              ),
+                          ),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13
+                          ),
+                          keyboardType: TextInputType.text,
+                          
+                          
+                          validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                          onChanged: (val) {
+                            setState(() => email = val);
+                          }
+                            
+                        ),
+                    ),
+                    SizedBox(height:30),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.black38,
+                        backgroundBlendMode: BlendMode.dstOut
+                      ),
+                      width: MediaQuery.of(context).size.width/1.5,
+                        child: TextFormField(
+                          
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            prefixIcon: Icon(
+                              Icons.vpn_key_rounded,
+                              size: 35,
+                              color: Colors.white.withAlpha(225),
+                              ),
+                          ),
+                          style: TextStyle(color: Colors.white),
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          obscuringCharacter: '*',
+                          
+                          validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
+                          onChanged: (val) {
+                            setState(() => pass = val);
+                          }
+                            
+                        ),
+                    ),
+                    SizedBox(height:30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+
+                      
+                      children: [
+
+                        SizedBox(
+                          width: 90,
+                          ),
+                        RawMaterialButton(
+                          child:Icon(
+                            Icons.subdirectory_arrow_right,
+                            size: 50,
+                            color: Colors.lightBlue,
+                          
+                          ),
+                          
+                          fillColor: Colors.blue.withAlpha(0),
+                          constraints: BoxConstraints(minWidth: 100),
+                          splashColor: Colors.deepOrange,
+                          
+                          animationDuration: Duration(seconds: 5),
+                          onPressed: ()async {
+                            if (_formKey.currentState.validate()) {
+                              dynamic result = await _auth.signInWithEmailAndPassword(
+                                  email, pass);
+
+                              if (result == null) {
+                                setState(() => error = 'Could not sign in with those credentials.');
+                              }
+                            }
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.horizontal(
+                              left:Radius.circular(10),right: Radius.circular(20)
+                            )
+                            ),
+                          ),
+                      ],
+                    ),
+                    SizedBox(height:MediaQuery.of(context).viewInsets.bottom)
+                  ],
+                    ),
+              ),
+              
+            ),
+          
             ],
-          ),
         ),
       ),
-    );
+      ); 
+    
   }
 }
