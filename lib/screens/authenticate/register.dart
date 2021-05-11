@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/screens/authenticate/sign_in.dart';
 import 'package:flutter_first_app/services/auth.dart';
 
 class Register extends StatefulWidget {
@@ -27,10 +28,11 @@ class _RegisterState extends State<Register> {
         title: Text('Sign up to our_app_name'),
         actions: <Widget>[
           FlatButton.icon(
-              icon: Icon(Icons.person),
+              icon: Icon(Icons.remove),
               label: Text('Sign In'),
               onPressed: () {
-                widget.toggleView();
+                //widget.toggleView();
+                return SignIn();
               })
         ],
       ),

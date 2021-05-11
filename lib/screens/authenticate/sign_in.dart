@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_first_app/screens/authenticate/register.dart';
 import 'package:flutter_first_app/services/auth.dart';
 
 class SignIn extends StatefulWidget {
@@ -8,6 +9,7 @@ class SignIn extends StatefulWidget {
   @override
   _SignInState createState() => _SignInState();
 }
+
 
 class _SignInState extends State<SignIn> {
   
@@ -35,166 +37,200 @@ class _SignInState extends State<SignIn> {
         }
 
       },
-      child: Stack(
-          
-          
-          
-            children: [
-              Container(
+      child: SafeArea(
+
+        child: Stack(
 
 
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/dodl.jpg"),
-                    colorFilter: ColorFilter.mode(Colors.blue, BlendMode.darken),
-                    fit: BoxFit.cover
-                    
-                    ),
-                    
+
+              children: [
+                Container(
+
+
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/homescreen.jpg"),
+                      colorFilter: ColorFilter.mode(Colors.white12, BlendMode.darken),
+                      fit: BoxFit.cover
+
+
+                      ),
+
+                  ),
+
+
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+
+
                 ),
 
 
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
+              Align(
+                alignment: Alignment(0,.0),
+
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+
+                    children: [
+                      Container(
+                        height: 150,
+                        width: 150,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.tealAccent,
+                          //backgroundBlendMode: BlendMode.darken,
+                          //shape: BoxShape.circle,
+                          borderRadius: BorderRadius.circular(200),
 
 
-              ),
+                        ),
+                        child: Text(
 
-
-            Align(
-              alignment: Alignment(0,.33),
-              
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  
-                  children: [
-                    Text(
-                      
-                      "Hawli",
-                      style: TextStyle(
-                        fontSize: 50,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 4,
-                        
-                        
-                      ),
-                    ),
-                    
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        color: Colors.black38,
-                        backgroundBlendMode: BlendMode.darken
-                      ),
-                      width: MediaQuery.of(context).size.width/1.5,
-                        child: TextFormField(
-                          
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            prefixIcon: Icon(
-                              Icons.mail_rounded,
-                              size: 35,
-                              color: Colors.white.withAlpha(225),
-                              ),
-                          ),
+                          "  Nudıl  ",
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13
+                            //fontStyle: FontStyle.,
+                            fontSize: 32,
+
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 4,
+
+
                           ),
-                          keyboardType: TextInputType.text,
-                          
-                          
-                          validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                          onChanged: (val) {
-                            setState(() => email = val);
-                          }
-                            
                         ),
-                    ),
-                    SizedBox(height:30),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        color: Colors.black38,
-                        backgroundBlendMode: BlendMode.dstOut
                       ),
-                      width: MediaQuery.of(context).size.width/1.5,
-                        child: TextFormField(
-                          
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            prefixIcon: Icon(
-                              Icons.vpn_key_rounded,
-                              size: 35,
-                              color: Colors.white.withAlpha(225),
-                              ),
-                          ),
-                          style: TextStyle(color: Colors.white),
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          obscuringCharacter: '*',
-                          
-                          validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
-                          onChanged: (val) {
-                            setState(() => pass = val);
-                          }
-                            
+                      SizedBox(
+                        height: 10,
+                      ),
+
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: Colors.black38,
+                          backgroundBlendMode: BlendMode.darken
                         ),
-                    ),
-                    SizedBox(height:30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.min,
+                        width: MediaQuery.of(context).size.width/1.5,
+                          child: TextFormField(
 
-                      
-                      children: [
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIcon: Icon(
+                                Icons.mail_rounded,
+                                size: 35,
+                                color: Colors.white.withAlpha(225),
+                                ),
+                            ),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13
+                            ),
+                            keyboardType: TextInputType.text,
 
-                        SizedBox(
-                          width: 90,
+
+                            validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                            onChanged: (val) {
+                              setState(() => email = val);
+                            }
+
                           ),
-                        RawMaterialButton(
-                          child:Icon(
-                            Icons.subdirectory_arrow_right,
+                      ),
+                      SizedBox(height:30),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: Colors.black38,
+                          backgroundBlendMode: BlendMode.dstOut
+                        ),
+                        width: MediaQuery.of(context).size.width/1.5,
+                          child: TextFormField(
+
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIcon: Icon(
+                                Icons.vpn_key_rounded,
+                                size: 35,
+                                color: Colors.white.withAlpha(225),
+                                ),
+                            ),
+                            style: TextStyle(color: Colors.white),
+                            keyboardType: TextInputType.text,
+                            obscureText: true,
+                            obscuringCharacter: '*',
+
+                            validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
+                            onChanged: (val) {
+                              setState(() => pass = val);
+                            }
+
+                          ),
+                      ),
+                      SizedBox(height:30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+
+
+                        children: [
+                          RawMaterialButton(
+                              onPressed: (){
+
+                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                              return Register();
+
+                            }));
+                          },
+                          child: Icon(
+                            Icons.remove,
                             size: 50,
                             color: Colors.lightBlue,
-                          
-                          ),
-                          
-                          fillColor: Colors.blue.withAlpha(0),
-                          constraints: BoxConstraints(minWidth: 100),
-                          splashColor: Colors.deepOrange,
-                          
-                          animationDuration: Duration(seconds: 5),
-                          onPressed: ()async {
-                            if (_formKey.currentState.validate()) {
-                              dynamic result = await _auth.signInWithEmailAndPassword(
-                                  email, pass);
-
-                              if (result == null) {
-                                setState(() => error = 'Could not sign in with those credentials.');
-                              }
-                            }
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.horizontal(
-                              left:Radius.circular(10),right: Radius.circular(20)
-                            )
+                          ),),
+                          SizedBox(
+                            width: 90,
                             ),
-                          ),
-                      ],
-                    ),
-                    SizedBox(height:MediaQuery.of(context).viewInsets.bottom)
-                  ],
-                    ),
+                          RawMaterialButton(
+                            child:Icon(
+                              Icons.subdirectory_arrow_right,
+                              size: 50,
+                              color: Colors.lightBlue,
+
+                            ),
+
+                            fillColor: Colors.blue.withAlpha(0),
+                            constraints: BoxConstraints(minWidth: 100),
+                            splashColor: Colors.deepOrange,
+
+                            animationDuration: Duration(seconds: 5),
+                            onPressed: ()async {
+                              if (_formKey.currentState.validate()) {
+                                dynamic result = await _auth.signInWithEmailAndPassword(
+                                    email, pass);
+
+                                if (result == null) {
+                                  setState(() => error = 'Could not sign in with those credentials.');
+                                }
+                              }
+                            },
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.horizontal(
+                                left:Radius.circular(10),right: Radius.circular(20)
+                              )
+                              ),
+                            ),
+                        ],
+                      ),
+                      SizedBox(height:MediaQuery.of(context).viewInsets.bottom)
+                    ],
+                      ),
+                ),
+
               ),
-              
-            ),
-          
-            ],
-        ),
+
+              ],
+          ),
+      ),
       ),
       ); 
     
