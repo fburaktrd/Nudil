@@ -16,6 +16,7 @@ class _RegisterState extends State<Register> {
 
   String email = '';
   String password = '';
+  String passwordCheck='';
   String error = '';
 
   @override
@@ -59,6 +60,12 @@ class _RegisterState extends State<Register> {
                   onChanged: (val) {
                     setState(() => password = val);
                   }),
+              TextFormField(
+              obscureText: true,
+              validator: (val) => val != password
+                  ? 'Sifre ayni olmali'
+                  : null,
+              ),
               SizedBox(
                 height: 20.0,
               ),
