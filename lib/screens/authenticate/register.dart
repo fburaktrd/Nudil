@@ -15,8 +15,8 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
 
   String email = '';
+  String displayName = '';
   String password = '';
-  String passwordCheck='';
   String error = '';
 
   @override
@@ -61,10 +61,10 @@ class _RegisterState extends State<Register> {
                     setState(() => password = val);
                   }),
               TextFormField(
-              obscureText: true,
-              validator: (val) => val != password
-                  ? 'Sifre ayni olmali'
-                  : null,
+                validator: (val) => val.isEmpty ? 'Kullanıcı Adınızı Giriniz' : null,
+                onChanged: (val) {
+                  setState(() => displayName = val);
+                },
               ),
               SizedBox(
                 height: 20.0,
@@ -76,6 +76,7 @@ class _RegisterState extends State<Register> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
+                  print(displayName); //denemek için yazdırdım
                   if (_formKey.currentState.validate()) {
                     dynamic result = await _auth.registerWithEmailAndPassword(
                         email, password);

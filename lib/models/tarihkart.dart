@@ -29,11 +29,7 @@ class _TarihKartState extends State<TarihKart>{
       
       body: Container(
           decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/dodl.jpg"),
-                colorFilter: ColorFilter.mode(Colors.cyan[900], BlendMode.darken),
-                fit: BoxFit.fill
-              )
+
             ),
           child: GridView.count(
             
