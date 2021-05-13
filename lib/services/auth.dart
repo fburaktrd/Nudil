@@ -55,6 +55,9 @@ class AuthService {
     }
   }
 
+  Future RealRegister(String email, String password) async{
+
+  }
   // sign out
   Future signOut() async {
     try {
