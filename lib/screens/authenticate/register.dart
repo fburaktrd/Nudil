@@ -8,6 +8,7 @@ class Register extends StatefulWidget {
   final Function toggleView;
   Register({this.toggleView});
 
+
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -15,11 +16,12 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
-
   String email = '';
   String displayName = '';
   String password = '';
   String error = '';
+
+
 
   @override
   Widget build(BuildContext context) {
