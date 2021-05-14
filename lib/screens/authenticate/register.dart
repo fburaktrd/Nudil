@@ -1,4 +1,6 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/screens/authenticate/sign_in.dart';
 import 'package:flutter_first_app/services/auth.dart';
 
@@ -61,7 +63,8 @@ class _RegisterState extends State<Register> {
                     setState(() => password = val);
                   }),
               TextFormField(
-                validator: (val) => val.isEmpty ? 'Kullanıcı Adınızı Giriniz' : null,
+                validator: (val) =>
+                    val.isEmpty ? 'Kullanıcı Adınızı Giriniz' : null,
                 onChanged: (val) {
                   setState(() => displayName = val);
                 },
@@ -77,19 +80,28 @@ class _RegisterState extends State<Register> {
                 ),
                 onPressed: () async {
                   print(displayName); //denemek için yazdırdım
-                  if (_formKey.currentState.validate()) {
-                    dynamic result = await _auth.realRegister(
-                        email, password,displayName);
-                    if (result == null) {
-                      setState(() => error = 'Please supply a valid email.');
+                  DataSnapshot userNameDbResult =
+                      await DataBaseConnection.getUserName(displayName);
+                  print(userNameDbResult.value);
+                  if (userNameDbResult.value == null) {
+                    if (_formKey.currentState.validate()) {
+                      dynamic result = await _auth.realRegister(
+                          email, password, displayName);
+                      print("Kaydedildi.");
+                      if (result == null) {
+                        setState(() => error = 'Please supply a valid email.');
+                      }
                     }
+                  } else {
+                    setState(() => error = 'This username already taken.');
+                    print("Kaydedilmedi");
                   }
                 },
               ),
               SizedBox(height: 12.0),
               Text(
                 error,
-                style :TextStyle(color:Colors.red,fontSize: 14.0),
+                style: TextStyle(color: Colors.red, fontSize: 14.0),
               )
             ],
           ),

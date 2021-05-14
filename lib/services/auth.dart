@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/models/user.dart';
 
@@ -49,7 +50,7 @@ class AuthService {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
-      return [user,_userFromFirebaseUser(user)];
+      return [user, _userFromFirebaseUser(user)];
     } catch (e) {
       print(e.toString());
       return null;
@@ -59,8 +60,10 @@ class AuthService {
   Future realRegister(String email, String password, String displayName) async {
     var val = await registerWithEmailAndPassword(email, password);
     DataBaseConnection.setUser(val[0].uid, email, displayName);
+    DataBaseConnection.createUserName(displayName);
     return val[1];
   }
+
   // sign out
   Future signOut() async {
     try {
