@@ -31,6 +31,11 @@ dependencies:
   firebase_database: ^3.1.3
   firebase_auth: ^0.15.5+3
   provider: ^5.0.0
+  google_fonts:
+  font_awesome_flutter:
+  table_calendar:
+  day_night_time_picker:
+  numberpicker: ^2.1.1
 
   
 dev_dependencies:
