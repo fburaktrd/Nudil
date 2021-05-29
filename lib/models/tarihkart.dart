@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
-import './grup.dart';
+import 'package:flutter_first_app/screens/authenticate/sign_in.dart';
+import 'package:flutter_first_app/screens/eventOlusturma/calendar/planlama.dart';
+import 'package:flutter_first_app/services/auth.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 class TarihKart extends StatefulWidget{
-  
+
   @override
   _TarihKartState createState() => _TarihKartState();
   
 }
   
 class _TarihKartState extends State<TarihKart>{
-  
+  final AuthService _auth = AuthService();
   int sayi=40;
   List<Widget> olustur=[];
   @override
@@ -26,6 +30,20 @@ class _TarihKartState extends State<TarihKart>{
     
     
     return Scaffold(
+        appBar: AppBar(
+          title: Text('our_app_name'),
+          backgroundColor: Colors.blue[400],
+          elevation: 0.0,
+          actions: <Widget>[
+            FlatButton.icon(
+              icon: Icon(Icons.person),
+              label: Text('logout'),
+              onPressed: () async {
+                await _auth.signOut();
+              },
+            )
+          ],
+        ),
       
       body: Container(
           decoration: BoxDecoration(
@@ -43,12 +61,22 @@ class _TarihKartState extends State<TarihKart>{
             
             ),
         ),
-        bottomNavigationBar: BottomNavigationBar(items: [
-          BottomNavigationBarItem(icon: Icon(Icons.add),label: "asd"),
-          BottomNavigationBarItem(icon: Icon(Icons.add),label: "asd"),
-          BottomNavigationBarItem(icon: Icon(Icons.add),label: "asd")
-        ],),
-    );
+        floatingActionButton: RawMaterialButton(
+        child: Container(
+    decoration: BoxDecoration(
+    color: Colors.blue,
+    borderRadius: BorderRadius.circular(12),
+    ),
+    padding: EdgeInsets.all(8),
+    child: Text('Planlama',
+    style: GoogleFonts.montserrat(
+    color: Color.fromRGBO(59, 57, 60, 1),
+    fontSize: 22,
+    fontWeight: FontWeight.bold)),
+    ),
+    onPressed: () => Navigator.push(
+    context, MaterialPageRoute(builder: (context) => BilgiAlma())),
+    ));
       
     
     
@@ -69,16 +97,6 @@ List<Widget> listeYapici(int sayi,BuildContext context){
       onTap: (){
         tek= !tek;
         
-      },
-      onDoubleTap: (){
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context){
-            return Grup(i: x);
-            },
-          
-          )//        Grup(i: x),
-          
-        );
       },
       child: Container(
         
