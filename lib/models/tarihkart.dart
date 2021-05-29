@@ -25,7 +25,7 @@ class _TarihKartState extends State<TarihKart> {
     return Scaffold(
       appBar: AppBar(
           title: Text('our_app_name'),
-          backgroundColor: Colors.blue[400],
+          backgroundColor:Color(0xff651fff),
           elevation: 0.0,
           actions: <Widget>[
             FlatButton.icon(
