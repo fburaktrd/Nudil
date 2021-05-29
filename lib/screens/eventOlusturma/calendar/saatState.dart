@@ -1,8 +1,11 @@
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
 
+import 'Saat.dart';
+
 class SaatSec extends StatefulWidget {
   static int siradakiId = 0;
+  
   int id = siradakiId++;
   final int indis;
   final Map tarihler;
@@ -43,7 +46,7 @@ class SaatSecme extends State<SaatSec> {
                 maxWidth: MediaQuery.of(context).size.width / 4.5),
             color: Colors.grey.withAlpha(100),
             child: Text(
-              "naimin sabah amına goim\n" + "baslangic\n" + saatFormat(basAyar),
+              "baslangic\n" + saatFormat(basAyar),
               textAlign: TextAlign.center,
             ),
           ),
@@ -60,6 +63,8 @@ class SaatSecme extends State<SaatSec> {
                     minMinute: basAyar.minute.toDouble(),
                     onChange: (x) {
                       bitirAyar = x;
+                     
+                      
                       setState(() {});
                     }),
               );
@@ -72,7 +77,7 @@ class SaatSecme extends State<SaatSec> {
                   maxWidth: MediaQuery.of(context).size.width / 4.5),
               color: Colors.grey.withAlpha(100),
               child: Text(
-                "naimin aksam amına goim\n" + "bitis\n" + saatFormat(bitirAyar),
+                "bitis\n" + saatFormat(bitirAyar),
                 textAlign: TextAlign.center,
               ),
             )),

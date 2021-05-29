@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/screens/eventOlusturma/calendar/planlama.dart';
 import './grup.dart';
 
 class TarihKart extends StatefulWidget{
@@ -28,9 +29,7 @@ class _TarihKartState extends State<TarihKart>{
     return Scaffold(
       
       body: Container(
-          decoration: BoxDecoration(
-
-            ),
+          margin: EdgeInsets.only(bottom: 24),
           child: GridView.count(
             
             shrinkWrap: true,
@@ -43,11 +42,17 @@ class _TarihKartState extends State<TarihKart>{
             
             ),
         ),
-        bottomNavigationBar: BottomNavigationBar(items: [
-          BottomNavigationBarItem(icon: Icon(Icons.add),label: "asd"),
-          BottomNavigationBarItem(icon: Icon(Icons.add),label: "asd"),
-          BottomNavigationBarItem(icon: Icon(Icons.add),label: "asd")
-        ],),
+        floatingActionButton: RawMaterialButton(
+          onPressed: () { 
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BilgiAlma()));
+          },
+          child: Container(
+            padding: EdgeInsets.all(8),
+            margin: EdgeInsets.all(12),
+            color: Colors.blueGrey.withAlpha(100),
+            child: Text("Planla",style: TextStyle(fontSize: 24),),
+          ),
+        ),
     );
       
     
