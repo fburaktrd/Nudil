@@ -5,7 +5,6 @@ import './planlama.dart';
 import './saatState.dart';
 
 class Saat extends StatefulWidget {
-  static Map asd=new Map();
   @override
   Saat1 createState() => Saat1();
 }
@@ -53,7 +52,11 @@ class Saat1 extends State<Saat> {
 
   @override
   Widget build(BuildContext context) {
-    
+    Map s = new Map();
+
+    s["15 mayıs"] = {"pırasa": "sad"};
+
+    print(s);
     Map tarih = new Map();
     tarih["18 Mayıs"] = 2;
 
@@ -77,12 +80,8 @@ class Saat1 extends State<Saat> {
                     color: Color.fromRGBO(59, 57, 60, 1),
                     fontSize: 22,
                     fontWeight: FontWeight.bold)),
-            onPressed: ()  {
-              SaatSec.siradakiId=0;
-              Navigator.push(
-                context, MaterialPageRoute(builder: (context) => BilgiAlma()));
-                
-                },
+            onPressed: () => Navigator.push(
+                context, MaterialPageRoute(builder: (context) => BilgiAlma())),
           ),
         ]),
       )),

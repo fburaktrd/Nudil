@@ -14,11 +14,11 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
-  
+  int _currentIntValue = 3;
   CalendarFormat format = CalendarFormat.month;
   DateTime focusedDay = DateTime.now();
   DateTime selectedDay = DateTime.now();
-  
+  int _currentValue = 3;
   TextStyle dayStyle(FontWeight fontWeight) {
     return TextStyle(color: Color(0xff30374b), fontWeight: fontWeight);
   }
@@ -26,7 +26,6 @@ class _CalendarState extends State<Calendar> {
   List<DateTime> secililer = [];
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: Container(
         child: SingleChildScrollView(
@@ -39,7 +38,6 @@ class _CalendarState extends State<Calendar> {
                 lastDay: DateTime(2100),
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 daysOfWeekVisible: true,
-                
                 onDaySelected: (DateTime selectDay, DateTime focusDay) {
                   if (secililer.contains(focusDay)) {
                     secililer.remove(focusDay);
