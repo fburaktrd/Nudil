@@ -12,20 +12,7 @@ class Home extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.red[50],
         
-        appBar: AppBar(
-          title: Text('our_app_name'),
-          backgroundColor: Colors.blue[400],
-          elevation: 0.0,
-          actions: <Widget>[
-            FlatButton.icon(
-              icon: Icon(Icons.person),
-              label: Text('logout'),
-              onPressed: () async {
-                await _auth.signOut();
-              },
-            )
-          ],
-        ),
+        
         body: TarihKart(),
         
         

@@ -31,6 +31,9 @@ class SaatSecme extends State<SaatSec> {
                   onChange: (x) {
                     basAyar = x;
                     bitirAyar = x;
+                    print("pust naim");
+                    print(widget.tarihler[widget.x]);
+
                     setState(() {});
                   }),
             );
@@ -41,10 +44,13 @@ class SaatSecme extends State<SaatSec> {
             alignment: Alignment.center,
             constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width / 4.5),
-            color: Colors.grey.withAlpha(100),
+            color: Colors.grey[350].withAlpha(100),
             child: Text(
-              "naimin sabah amına goim\n" + "baslangic\n" + saatFormat(basAyar),
+              "\n" + "baslangic\n" + saatFormat(basAyar),
               textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black,
+              ),
             ),
           ),
         ),
@@ -56,10 +62,15 @@ class SaatSecme extends State<SaatSec> {
                     iosStylePicker: true,
                     context: context,
                     value: bitirAyar,
-                    minHour: basAyar.hour.toDouble(),
-                    minMinute: basAyar.minute.toDouble(),
                     onChange: (x) {
                       bitirAyar = x;
+                      print(saatFormat(x));
+                      widget.tarihler[widget.id] = {
+                        "tarih": widget.x,
+                        "baslangic": saatFormat(basAyar),
+                        "bitis": saatFormat(x)
+                      };
+                      print(widget.tarihler);
                       setState(() {});
                     }),
               );
@@ -70,10 +81,11 @@ class SaatSecme extends State<SaatSec> {
               alignment: Alignment.center,
               constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width / 4.5),
-              color: Colors.grey.withAlpha(100),
+              color: Colors.grey[350].withAlpha(100),
               child: Text(
-                "naimin aksam amına goim\n" + "bitis\n" + saatFormat(bitirAyar),
+                "\n" + "bitis\n" + saatFormat(bitirAyar),
                 textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black),
               ),
             )),
       ],

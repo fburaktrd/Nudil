@@ -1,29 +1,29 @@
 import 'dart:core';
 
-
+import './Saat.dart';
+import './saatState.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import './saatSec.dart';
-import 'Saat.dart';
+import './saatSayiSec.dart';
 
 class Calendar extends StatefulWidget {
+  Map sayiSec = new Map();
   @override
   _CalendarState createState() => _CalendarState();
 }
 
 class _CalendarState extends State<Calendar> {
-  int _currentIntValue = 3;
   CalendarFormat format = CalendarFormat.month;
   DateTime focusedDay = DateTime.now();
   DateTime selectedDay = DateTime.now();
-  int _currentValue = 3;
   TextStyle dayStyle(FontWeight fontWeight) {
     return TextStyle(color: Color(0xff30374b), fontWeight: fontWeight);
   }
 
   List<DateTime> secililer = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +41,7 @@ class _CalendarState extends State<Calendar> {
                 onDaySelected: (DateTime selectDay, DateTime focusDay) {
                   if (secililer.contains(focusDay)) {
                     secililer.remove(focusDay);
+                    widget.sayiSec.remove(focusDay.toString());
                   } else {
                     secililer.add(focusDay);
                   }
@@ -124,12 +125,12 @@ class _CalendarState extends State<Calendar> {
                                 children: [
                                   Expanded(
                                     child: Container(
-                                      width: 50,
+                                      //width: 50,
                                       height: 50,
                                       color: Colors.transparent,
                                       child: Center(
-                                          child: Text(
-                                              "${secililer.elementAt(index)}")),
+                                          child: Text(takvimFormat(
+                                              secililer.elementAt(index)))),
                                     ),
                                   ),
                                   Expanded(
@@ -137,17 +138,33 @@ class _CalendarState extends State<Calendar> {
                                       color: Colors.transparent,
                                       child: RawMaterialButton(
                                         child: Text(
-                                            'kaç saat aralığı sayısı seçilecek',
+                                            widget.sayiSec[takvimFormat(
+                                                        secililer.elementAt(
+                                                            index))] ==
+                                                    null
+                                                ? 0.toString()
+                                                : widget.sayiSec[takvimFormat(
+                                                        secililer
+                                                            .elementAt(index))]
+                                                    .toString(),
                                             style: GoogleFonts.montserrat(
                                                 color: Color.fromRGBO(
                                                     59, 57, 60, 1),
-                                                fontSize: 10,
+                                                fontSize: 13.1,
                                                 fontWeight: FontWeight.bold)),
-                                        onPressed: () => Navigator.push(
+                                        onPressed: () async {
+                                          int aralik = await Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    MyHomePage())),
+                                                    SaatSayiSec()),
+                                          );
+                                          widget.sayiSec[takvimFormat(
+                                                  secililer.elementAt(index))] =
+                                              aralik;
+                                          print(aralik);
+                                          setState(() {});
+                                        },
                                       ),
                                     ),
                                   ),
@@ -178,11 +195,29 @@ class _CalendarState extends State<Calendar> {
                     color: Color.fromRGBO(59, 57, 60, 1),
                     fontSize: 22,
                     fontWeight: FontWeight.bold)),
-            onPressed: () => Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Saat())),
+            onPressed: () {
+              print(widget.sayiSec);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Saat(
+                            tarih: widget.sayiSec,
+                          )));
+              SaatSec.siradakiId = 0;
+            },
           ),
         ],
       ),
     );
   }
+}
+
+String takvimFormat(DateTime tarih) {
+  String ay1 = tarih.month.toString();
+  String gun1 = tarih.day.toString();
+  String yil1 = tarih.year.toString();
+
+  gun1 = gun1.length == 1 ? '0' + gun1 : gun1;
+  ay1 = ay1.length == 1 ? '0' + ay1 : ay1;
+  return gun1 + "." + ay1 + "." + yil1;
 }
