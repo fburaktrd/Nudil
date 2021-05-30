@@ -8,7 +8,6 @@ class Register extends StatefulWidget {
   final Function toggleView;
   Register({this.toggleView});
 
-
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -21,23 +20,31 @@ class _RegisterState extends State<Register> {
   String password = '';
   String error = '';
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red[100],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.red[400],
+        backgroundColor: Color(0xff30374b),
         elevation: 0.0,
-        title: Text('Sign up to our_app_name'),
+        title: Text('Sign up'),
         actions: <Widget>[
-          FlatButton.icon(
-              icon: Icon(Icons.remove),
-              label: Text('Sign In'),
+          RawMaterialButton(
+              //icon: Icon(Icons.remove),
+              //label: Text('Sign In'),
+              child: Text(
+                "Sign In",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.white.withAlpha(205)),
+              ),
               onPressed: () {
                 //widget.toggleView();
-                return SignIn();
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return SignIn();
+                }));
+                //return SignIn();
               })
         ],
       ),
@@ -46,36 +53,64 @@ class _RegisterState extends State<Register> {
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              SizedBox(height: 20.0),
-              TextFormField(
+              //SizedBox(height: 20.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
                   validator: (val) => val.isEmpty ? 'Enter an email' : null,
                   onChanged: (val) {
                     setState(() => email = val);
-                  }),
-              SizedBox(
-                height: 20.0,
+                  },
+                  decoration: InputDecoration(
+                      hintText: "Enter an email",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      filled: true,
+                      fillColor: Colors.white),
+                ),
               ),
-              TextFormField(
+              /*SizedBox(
+                height: 20.0,
+              ),*/
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
                   obscureText: true,
                   validator: (val) => val.length < 6
                       ? 'Enter the password 6+ chars long'
                       : null,
                   onChanged: (val) {
                     setState(() => password = val);
-                  }),
-              TextFormField(
-                validator: (val) =>
-                    val.isEmpty ? 'Kullanıcı Adınızı Giriniz' : null,
-                onChanged: (val) {
-                  setState(() => displayName = val);
-                },
+                  },
+                  decoration: InputDecoration(
+                      hintText: "Enter the password 6+ chars long",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      filled: true,
+                      fillColor: Colors.white),
+                ),
               ),
-              SizedBox(
-                height: 20.0,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 8, 8, 2),
+                child: TextFormField(
+                  validator: (val) =>
+                      val.isEmpty ? 'Kullanıcı Adınızı Giriniz' : null,
+                  onChanged: (val) {
+                    setState(() => displayName = val);
+                  },
+                  decoration: InputDecoration(
+                      hintText: "Kullanıcı Adınızı Giriniz",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      filled: true,
+                      fillColor: Colors.white),
+                ),
               ),
+
               RaisedButton(
-                color: Colors.pink[400],
+                color: Color(0xff30374b),
                 child: Text(
                   'Register',
                   style: TextStyle(color: Colors.white),
