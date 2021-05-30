@@ -85,7 +85,7 @@ class _RegisterState extends State<Register> {
                     setState(() => password = val);
                   },
                   decoration: InputDecoration(
-                      hintText: "Enter the password 6+ chars long",
+                      hintText: "Enter the password ",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5)),
                       filled: true,
