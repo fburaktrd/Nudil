@@ -113,7 +113,7 @@ class _SignInState extends State<SignIn> {
                         child: TextFormField(
                             decoration: InputDecoration(
                               hintText:
-                                  "Enter a password 6+ chars long", // burası değiştirilir keyfi konulur bir şeyler.
+                                  "Enter a password", // burası değiştirilir keyfi konulur bir şeyler.
                               hintStyle: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,
