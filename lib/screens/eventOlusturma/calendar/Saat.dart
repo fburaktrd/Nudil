@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import './planlama.dart';
 import './saatState.dart';
 
 class Saat extends StatefulWidget {
@@ -68,6 +67,13 @@ class Saat1 extends State<Saat> {
   }
 
   @override
+  void initState() {
+    a = saatSec(widget.tarih);
+    super.initState();
+  }
+
+  List<Widget> a = [];
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -82,7 +88,7 @@ class Saat1 extends State<Saat> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
-                      children: saatSec(widget.tarih),
+                      children: a,
                     ),
                   ]),
             ),
@@ -93,8 +99,9 @@ class Saat1 extends State<Saat> {
                       fontSize: 22,
                       fontWeight: FontWeight.bold)),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Planlama()));
+                /*Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Planlama()));*/
+                Navigator.of(context)..pop()..pop(widget.tarih);
               },
             ),
           ],

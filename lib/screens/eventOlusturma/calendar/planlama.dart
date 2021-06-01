@@ -3,10 +3,10 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/models/tarihkart.dart';
+import 'package:flutter_first_app/screens/eventOlusturma/calendar/saatState.dart';
 import 'package:flutter_first_app/screens/eventOlusturma/friendList/arkadasListe.dart';
 
 import './calendar.dart';
-import 'saatState.dart';
 
 class Planlama extends StatefulWidget {
   @override
@@ -43,6 +43,7 @@ class _PlanlamaState extends State<Planlama> {
     super.dispose();
   }
 
+  Map tarihler;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,8 +118,12 @@ class _PlanlamaState extends State<Planlama> {
           ),
           RawMaterialButton(
             splashColor: Colors.blueGrey,
-            onPressed: () => Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Calendar())),
+            onPressed: () async {
+              tarihler = await Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Calendar()));
+              setState(() {});
+              print(tarihler);
+            },
             child: Container(
               margin: EdgeInsets.fromLTRB(.5, 5, .5, 10),
               width: double.infinity,
@@ -166,7 +171,7 @@ class _PlanlamaState extends State<Planlama> {
             width: double.infinity,
             height: MediaQuery.of(context).size.height / 6,
             child: Container(
-              padding: EdgeInsets.all(14),
+              padding: EdgeInsets.all(12),
               margin: EdgeInsets.all(8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.31),
@@ -177,6 +182,7 @@ class _PlanlamaState extends State<Planlama> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: List.generate(
+                      // **************saat seçmeden sadece gün döndürme sıkıntısı var *******
                       SaatSec.siradakiId,
                       (index) => Container(
                             decoration: BoxDecoration(
@@ -184,51 +190,38 @@ class _PlanlamaState extends State<Planlama> {
                               borderRadius: BorderRadius.circular(7.31),
                             ),
                             margin: EdgeInsets.all(4),
-                            width: 100,
-                            height: 100,
+                            padding: EdgeInsets.all(4),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Expanded(
                                     child: Container(
-                                  width: 100,
-                                  height: 109,
+                                  //width: 100,
+                                  //height: 109,
                                   color: Colors.transparent,
-                                  child: Center(
-                                      child: Text(
-                                    "Ay",
-                                  )),
+                                  alignment: Alignment.center,
+                                  child: Text(tarihler[index]["tarih"]),
                                 )),
                                 Expanded(
                                     child: Container(
+                                  alignment: Alignment.center,
                                   color: Colors.transparent,
-                                  width: 300,
-                                  height: 109,
-                                  child: Center(
-                                      child: Text(
-                                    "Ay'ın Kaçı",
-                                  )),
+                                  // width: 300,
+                                  //height: 109,
+                                  child: Text(
+                                    "baslangic:" + tarihler[index]["baslangic"],
+                                  ),
                                 )),
                                 Expanded(
                                     child: Container(
+                                  alignment: Alignment.center,
                                   color: Colors.transparent,
-                                  width: 100,
-                                  height: 109,
-                                  child: Center(
-                                      child: Text(
-                                    "Ay'ın Günü",
-                                  )),
-                                )),
-                                Expanded(
-                                    child: Container(
-                                  color: Colors.transparent,
-                                  width: 100,
-                                  height: 109,
-                                  child: Center(
-                                      child: Text(
-                                    "saat",
-                                  )),
+                                  //width: 100,
+                                  //height: 109,
+                                  child: Text(
+                                    "bitis:" + tarihler[index]["bitis"],
+                                  ),
                                 )),
                               ],
                             ),

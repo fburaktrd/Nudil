@@ -1,12 +1,12 @@
 import 'dart:core';
 
-import './Saat.dart';
-import './saatState.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import './Saat.dart';
 import './saatSayiSec.dart';
+import './saatState.dart';
 
 class Calendar extends StatefulWidget {
   Map sayiSec = new Map();
@@ -188,7 +188,10 @@ class _CalendarState extends State<Calendar> {
                       color: Color.fromRGBO(59, 57, 60, 1),
                       fontSize: 22,
                       fontWeight: FontWeight.bold)),
-              onPressed: () => Navigator.pop(context)),
+              onPressed: () {
+                Navigator.pop(context);
+                print(secililer);
+              }),
           RawMaterialButton(
             child: Text('Add Clock',
                 style: GoogleFonts.montserrat(
