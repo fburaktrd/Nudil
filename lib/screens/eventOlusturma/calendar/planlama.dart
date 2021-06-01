@@ -1,9 +1,9 @@
 import 'dart:core';
 
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/models/tarihkart.dart';
+import 'package:flutter_first_app/screens/eventOlusturma/friendList/arkadasListe.dart';
 
 import './calendar.dart';
 import 'saatState.dart';
@@ -239,7 +239,8 @@ class _PlanlamaState extends State<Planlama> {
           ),
           RawMaterialButton(
             splashColor: Colors.blueGrey,
-            onPressed: () {},
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ArkadasListe())),
             child: Container(
               margin: EdgeInsets.fromLTRB(.5, 5, .5, 5),
               width: double.infinity,
