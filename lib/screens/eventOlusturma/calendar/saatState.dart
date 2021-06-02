@@ -2,22 +2,36 @@ import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
 
 class SaatSec extends StatefulWidget {
+  //oluşan saat seçme widgetlarının sayısını tutmak ve bunların mapte kullanılması için static değişken tanımlandı
   static int siradakiId = 0;
   int id = siradakiId++;
-  final int indis;
+  
   final Map tarihler;
-  final String x;
-  SaatSec({this.indis, this.tarihler, this.x});
+  final String tarihString;
+  SaatSec({this.tarihler, this.tarihString});
   @override
   SaatSecme createState() => SaatSecme();
 }
 
 class SaatSecme extends State<SaatSec> {
+  
   TimeOfDay now = TimeOfDay.now();
   TimeOfDay sec = TimeOfDay(hour: 12, minute: 0);
   TimeOfDay basAyar = TimeOfDay(hour: 12, minute: 0);
   TimeOfDay bitirAyar = TimeOfDay(hour: 12, minute: 0);
+  @override
+  void initState(){
+    //değer girilmese dahi indise değerler tanımlanıyor
+    widget.tarihler[widget.id] = {
+      "tarih": widget.tarihString,
+      "baslangic": "",
+      "bitis": ""
+    };
+    super.initState();
+  }
+  
   Widget build(BuildContext context) {
+   
     return Row(
       children: [
         GestureDetector(
@@ -30,10 +44,15 @@ class SaatSecme extends State<SaatSec> {
                   value: basAyar,
                   onChange: (x) {
                     basAyar = x;
-                    bitirAyar = x;
-                    print("pust naim");
-                    print(widget.tarihler[widget.x]);
-
+                    
+                    
+                    print(widget.tarihler[widget.tarihString]);
+                    widget.tarihler[widget.id] = {
+                        "tarih": widget.tarihString,
+                        "baslangic": saatFormat(basAyar),
+                        //bitiş saati başlangıç saatine eşit ise bitiş saati olarak "" dönüyor
+                        "bitis": basAyar==bitirAyar?"":saatFormat(bitirAyar)
+                    };
                     setState(() {});
                   }),
             );
@@ -66,9 +85,9 @@ class SaatSecme extends State<SaatSec> {
                       bitirAyar = x;
                       print(saatFormat(x));
                       widget.tarihler[widget.id] = {
-                        "tarih": widget.x,
+                        "tarih": widget.tarihString,
                         "baslangic": saatFormat(basAyar),
-                        "bitis": saatFormat(x)
+                        "bitis": basAyar==bitirAyar?"":saatFormat(x)
                       };
                       print(widget.tarihler);
                       setState(() {});

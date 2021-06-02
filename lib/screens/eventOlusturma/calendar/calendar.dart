@@ -9,7 +9,7 @@ import './saatSayiSec.dart';
 import './saatState.dart';
 
 class Calendar extends StatefulWidget {
-  Map sayiSec = new Map();
+  
   @override
   _CalendarState createState() => _CalendarState();
 }
@@ -21,7 +21,7 @@ class _CalendarState extends State<Calendar> {
   TextStyle dayStyle(FontWeight fontWeight) {
     return TextStyle(color: Color(0xff30374b), fontWeight: fontWeight);
   }
-
+  Map sayiSec = new Map();
   List<DateTime> secililer = [];
 
   @override
@@ -40,9 +40,12 @@ class _CalendarState extends State<Calendar> {
                 daysOfWeekVisible: true,
                 onDaySelected: (DateTime selectDay, DateTime focusDay) {
                   if (secililer.contains(focusDay)) {
+                    print(sayiSec);
                     secililer.remove(focusDay);
-                    widget.sayiSec.remove(focusDay.toString());
+                    sayiSec.remove(takvimFormat(focusDay));
                   } else {
+                    //saat eklemeye gidilmesi durumunda başlangıç 1 olarak tanımlandı
+                    sayiSec[takvimFormat(focusDay)]=1;
                     secililer.add(focusDay);
                   }
                   secililer.sort();
@@ -138,15 +141,7 @@ class _CalendarState extends State<Calendar> {
                                       color: Colors.transparent,
                                       child: RawMaterialButton(
                                         child: Text(
-                                            widget.sayiSec[takvimFormat(
-                                                        secililer.elementAt(
-                                                            index))] ==
-                                                    null
-                                                ? 0.toString()
-                                                : widget.sayiSec[takvimFormat(
-                                                        secililer
-                                                            .elementAt(index))]
-                                                    .toString(),
+                                            sayiSec[takvimFormat(secililer.elementAt(index))].toString(),
                                             style: GoogleFonts.montserrat(
                                                 color: Color.fromRGBO(
                                                     59, 57, 60, 1),
@@ -159,7 +154,7 @@ class _CalendarState extends State<Calendar> {
                                                 builder: (context) =>
                                                     SaatSayiSec()),
                                           );
-                                          widget.sayiSec[takvimFormat(
+                                          sayiSec[takvimFormat(
                                                   secililer.elementAt(index))] =
                                               aralik;
                                           print(aralik);
@@ -189,7 +184,9 @@ class _CalendarState extends State<Calendar> {
                       fontSize: 22,
                       fontWeight: FontWeight.bold)),
               onPressed: () {
-                Navigator.pop(context);
+                //saat bilgileri olmayan tarihler dönüyor
+                Map don=tarihSec(secililer);
+                Navigator.pop(context,don);
                 print(secililer);
               }),
           RawMaterialButton(
@@ -199,12 +196,12 @@ class _CalendarState extends State<Calendar> {
                     fontSize: 22,
                     fontWeight: FontWeight.bold)),
             onPressed: () {
-              print(widget.sayiSec);
+              print(sayiSec);
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => Saat(
-                            tarih: widget.sayiSec,
+                            tarih: sayiSec,
                           )));
               SaatSec.siradakiId = 0;
             },
@@ -223,4 +220,15 @@ String takvimFormat(DateTime tarih) {
   gun1 = gun1.length == 1 ? '0' + gun1 : gun1;
   ay1 = ay1.length == 1 ? '0' + ay1 : ay1;
   return gun1 + "." + ay1 + "." + yil1;
+}
+
+Map tarihSec(List<DateTime> x){
+  Map tarihler=new Map();
+  for(int i=0;i<x.length;i++){
+
+    tarihler[i]={"tarih":takvimFormat(x.elementAt(i)),"baslangic":"","bitis":""};
+  }
+
+  return tarihler;
+
 }

@@ -13,13 +13,15 @@ class Saat extends StatefulWidget {
 
 class Saat1 extends State<Saat> {
   List<Widget> saatSec(Map a) {
+    //Map a={tarih:'saat aralığı sayısı'}
     List<Widget> donecek = [];
     var tarihler = a.keys.toList();
+    //döngüde kullanmak için mapteki keyler listeye atılıyor
     for (int i = 0; i < tarihler.length; i++) {
       donecek.add(Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
-        children: List.generate(a[tarihler.elementAt(i)], (index) {
+        children: List.generate(a[tarihler.elementAt(i)], (index) {//a[tarihler.elementAt(i)]=saat aralığı sayısı
           return Container(
             margin: EdgeInsets.fromLTRB(1, 5, 1, 5),
             padding: EdgeInsets.fromLTRB(5, 12, 5, 12),
@@ -49,9 +51,8 @@ class Saat1 extends State<Saat> {
                     ),
                   ),
                   SaatSec(
-                    indis: index,
-                    tarihler: a,
-                    x: tarihler.elementAt(i),
+                    tarihler: a,//oluşan saat sec objesinin erişmesi için saat aralıklarını tutan map ekleniyor
+                    tarihString: tarihler.elementAt(i),
                   )
                 ],
               ),
@@ -61,18 +62,20 @@ class Saat1 extends State<Saat> {
       ));
       print(a[tarihler.elementAt(0)]);
     }
+    //döngü bittikten sonra mapte gerek duyulmayan saat aralıkları temizleniyor
     a.clear();
 
     return donecek;
   }
-
+  List<Widget> gunler = [];
   @override
   void initState() {
-    a = saatSec(widget.tarih);
+    //saat seçimi yapan widgetların listesi oluşturuluyor
+    gunler = saatSec(widget.tarih);
     super.initState();
   }
-
-  List<Widget> a = [];
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +91,7 @@ class Saat1 extends State<Saat> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
-                      children: a,
+                      children: gunler,
                     ),
                   ]),
             ),
@@ -99,8 +102,8 @@ class Saat1 extends State<Saat> {
                       fontSize: 22,
                       fontWeight: FontWeight.bold)),
               onPressed: () {
-                /*Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Planlama()));*/
+           
+                //planlama sayfasına map döndürülüyor
                 Navigator.of(context)..pop()..pop(widget.tarih);
               },
             ),

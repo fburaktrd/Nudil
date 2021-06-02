@@ -43,7 +43,7 @@ class _PlanlamaState extends State<Planlama> {
     super.dispose();
   }
 
-  Map tarihler;
+  Map tarihler=new Map();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -182,8 +182,8 @@ class _PlanlamaState extends State<Planlama> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: List.generate(
-                      // **************saat seçmeden sadece gün döndürme sıkıntısı var *******
-                      SaatSec.siradakiId,
+                      //dönen tarihler mapinin içindeki indislerin sayısı kadar oluşuyor
+                      tarihler.keys.length,
                       (index) => Container(
                             decoration: BoxDecoration(
                               color: Colors.grey[350],
@@ -210,7 +210,9 @@ class _PlanlamaState extends State<Planlama> {
                                   // width: 300,
                                   //height: 109,
                                   child: Text(
-                                    "baslangic:" + tarihler[index]["baslangic"],
+                                    //saat eklenmediği zaman başlangıç ve bitiş değeri 0 dönüyor
+                                    tarihler[index]["baslangic"]==""?"":"Başlangic: "+tarihler[index]["baslangic"],
+                                   
                                   ),
                                 )),
                                 Expanded(
@@ -220,7 +222,7 @@ class _PlanlamaState extends State<Planlama> {
                                   //width: 100,
                                   //height: 109,
                                   child: Text(
-                                    "bitis:" + tarihler[index]["bitis"],
+                                    tarihler[index]["bitis"]==""?"":"Bitis: "+tarihler[index]["bitis"],
                                   ),
                                 )),
                               ],
