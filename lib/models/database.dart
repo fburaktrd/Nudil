@@ -13,7 +13,13 @@ class DataBaseConnection {
         .child(displayName)
         .set({"email": email, "displayName": displayName, "uid": uid});
   }
-
+  static Future<int> eventLength(String userName) async {
+    DataSnapshot b;
+    b = await ref.child("MyEvents").child(userName).once();
+    print("burası");
+    print(b.value.length);
+    return b.value.length;
+  }
   static void createUserName(String userName) async {
     ref.child("UserNames").child(userName).set(userName);
   }

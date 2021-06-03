@@ -117,9 +117,9 @@ class _RegisterState extends State<Register> {
                 ),
                 onPressed: () async {
                   print(displayName); //denemek için yazdırdım
-                  DataSnapshot userNameDbResult =
-                      await DataBaseConnection.getUserName(displayName);
-                  print(userNameDbResult.value);
+                  DataSnapshot userNameDbResult = await DataBaseConnection.getUserName(displayName);
+                  print("asd");
+                  print(userNameDbResult.value is Future);
                   if (userNameDbResult.value == null) {
                     if (_formKey.currentState.validate()) {
                       dynamic result = await _auth.realRegister(

@@ -1,4 +1,6 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/screens/eventOlusturma/calendar/planlama.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_first_app/services/auth.dart';
@@ -12,12 +14,21 @@ class TarihKart extends StatefulWidget {
 
 class _TarihKartState extends State<TarihKart> {
   final AuthService _auth = AuthService();
-  int sayi = 25;
+
+  int sayi = 0;
   List<Widget> olustur = [];
+  Future<void> setSayi() async {
+    sayi = await DataBaseConnection.eventLength("Burak");
+    setState(() {
+      olustur = listeYapici(sayi, context);
+    });
+  }
+
   @override
   void initState() {
-    olustur = listeYapici(sayi, context);
     super.initState();
+    setSayi();
+
   }
 
   @override
