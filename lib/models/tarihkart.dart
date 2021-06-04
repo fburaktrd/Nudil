@@ -14,20 +14,27 @@ class TarihKart extends StatefulWidget {
 
 class _TarihKartState extends State<TarihKart> {
   final AuthService _auth = AuthService();
+  //List<String> samet=["samet","faik2"];
 
   int sayi = 0;
   List<Widget> olustur = [];
   Future<void> setSayi() async {
+    List<String> eventNames = await DataBaseConnection.eventNames("Burak");
     sayi = await DataBaseConnection.eventLength("Burak");
+    print("sayiyi yazdırıyom");
+    print(sayi);
+
     setState(() {
-      olustur = listeYapici(sayi, context);
+      olustur = listeYapici(sayi,eventNames, context);
     });
   }
+
 
   @override
   void initState() {
     super.initState();
     setSayi();
+    print(sayi);
 
   }
 
@@ -78,7 +85,7 @@ class _TarihKartState extends State<TarihKart> {
   }
 }
 
-List<Widget> listeYapici(int sayi, BuildContext context) {
+List<Widget> listeYapici(int sayi,List<String> deneme, BuildContext context){
   bool tek = false;
   List<Widget> liste = [];
   //faik event sayisi
@@ -106,7 +113,7 @@ List<Widget> listeYapici(int sayi, BuildContext context) {
         ),
         child: Container(
             child: Text(
-          "title $i",
+          deneme[i],
           style: TextStyle(fontSize: 30, color: Colors.white),
         )),
       ),

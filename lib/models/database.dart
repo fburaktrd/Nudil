@@ -6,6 +6,7 @@ import 'package:flutter_first_app/models/generate.dart';
 class DataBaseConnection {
 
   static final ref = FirebaseDatabase.instance.reference();
+  static List<String> deneme = [];
 
   static void setUser(String uid, String email, String displayName) {
     ref
@@ -19,6 +20,14 @@ class DataBaseConnection {
     print("burası");
     print(b.value.length);
     return b.value.length;
+  }
+  static Future<List<String>> eventNames(String userName)async{
+    DataSnapshot b;
+    b = await ref.child("MyEvents").child(userName).once();
+    for(String eleman in b.value.keys){
+      deneme.add(eleman);
+    }
+    return deneme;
   }
   static void createUserName(String userName) async {
     ref.child("UserNames").child(userName).set(userName);
