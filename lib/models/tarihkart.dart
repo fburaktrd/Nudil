@@ -4,7 +4,6 @@ import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/screens/eventOlusturma/calendar/planlama.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_first_app/services/auth.dart';
-
 import 'oyOncesi.dart';
 
 class TarihKart extends StatefulWidget {
@@ -14,21 +13,20 @@ class TarihKart extends StatefulWidget {
 
 class _TarihKartState extends State<TarihKart> {
   final AuthService _auth = AuthService();
-  //List<String> samet=["samet","faik2"];
-
+  List<String> titles=[];
   int sayi = 0;
   List<Widget> olustur = [];
+
   Future<void> setSayi() async {
     List<String> eventNames = await DataBaseConnection.eventNames("Burak");
     sayi = await DataBaseConnection.eventLength("Burak");
-    print("sayiyi yazdırıyom");
-    print(sayi);
+    titles=await DataBaseConnection.eventTitles(eventNames);
 
     setState(() {
-      olustur = listeYapici(sayi,eventNames, context);
+      olustur = listeYapici(sayi,titles, context);
     });
-  }
 
+  }
 
   @override
   void initState() {
@@ -42,13 +40,13 @@ class _TarihKartState extends State<TarihKart> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('our_app_name'),
+          title: Text('    Nudıl'),
           backgroundColor:Color(0xff651fff),
           elevation: 0.0,
           actions: <Widget>[
             FlatButton.icon(
-              icon: Icon(Icons.person),
-              label: Text('logout'),
+              icon: Icon(Icons.logout),
+              label: Text(""),
               onPressed: () async {
                 await _auth.signOut();
               },
@@ -60,8 +58,8 @@ class _TarihKartState extends State<TarihKart> {
         child: GridView.count(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          crossAxisCount: 3,
-          childAspectRatio: .75,
+          crossAxisCount: 2,
+          childAspectRatio: 0.75,
           children: olustur,
         ),
       ),
