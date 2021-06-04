@@ -104,6 +104,8 @@ class Saat1 extends State<Saat> {
               onPressed: () {
            
                 //planlama sayfasına map döndürülüyor
+                print(widget.tarih);
+                print("asdadad");
                 Navigator.of(context)..pop()..pop(widget.tarih);
               },
             ),

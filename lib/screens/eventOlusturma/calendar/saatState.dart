@@ -84,10 +84,11 @@ class SaatSecme extends State<SaatSec> {
                     onChange: (x) {
                       bitirAyar = x;
                       print(saatFormat(x));
+                      //String samet = widget.id.toString();
                       widget.tarihler[widget.id] = {
                         "tarih": widget.tarihString,
                         "baslangic": saatFormat(basAyar),
-                        "bitis": basAyar==bitirAyar?"":saatFormat(x)
+                        "bitis": basAyar==bitirAyar?"":saatFormat(x),
                       };
                       print(widget.tarihler);
                       setState(() {});

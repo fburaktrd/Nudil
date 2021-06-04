@@ -5,10 +5,16 @@ import 'package:flutter_first_app/models/generate.dart';
 
 class DataBaseConnection {
 
+
+
   static final ref = FirebaseDatabase.instance.reference();
   static List<String> eventList = [];
   static List<String> eventTitle = [];
-
+  static Future<String> getEventDiscription(String eventId)async{
+    DataSnapshot b;
+    b = await ref.child("Events").child(eventId).child("instruction").once();
+    return b.value;
+  }
   static void setUser(String uid, String email, String displayName) {
     ref
         .child("Users")
@@ -22,7 +28,7 @@ class DataBaseConnection {
     print(b.value.length);
     return b.value.length;
   }
-  static Future<List<String>> eventNames(String userName)async{
+  static Future<List<String>> getEventNames(String userName)async{
     DataSnapshot b;
     b = await ref.child("MyEvents").child(userName).once();
     for(String eleman in b.value.keys){
@@ -30,7 +36,7 @@ class DataBaseConnection {
     }
     return eventList;
   }
-  static Future<List<String>> eventTitles(List<String> events)async{
+  static Future<List<String>> getEventTitles(List<String> events)async{
     DataSnapshot b;
     for(String eleman in events){
       b= await ref.child("Events").child(eleman).child("title").once();
@@ -61,19 +67,26 @@ class DataBaseConnection {
     }
     ref.child("ParticipantOfEvent").child(eventId).set(sample);
   }
-  static void createEvent(String creatorName, Map b,List<String> users)async {
+  static void createEvent(String creatorName, Map gecici,List<String> users)async {
+    Map seceneklerx = new Map();
+    for(var key in gecici.keys){
+      seceneklerx[key.toString()]={
+        "tarih":gecici[key]["tarih"],
+        "baslangic":gecici[key]["baslangic"],
+        "bitis":gecici[key]["bitis"]
+      };
+    }
     var key=Generate.getRandom(15);
-
     var currentTime = DateTime.now().microsecondsSinceEpoch;
     ref.child("Events").child(key).set({
+      "secenekler":seceneklerx,
       "location": {
         "g": 0,
         "lat": 1,
-        "unuttum": 2,
+        "long": 2,
       },
       "creatorId": creatorName,
-      "timeStamp": currentTime,
-      "secenekler": b["secenekler"]
+      "timeStamp": currentTime
     });
 
     for(String eleman in users){

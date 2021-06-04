@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/models/tarihkart.dart';
 import 'package:flutter_first_app/screens/apbar/apbar.dart';
 import 'package:flutter_first_app/screens/eventOlusturma/calendar/saatState.dart';
@@ -43,7 +44,7 @@ class _PlanlamaState extends State<Planlama> {
     _focusNode.dispose();
     super.dispose();
   }
-
+  List<String> arkadas = ["samet","ali","ibo","naim"];
   Map tarihler=new Map();
   Map arkadaslar=new Map();
   @override
@@ -84,7 +85,14 @@ class _PlanlamaState extends State<Planlama> {
                           color: Color(0xff30374b),
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
-                  onPressed: () {} //calendar(),
+                  onPressed: () {
+                    Map asd = new Map();
+                    asd={"0":"asd","1":"asdasd"};
+                    print(asd is Map);
+                    print(tarihler is Map);
+                    print(tarihler);
+                    DataBaseConnection.createEvent("Burak", tarihler, arkadas);
+                  } //calendar(),
                   ),
             ],
           ),

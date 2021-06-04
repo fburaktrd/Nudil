@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/screens/apbar/apbar.dart';
 
 class OyOncesi extends StatefulWidget {
   final String eventName;
-  OyOncesi({this.eventName});
+  final String eventID;
+  OyOncesi({this.eventName,this.eventID});
 
   @override
   _OyOncesiState createState() => _OyOncesiState();
@@ -13,10 +15,20 @@ class OyOncesi extends StatefulWidget {
 class _OyOncesiState extends State<OyOncesi> {
   String _comment = "";
   TextEditingController textController2;
+  String instruction ="";
+  Future<void> setAciklama()async{
+    instruction= await DataBaseConnection.getEventDiscription(widget.eventID);
+    setState(() {
+
+    });
+  }
+
+
 
   @override
   void initState() {
     super.initState();
+    setAciklama();
 
     textController2 = TextEditingController();
   }
@@ -87,7 +99,7 @@ class _OyOncesiState extends State<OyOncesi> {
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height / 2.7,
                     child: Text(
-                      "Description Field",
+                      "$instruction",
                       style: TextStyle(
                         fontSize: 16,
                       ),

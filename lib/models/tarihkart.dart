@@ -19,12 +19,12 @@ class _TarihKartState extends State<TarihKart> {
   List<Widget> olustur = [];
 
   Future<void> setSayi() async {
-    List<String> eventNames = await DataBaseConnection.eventNames("Burak");
+    List<String> eventNames = await DataBaseConnection.getEventNames("Burak");
     sayi = await DataBaseConnection.eventLength("Burak");
-    titles=await DataBaseConnection.eventTitles(eventNames);
+    titles=await DataBaseConnection.getEventTitles(eventNames);
 
     setState(() {
-      olustur = listeYapici(sayi,titles, context);
+      olustur = listeYapici(sayi,titles,eventNames, context);
     });
 
   }
@@ -71,7 +71,7 @@ class _TarihKartState extends State<TarihKart> {
   }
 }
 
-List<Widget> listeYapici(int sayi,List<String> deneme, BuildContext context){
+List<Widget> listeYapici(int sayi,List<String> deneme,List<String> eventID,BuildContext context){
   bool tek = false;
   List<Widget> liste = [];
   //faik event sayisi
@@ -84,7 +84,7 @@ List<Widget> listeYapici(int sayi,List<String> deneme, BuildContext context){
       onDoubleTap: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return OyOncesi(eventName: deneme[i],);
+            return OyOncesi(eventName: deneme[i],eventID:eventID[i]);
           },
         ) //        Grup(i: x),
 
