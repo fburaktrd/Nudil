@@ -44,6 +44,7 @@ class _PlanlamaState extends State<Planlama> {
   }
 
   Map tarihler=new Map();
+  Map arkadaslar=new Map();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -234,8 +235,15 @@ class _PlanlamaState extends State<Planlama> {
           ),
           RawMaterialButton(
             splashColor: Colors.blueGrey,
-            onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ArkadasListe())),
+            onPressed: () async {
+              //Seçilen arkadaşlar 
+              arkadaslar= await Navigator.push(context,MaterialPageRoute(builder: (context) => ArkadasListe()));
+              
+              setState(() {
+                
+              });
+            },
+
             child: Container(
               margin: EdgeInsets.fromLTRB(.5, 5, .5, 5),
               width: double.infinity,
@@ -285,7 +293,7 @@ class _PlanlamaState extends State<Planlama> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: List.generate(
-                    10,
+                    arkadaslar.keys.length,
                     (index) => Container(
                       decoration: BoxDecoration(
                           backgroundBlendMode: BlendMode.darken,
@@ -310,7 +318,7 @@ class _PlanlamaState extends State<Planlama> {
                                     backgroundImage: NetworkImage(
                                         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRI4SgXIgt34ujxBvmx1MIyxWCaHyy_jsPKA&usqp=CAU"),
                                   ),
-                                  Text("Puşt Samet"),
+                                  Text("${arkadaslar[index]}"),
                                 ],
                               ),
                             ),
