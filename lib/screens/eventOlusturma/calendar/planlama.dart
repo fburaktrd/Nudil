@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/models/tarihkart.dart';
+import 'package:flutter_first_app/screens/apbar/apbar.dart';
 import 'package:flutter_first_app/screens/eventOlusturma/calendar/saatState.dart';
 import 'package:flutter_first_app/screens/eventOlusturma/friendList/arkadasListe.dart';
 
@@ -48,6 +49,7 @@ class _PlanlamaState extends State<Planlama> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: Apbar(context: context,widget: widget).x(),
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(12.0),
