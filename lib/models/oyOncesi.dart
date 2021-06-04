@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/screens/apbar/apbar.dart';
 
 class OyOncesi extends StatefulWidget {
+  final String eventName;
+  OyOncesi({this.eventName});
+
   @override
   _OyOncesiState createState() => _OyOncesiState();
 }
@@ -26,6 +30,7 @@ class _OyOncesiState extends State<OyOncesi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: Apbar(context: context,widget: widget).x(),
       body: SafeArea(
         child: ListView(
           children: [
@@ -47,7 +52,7 @@ class _OyOncesiState extends State<OyOncesi> {
               width: double.infinity,
               height: MediaQuery.of(context).size.width / 7.5,
               child: Text(
-                "Event Name",
+                "${widget.eventName}",
                 style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,

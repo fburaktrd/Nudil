@@ -5,6 +5,7 @@ import 'package:flutter_first_app/screens/eventOlusturma/calendar/planlama.dart'
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_first_app/services/auth.dart';
 import 'oyOncesi.dart';
+import 'package:flutter_first_app/screens/apbar/apbar.dart';
 
 class TarihKart extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class TarihKart extends StatefulWidget {
 }
 
 class _TarihKartState extends State<TarihKart> {
-  final AuthService _auth = AuthService();
+
   List<String> titles=[];
   int sayi = 0;
   List<Widget> olustur = [];
@@ -39,20 +40,7 @@ class _TarihKartState extends State<TarihKart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text('    Nudıl'),
-          backgroundColor:Color(0xff651fff),
-          elevation: 0.0,
-          actions: <Widget>[
-            FlatButton.icon(
-              icon: Icon(Icons.logout),
-              label: Text(""),
-              onPressed: () async {
-                await _auth.signOut();
-              },
-            )
-          ],
-        ),
+      appBar: Apbar(context: context,widget: widget).x(),
       body: Container(
         decoration: BoxDecoration(),
         child: GridView.count(
@@ -96,7 +84,7 @@ List<Widget> listeYapici(int sayi,List<String> deneme, BuildContext context){
       onDoubleTap: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return OyOncesi();
+            return OyOncesi(eventName: deneme[i],);
           },
         ) //        Grup(i: x),
 
