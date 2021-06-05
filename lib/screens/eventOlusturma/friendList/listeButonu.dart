@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class ListeButon extends StatefulWidget{
   
-  final int index;
+  final String isim;
   bool seci=false;
   
-  ListeButon({this.index});
+  ListeButon({this.isim});
  
   @override
   ListeButonu createState()=>ListeButonu();
@@ -48,7 +48,7 @@ class ListeButonu extends State<ListeButon> {
               maxRadius: widget.seci?24:32,
               
             ),
-            Text("${widget.index} - ${widget.seci}")
+            Text("${widget.isim} - ${widget.seci}")
           ],
         ),
       ),

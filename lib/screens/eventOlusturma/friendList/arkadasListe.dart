@@ -7,11 +7,7 @@ import './listeButonu.dart';
 
 class ArkadasListe extends StatefulWidget {
   //Kişinin arkadaş listesi
-  List<Widget> friends = List.generate(100, (index) {
-    Widget x = ListeButon(index: index);
-
-    return x;
-  });
+  
 
   ArkListe createState() => ArkListe();
 }
@@ -22,13 +18,22 @@ class ArkListe extends State<ArkadasListe> {
   String search = '';
   List<Widget> aramaListe=[];
 
+  List<Widget> friends(List<String> lisx){
+    List<Widget> bruh=[];
+    for(int i=0;i<lisx.length;i++){
+      Widget x = ListeButon(isim: lisx.elementAt(i));
+      bruh.add(x);
+    }
 
+    return bruh;
+  }
 
   Future<void> getFriends()async{
     friendList=await DataBaseConnection.returnFriends("Burak");
     print(friendList);
+    asilListe=friends(friendList);
     setState(() {
-      //naim buraya fonksiyonla listeyi çağır
+      
     });
 
 
@@ -36,15 +41,16 @@ class ArkListe extends State<ArkadasListe> {
 
   @override
   void initState() {
-    friendList.clear();
+    //friendList.clear();
     super.initState();
     getFriends();
-    asilListe = widget.friends;
+    //print(friendList);
   }
   Map seciliArk = new Map();
   
   @override
   Widget build(BuildContext context) {
+    
     List<Widget> seciliWidget = [];
      //user type
     int kisi=0;
@@ -62,12 +68,12 @@ class ArkListe extends State<ArkadasListe> {
             width: 50,
             height: 50,
             child: Text(
-              "${asilListe.cast<ListeButon>().elementAt(i).index}",
+              "${asilListe.cast<ListeButon>().elementAt(i).isim}",
               style: TextStyle(color: Colors.white),
             ),
           )
         );
-        seciliArk[kisi++]=asilListe.cast<ListeButon>().elementAt(i).index;
+        seciliArk[kisi++]=asilListe.cast<ListeButon>().elementAt(i).isim;
       }
     }
 
@@ -94,7 +100,7 @@ class ArkListe extends State<ArkadasListe> {
                         onChanged: (ad){
                           search=ad;
                           //Arama yapıldığında gösterilecek liste
-                          aramaListe=asilListe.cast<ListeButon>().where((element) => element.index.toString().contains(search)).toList();
+                          aramaListe=asilListe.cast<ListeButon>().where((element) => element.isim.contains(search)).toList();
                           setState(() {
                             
                           });

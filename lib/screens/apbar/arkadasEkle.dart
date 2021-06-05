@@ -12,15 +12,16 @@ class ArkadasEkle extends StatefulWidget {
 }
 
 class Ekle extends State<ArkadasEkle> {
-
+  int reqLength=0;
   List<String> reqList = [];
 
 
   Future<void> getFriends()async{
-    reqList=await DataBaseConnection.returnFriends("Burak");
+    reqList=await DataBaseConnection.returnRequests("Burak");
+    reqLength=reqList.length;
     print(reqList);
     setState(() {
-      //naim buraya fonksiyonla listeyi çağır
+      
     });
   }
 
@@ -30,7 +31,7 @@ class Ekle extends State<ArkadasEkle> {
   String aranacakKisi = "";
 @override
   void initState(){
-    reqList.clear();
+    
     super.initState();
     getFriends();
   }
@@ -48,7 +49,7 @@ class Ekle extends State<ArkadasEkle> {
           print(notific.overscroll);
           if(notific.overscroll<0){
             
-            
+            //sayfa yenileme
             RestartWidget.restartApp(context);
           }
           
@@ -156,7 +157,7 @@ class Ekle extends State<ArkadasEkle> {
                     ),
                     
                     Column(
-                      children: List.generate(40, (index){
+                      children: List.generate(reqLength, (index){
                         return Container(
                           padding: EdgeInsets.fromLTRB(8,24,16,20),
                           alignment: Alignment.centerLeft,
@@ -167,17 +168,23 @@ class Ekle extends State<ArkadasEkle> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("@${String.fromCharCode(((index*23)%25)+65)}${String.fromCharCode(((index*13)%25)+65)}${String.fromCharCode(((index*7)%25)+65)}"),
+                              Text("@${reqList.elementAt(index)}"),
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   IconButton(icon:Icon(Icons.clear),onPressed: (){
-                                    print(index);
-                                    Navigator.pop(context);
+                                    //reddet
+                                    //sayfa yenileme
+                                    RestartWidget.restartApp(context);
+                                    
                                     
                                   },),
                                   SizedBox(width: 16),
-                                  Icon(Icons.check)
+                                  IconButton(icon:Icon(Icons.check),onPressed: (){
+                                    //kabul et
+                                    //sayfa yenileme
+                                    RestartWidget.restartApp(context);
+                                  },)
                                 ],
                               )
                             ],
@@ -196,88 +203,3 @@ class Ekle extends State<ArkadasEkle> {
     );
   }
 }
-
-/* static dialogArk(BuildContext context){
-    
-    
-    showDialog( context: context,builder: (context){
-        return SimpleDialog(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("ark istekleri"),
-              Container(color: Colors.black,width: 10,height: 10,),
-              Text("ark istek gonder")
-            ],
-
-          ),
-          insetPadding: EdgeInsets.all(100),
-          contentPadding: EdgeInsets.all(8),
-          children: List.generate(40, (index){
-            return Container(
-              padding: EdgeInsets.fromLTRB(8,24,16,20),
-              alignment: Alignment.centerLeft,
-              color: Colors.blueGrey,
-              
-              width: 400,
-              margin: EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("@${String.fromCharCode(((index*23)%25)+65)}${String.fromCharCode(((index*13)%25)+65)}${String.fromCharCode(((index*7)%25)+65)}"),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(icon:Icon(Icons.clear),onPressed: (){
-                        print(index);
-                        Navigator.pop(context);
-                        
-                      },),
-                      SizedBox(width: 16),
-                      Icon(Icons.check)
-                    ],
-                  )
-                ],
-              ),
-            );
-          } )
-        );
-      }, 
-    );
-  } */
-  /* Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.grey.withAlpha(200)),
-              child: Container(
-                constraints: BoxConstraints(maxWidth: 200),
-                margin: EdgeInsets.all(12),
-                child: TextField(
-                  decoration: InputDecoration(border: InputBorder.none),
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                  toolbarOptions:
-                      ToolbarOptions(selectAll: true, copy: true, paste: true),
-                  autocorrect: false,
-                  keyboardType: TextInputType.text,
-                  onSubmitted: (arama) {
-                    aranacakKisi = arama;
-
-                    setState(() {});
-                  },
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.all(14),
-              padding: EdgeInsets.all(15),
-              child: Text(aranacakKisi.length == 0 ? "" : "@" + aranacakKisi),
-            )
-          ],
-        ),
-      ), */

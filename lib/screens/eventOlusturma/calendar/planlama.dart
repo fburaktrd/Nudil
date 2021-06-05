@@ -56,6 +56,8 @@ class _PlanlamaState extends State<Planlama> {
   Map arkadaslar=new Map();
   String title="";
   String instruction="";
+  int tarihLength=0;
+  int arkLength=0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,6 +143,11 @@ class _PlanlamaState extends State<Planlama> {
             onPressed: () async {
               tarihler = await Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Calendar()));
+              try{
+                tarihLength=tarihler.keys.length;
+              }catch(e){
+                tarihLength=0;
+              }   
               setState(() {});
               print(tarihler);
             },
@@ -203,7 +210,7 @@ class _PlanlamaState extends State<Planlama> {
                   mainAxisSize: MainAxisSize.min,
                   children: List.generate(
                       //dönen tarihler mapinin içindeki indislerin sayısı kadar oluşuyor
-                      tarihler.keys.length,
+                      tarihLength,
                       (index) => Container(
                             decoration: BoxDecoration(
                               color: Colors.grey[350],
@@ -257,7 +264,11 @@ class _PlanlamaState extends State<Planlama> {
             onPressed: () async {
               //Seçilen arkadaşlar 
               arkadaslar= await Navigator.push(context,MaterialPageRoute(builder: (context) => ArkadasListe()));
-              
+              try{
+                arkLength=arkadaslar.keys.length;
+              }catch(e){
+                arkLength=0;
+              }
               setState(() {
                 
               });
@@ -312,7 +323,7 @@ class _PlanlamaState extends State<Planlama> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: List.generate(
-                    arkadaslar.keys.length,
+                    arkLength,
                     (index) => Container(
                       decoration: BoxDecoration(
                           backgroundBlendMode: BlendMode.darken,
