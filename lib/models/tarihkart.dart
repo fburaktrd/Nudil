@@ -14,27 +14,28 @@ class TarihKart extends StatefulWidget {
 }
 
 class _TarihKartState extends State<TarihKart> {
-  
-  List<String> titles=[];
+  List<String> titles = [];
   List<Widget> olustur = [];
-  List<String> eventNames=[];
+  List<String> eventNames = [];
   int sayi = 0;
   final AuthService _auth = AuthService();
-  String userName ="";
-  static String temp ="";
+  String userName = "";
+  static String temp = "";
   Future<void> setBilgiler() async {
-    String uid =await _auth.getUseruid();
+    String uid = await _auth.getUseruid();
     print(uid);
-    userName=await DataBaseConnection.getUserDisplayName(uid);
+    userName = await DataBaseConnection.getUserDisplayName(uid);
     print("yazıyorum");
     print(userName);
     eventNames = await DataBaseConnection.getEventNames(userName);
     sayi = await DataBaseConnection.eventLength(userName);
-    titles=await DataBaseConnection.getEventTitles(eventNames);
-
-    setState(() {
-      olustur = listeYapici(sayi,titles,eventNames,context);
-    });
+    titles = await DataBaseConnection.getEventTitles(eventNames);
+    if (this.mounted) {
+      setState(() {
+        olustur = listeYapici(sayi, titles, eventNames, context);
+      });
+    }
+    ;
   }
 
   @override
@@ -47,19 +48,16 @@ class _TarihKartState extends State<TarihKart> {
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
-      appBar: Apbar(context: context,widget: widget).x(),
+      appBar: Apbar(context: context, widget: widget).x(),
       body: NotificationListener<OverscrollNotification>(
-        onNotification: (x){
-           
-          if(x.overscroll<0)RestartWidget.restartApp(context);
+        onNotification: (x) {
+          if (x.overscroll < 0) RestartWidget.restartApp(context);
           return true;
         },
         child: Container(
           decoration: BoxDecoration(),
           child: GridView.count(
-            
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             crossAxisCount: 2,
@@ -88,7 +86,8 @@ class _TarihKartState extends State<TarihKart> {
   }
 }
 
-List<Widget> listeYapici(int sayi,List<String> deneme,List<String> eventID,BuildContext context){
+List<Widget> listeYapici(
+    int sayi, List<String> deneme, List<String> eventID, BuildContext context) {
   bool tek = false;
   List<Widget> liste = [];
   //faik event sayisi
@@ -101,7 +100,8 @@ List<Widget> listeYapici(int sayi,List<String> deneme,List<String> eventID,Build
       onDoubleTap: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return RestartWidget(child: OyOncesi(eventName: deneme[i],eventID:eventID[i]));
+            return RestartWidget(
+                child: OyOncesi(eventName: deneme[i], eventID: eventID[i]));
           },
         ) //        Grup(i: x),
 
