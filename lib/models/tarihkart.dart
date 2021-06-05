@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/main.dart';
 import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/screens/eventOlusturma/calendar/planlama.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +14,7 @@ class TarihKart extends StatefulWidget {
 }
 
 class _TarihKartState extends State<TarihKart> {
-
+  
   List<String> titles=[];
   int sayi = 0;
   List<Widget> olustur = [];
@@ -22,7 +23,7 @@ class _TarihKartState extends State<TarihKart> {
     List<String> eventNames = await DataBaseConnection.getEventNames("Burak");
     sayi = await DataBaseConnection.eventLength("Burak");
     titles=await DataBaseConnection.getEventTitles(eventNames);
-
+    print(titles);
     setState(() {
       olustur = listeYapici(sayi,titles,eventNames, context);
     });
@@ -31,6 +32,7 @@ class _TarihKartState extends State<TarihKart> {
 
   @override
   void initState() {
+    titles.clear();
     super.initState();
     setSayi();
     print(sayi);
@@ -39,16 +41,25 @@ class _TarihKartState extends State<TarihKart> {
 
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       appBar: Apbar(context: context,widget: widget).x(),
-      body: Container(
-        decoration: BoxDecoration(),
-        child: GridView.count(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          crossAxisCount: 2,
-          childAspectRatio: 0.75,
-          children: olustur,
+      body: NotificationListener<OverscrollNotification>(
+        onNotification: (x){
+           
+          if(x.overscroll<0)RestartWidget.restartApp(context);
+          return true;
+        },
+        child: Container(
+          decoration: BoxDecoration(),
+          child: GridView.count(
+            
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            crossAxisCount: 2,
+            childAspectRatio: 0.75,
+            children: olustur,
+          ),
         ),
       ),
       floatingActionButton: RawMaterialButton(

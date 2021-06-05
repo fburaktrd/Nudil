@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_first_app/main.dart';
 import 'package:flutter_first_app/models/tarihkart.dart';
 
 
@@ -13,7 +13,7 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.red[50],
         
         
-        body: TarihKart(),
+        body: RestartWidget(child: TarihKart()),
         
         
         

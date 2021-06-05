@@ -30,6 +30,7 @@ class DataBaseConnection {
   }
   static Future<List<String>> getEventNames(String userName)async{
     DataSnapshot b;
+    eventList.clear();
     b = await ref.child("MyEvents").child(userName).once();
     for(String eleman in b.value.keys){
       eventList.add(eleman);
@@ -38,10 +39,12 @@ class DataBaseConnection {
   }
   static Future<List<String>> getEventTitles(List<String> events)async{
     DataSnapshot b;
+    eventTitle.clear();
     for(String eleman in events){
       b= await ref.child("Events").child(eleman).child("title").once();
       eventTitle.add(b.value);
     }
+    
     return eventTitle;
 
   }
@@ -67,7 +70,7 @@ class DataBaseConnection {
     }
     ref.child("ParticipantOfEvent").child(eventId).set(sample);
   }
-  static void createEvent(String creatorName, Map gecici,List<String> users)async {
+  static void createEvent(String creatorName, Map gecici,List<String> users,String title)async {
     Map seceneklerx = new Map();
     for(var key in gecici.keys){
       seceneklerx[key.toString()]={
@@ -79,6 +82,7 @@ class DataBaseConnection {
     var key=Generate.getRandom(15);
     var currentTime = DateTime.now().microsecondsSinceEpoch;
     ref.child("Events").child(key).set({
+      "title":title,
       "secenekler":seceneklerx,
       "location": {
         "g": 0,
@@ -89,11 +93,11 @@ class DataBaseConnection {
       "timeStamp": currentTime
     });
 
-    for(String eleman in users){
+    /* for(String eleman in users){
       DataSnapshot user =await getUser(eleman);
       print(user.value);
       setMyEvents(user.value["displayName"], key);
-    }
+    } */
     setMyEvents(creatorName, key);
     setParticipantOfEvent(key, users);
   }

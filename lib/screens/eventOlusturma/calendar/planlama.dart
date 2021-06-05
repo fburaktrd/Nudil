@@ -47,6 +47,8 @@ class _PlanlamaState extends State<Planlama> {
   List<String> arkadas = ["samet","ali","ibo","naim"];
   Map tarihler=new Map();
   Map arkadaslar=new Map();
+  String title="";
+  String instruction="";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,8 +65,7 @@ class _PlanlamaState extends State<Planlama> {
                         color: Color(0xff30374b),
                         fontSize: 18,
                         fontWeight: FontWeight.bold)),
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TarihKart())),
+                onPressed: () => Navigator.pop(context),
               ),
               Expanded(
                 child: Container(
@@ -91,7 +92,8 @@ class _PlanlamaState extends State<Planlama> {
                     print(asd is Map);
                     print(tarihler is Map);
                     print(tarihler);
-                    DataBaseConnection.createEvent("Burak", tarihler, arkadas);
+                    DataBaseConnection.createEvent("Burak", tarihler, arkadas,title);
+                    Navigator.pop(context);
                   } //calendar(),
                   ),
             ],
@@ -115,6 +117,10 @@ class _PlanlamaState extends State<Planlama> {
               child: TextField(
                 controller: baslik,
                 onSubmitted: (String s) {
+
+                  //title
+
+                  title=s;
                   debugPrint("on submit:$s");
                 },
                 decoration: InputDecoration(
@@ -366,6 +372,10 @@ class _PlanlamaState extends State<Planlama> {
                 maxLines: maxLine,
                 focusNode: _focusNode,
                 onSubmitted: (String s) {
+
+                  //instruction
+
+                  instruction=s;
                   debugPrint("on submit:$s");
                 },
                 decoration: InputDecoration(

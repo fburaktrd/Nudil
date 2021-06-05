@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './apbar.dart';
+import 'package:flutter_first_app/main.dart';
 
 
 class ArkadasEkle extends StatefulWidget {
@@ -13,132 +14,152 @@ class Ekle extends State<ArkadasEkle> {
   
   PageController kontrol=new PageController(initialPage: 1,viewportFraction: .99);
   String aranacakKisi = "";
-
+@override
+  void initState(){
+   
+    super.initState();
+  }
+  
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Apbar(context: context,widget: widget).x(),
       
-      body: PageView(
-        controller: kontrol,
-        children: [
-          //Arkadaş arama
-          Container(
-            margin: EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                RawMaterialButton(
-                  child: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text("Arkadaş İstekleri"),
-                        Icon(Icons.chevron_right_sharp)
-                      ],
-                    ),
-                  ),
-                  onPressed: (){
-                    kontrol.nextPage(duration: Duration(milliseconds: 500), curve: Curves.linear);
-                  }
-                ),
-                
-                Container(
-                  margin: EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.grey.withAlpha(200)),
-                  child: Container(
-                    constraints: BoxConstraints(maxWidth: 200),
-                    margin: EdgeInsets.all(12),
-                    child: TextField(
-                      
-                      decoration: InputDecoration(
-                       
-                        hintText: "ara",
-                        border: InputBorder.none,
-                      ),
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                      toolbarOptions:
-                          ToolbarOptions(selectAll: true, copy: true, paste: true),
-                      autocorrect: false,
-                      keyboardType: TextInputType.text,
-                      onSubmitted: (arama) {
-                        //aranacak kişi buradan
-                        aranacakKisi = arama;
+      body: NotificationListener<OverscrollNotification>(
+        onNotification: (notific){
 
-                        setState(() {});
-                      },
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(14),
-                  padding: EdgeInsets.all(15),
-                  child: Text(aranacakKisi.length == 0 ? "" : "@" + aranacakKisi),
-                ),
-                
-              ],
-            ),
-          ),
-          //Arkadaş istkleri
-          Container(
-            margin: EdgeInsets.all(16),
-            child: SingleChildScrollView(
+          print(notific.overscroll);
+          if(notific.overscroll<0){
+            
+            
+            RestartWidget.restartApp(context);
+          }
+          
+          return true;
+        },
+        child: PageView(
+          controller: kontrol,
+          children: [
+            //Arkadaş arama
+            Container(
+              margin: EdgeInsets.all(16),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   RawMaterialButton(
                     child: Container(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Icon(Icons.chevron_left_sharp),
-                          Text("Arkadaş ara")
+                          Text("Arkadaş İstekleri"),
+                          Icon(Icons.chevron_right_sharp)
                         ],
                       ),
                     ),
                     onPressed: (){
-                      kontrol.previousPage(duration: Duration(milliseconds: 500), curve: Curves.linear);
+                      kontrol.nextPage(duration: Duration(milliseconds: 500), curve: Curves.linear);
                     }
                   ),
                   
-                  Column(
-                    children: List.generate(40, (index){
-                      return Container(
-                        padding: EdgeInsets.fromLTRB(8,24,16,20),
-                        alignment: Alignment.centerLeft,
-                        color: Colors.blueGrey,
+                  Container(
+                    margin: EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.grey.withAlpha(200)),
+                    child: Container(
+                      constraints: BoxConstraints(maxWidth: 200),
+                      margin: EdgeInsets.all(12),
+                      child: TextField(
                         
-                        width: 400,
-                        margin: EdgeInsets.all(8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("@${String.fromCharCode(((index*23)%25)+65)}${String.fromCharCode(((index*13)%25)+65)}${String.fromCharCode(((index*7)%25)+65)}"),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(icon:Icon(Icons.clear),onPressed: (){
-                                  print(index);
-                                  Navigator.pop(context);
-                                  
-                                },),
-                                SizedBox(width: 16),
-                                Icon(Icons.check)
-                              ],
-                            )
-                          ],
+                        decoration: InputDecoration(
+                         
+                          hintText: "ara",
+                          border: InputBorder.none,
                         ),
-                      );
-                    }),
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                        toolbarOptions:
+                            ToolbarOptions(selectAll: true, copy: true, paste: true),
+                        autocorrect: false,
+                        keyboardType: TextInputType.text,
+                        onSubmitted: (arama) {
+                          //aranacak kişi buradan
+                          aranacakKisi = arama;
+
+                          setState(() {});
+                        },
+                      ),
+                    ),
                   ),
+                  Container(
+                    margin: EdgeInsets.all(14),
+                    padding: EdgeInsets.all(15),
+                    child: Text(aranacakKisi.length == 0 ? "" : "@" + aranacakKisi),
+                  ),
+                  
                 ],
               ),
             ),
-          ),
-        ],
+            //Arkadaş istkleri
+            Container(
+              margin: EdgeInsets.all(16),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    RawMaterialButton(
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.chevron_left_sharp),
+                            Text("Arkadaş ara")
+                          ],
+                        ),
+                      ),
+                      onPressed: (){
+                        kontrol.previousPage(duration: Duration(milliseconds: 500), curve: Curves.linear);
+                      }
+                    ),
+                    
+                    Column(
+                      children: List.generate(40, (index){
+                        return Container(
+                          padding: EdgeInsets.fromLTRB(8,24,16,20),
+                          alignment: Alignment.centerLeft,
+                          color: Colors.blueGrey,
+                          
+                          width: 400,
+                          margin: EdgeInsets.all(8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("@${String.fromCharCode(((index*23)%25)+65)}${String.fromCharCode(((index*13)%25)+65)}${String.fromCharCode(((index*7)%25)+65)}"),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(icon:Icon(Icons.clear),onPressed: (){
+                                    print(index);
+                                    Navigator.pop(context);
+                                    
+                                  },),
+                                  SizedBox(width: 16),
+                                  Icon(Icons.check)
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      }),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       
     );

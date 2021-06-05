@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/main.dart';
 import 'package:flutter_first_app/services/auth.dart';
 
 import 'arkadasEkle.dart';
@@ -20,7 +21,7 @@ class Apbar {
           
           icon: Icon(Icons.person_add_alt_1),
           onPressed: () {
-            widget.key.toString()=="[<'asd'>]"?Navigator.pop(context):Navigator.push(context, MaterialPageRoute(builder: (context)=>ArkadasEkle()));
+            widget.key.toString()=="[<'asd'>]"?Navigator.pop(context):Navigator.push(context, MaterialPageRoute(builder: (context)=>RestartWidget(child: ArkadasEkle())));
             
           }
         ),
