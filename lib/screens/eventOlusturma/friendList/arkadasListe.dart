@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/models/database.dart';
 
 import './listeButonu.dart';
 
@@ -16,12 +17,28 @@ class ArkadasListe extends StatefulWidget {
 }
 
 class ArkListe extends State<ArkadasListe> {
+  List<String> friendList = [];
   List<Widget> asilListe = [];
   String search = '';
   List<Widget> aramaListe=[];
+
+
+
+  Future<void> getFriends()async{
+    friendList=await DataBaseConnection.returnFriends("Burak");
+    print(friendList);
+    setState(() {
+      //naim buraya fonksiyonla listeyi çağır
+    });
+
+
+  }
+
   @override
   void initState() {
+    friendList.clear();
     super.initState();
+    getFriends();
     asilListe = widget.friends;
   }
   Map seciliArk = new Map();

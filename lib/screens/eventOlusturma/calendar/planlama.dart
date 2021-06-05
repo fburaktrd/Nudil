@@ -7,10 +7,13 @@ import 'package:flutter_first_app/models/tarihkart.dart';
 import 'package:flutter_first_app/screens/apbar/apbar.dart';
 import 'package:flutter_first_app/screens/eventOlusturma/calendar/saatState.dart';
 import 'package:flutter_first_app/screens/eventOlusturma/friendList/arkadasListe.dart';
+import 'package:flutter_first_app/services/auth.dart';
+import 'package:provider/provider.dart';
 
 import './calendar.dart';
 
 class Planlama extends StatefulWidget {
+
   @override
   _PlanlamaState createState() => _PlanlamaState();
 }
@@ -21,8 +24,12 @@ class _PlanlamaState extends State<Planlama> {
   FocusNode _focusNode;
   int maxLine = 1;
   @override
+
   void initState() {
+
     super.initState();
+    //findUser();
+
     baslik = TextEditingController();
     aciklama = TextEditingController();
     _focusNode = FocusNode();
@@ -87,11 +94,7 @@ class _PlanlamaState extends State<Planlama> {
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
                   onPressed: () {
-                    Map asd = new Map();
-                    asd={"0":"asd","1":"asdasd"};
-                    print(asd is Map);
-                    print(tarihler is Map);
-                    print(tarihler);
+                    //print(tarihler);
                     DataBaseConnection.createEvent("Burak", tarihler, arkadas,title);
                     Navigator.pop(context);
                   } //calendar(),

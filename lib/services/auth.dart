@@ -5,7 +5,17 @@ import 'package:flutter_first_app/models/user.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  Future getUser() async {
+    try {
+      FirebaseUser user = await _auth.currentUser();
+      print("get user iç");
+      print(user.uid);
+      return user.uid;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
   // create user obj based on FirabaseUser
   User _userFromFirebaseUser(FirebaseUser user) {
     return user != null ? User(uid: user.uid) : null;
@@ -60,7 +70,8 @@ class AuthService {
   Future realRegister(String email, String password, String displayName) async {
     var val = await registerWithEmailAndPassword(email, password);
     DataBaseConnection.setUser(val[0].uid, email, displayName);
-    DataBaseConnection.createUserName(displayName);
+    print("buraaassıı hoştur");
+    print(val[0].displayName);
     return val[1];
   }
 

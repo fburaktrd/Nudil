@@ -10,6 +10,29 @@ class DataBaseConnection {
   static final ref = FirebaseDatabase.instance.reference();
   static List<String> eventList = [];
   static List<String> eventTitle = [];
+  static List<String> friendList=[];
+  static List<String> requestList=[];
+
+  static Future<List<String>> returnFriends(String userName)async{
+    DataSnapshot b;
+    friendList.clear();
+    b = await ref.child("Social").child(userName).child("friend").once();
+    for(String eleman in b.value.keys){
+      friendList.add(eleman);
+    }
+    return friendList;
+
+  }
+  static Future<List<String>> returnRequests(String userName)async{
+    DataSnapshot b;
+    requestList.clear();
+    b = await ref.child("Social").child(userName).child("request").once();
+    for(String eleman in b.value.keys){
+      requestList.add(eleman);
+    }
+    return requestList;
+
+  }
   static Future<String> getEventDiscription(String eventId)async{
     DataSnapshot b;
     b = await ref.child("Events").child(eventId).child("instruction").once();
@@ -20,6 +43,7 @@ class DataBaseConnection {
         .child("Users")
         .child(displayName)
         .set({"email": email, "displayName": displayName, "uid": uid});
+    ref.child("UserNames").child(uid).set(displayName);
   }
   static Future<int> eventLength(String userName) async {
     DataSnapshot b;
@@ -44,21 +68,22 @@ class DataBaseConnection {
       b= await ref.child("Events").child(eleman).child("title").once();
       eventTitle.add(b.value);
     }
-    
     return eventTitle;
+  }
 
-  }
-  static void createUserName(String userName) async {
-    ref.child("UserNames").child(userName).set(userName);
-  }
   static Future<DataSnapshot> getUser(String userName) async {
     DataSnapshot b;
     b = await ref.child("Users").child(userName).once();
     return b;
   }
-  static Future<DataSnapshot> getUserName(String userName) async {
+  static Future<String> getUserDisplayName(String userName) async {
     DataSnapshot b;
-    b = await ref.child("UserNames").child(userName).once();
+    b = await ref.child("Users").child(userName).once();
+    return b.value;
+  }
+  static Future<DataSnapshot> getUserName(String uid) async {
+    DataSnapshot b;
+    b = await ref.child("UserNames").child(uid).once();
     return b;
   }
   static void setParticipantOfEvent(String eventId,List<String> users){
@@ -104,4 +129,18 @@ class DataBaseConnection {
   static void setMyEvents(String displayName,String eventId){
     ref.child("MyEvents").child(displayName).child(eventId).set(true);
   }
-}
+  static void requestFriend(String user,String getReq){
+    ref.child("Social").child(getReq).child("request").child(user).set(true);
+  }
+  static void addFriend(String user,String getReq){
+    ref.child("Social").child(user).child("friend").child(getReq).set(true);
+    ref.child("Social").child(getReq).child("friend").child(user).set(true);
+    ref.child("Social").child(user).child("request").child(getReq).remove();
+  }
+  static void dontAddFriend(String user,getReq){
+    ref.child("Social").child(user).child("request").child(getReq).remove();
+  }
+
+  }
+
+  

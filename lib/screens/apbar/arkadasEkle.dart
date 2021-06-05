@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/models/database.dart';
 import './apbar.dart';
 import 'package:flutter_first_app/main.dart';
 
@@ -11,13 +12,27 @@ class ArkadasEkle extends StatefulWidget {
 }
 
 class Ekle extends State<ArkadasEkle> {
-  
+
+  List<String> reqList = [];
+
+
+  Future<void> getFriends()async{
+    reqList=await DataBaseConnection.returnFriends("Burak");
+    print(reqList);
+    setState(() {
+      //naim buraya fonksiyonla listeyi çağır
+    });
+  }
+
+
+
   PageController kontrol=new PageController(initialPage: 1,viewportFraction: .99);
   String aranacakKisi = "";
 @override
   void initState(){
-   
+    reqList.clear();
     super.initState();
+    getFriends();
   }
   
   
@@ -85,9 +100,25 @@ class Ekle extends State<ArkadasEkle> {
                             ToolbarOptions(selectAll: true, copy: true, paste: true),
                         autocorrect: false,
                         keyboardType: TextInputType.text,
-                        onSubmitted: (arama) {
+                        onSubmitted: (arama) async{
                           //aranacak kişi buradan
                           aranacakKisi = arama;
+                          bool x;
+                            x=await showDialog(context: context, builder: (context){
+                              return AlertDialog(
+                                insetPadding: EdgeInsets.symmetric(vertical:MediaQuery.of(context).size.height/3,horizontal: 40),
+                                title: Text("Yabancı ?"),
+                                content: Text("@$arama arkadaşınız değil.\nEklemek istediğinize emin misiniz?"),
+                                actions: [
+                                  TextButton(onPressed: (){Navigator.of(context).pop(false);}, child: Text("İptal")),
+                                  TextButton(onPressed: (){
+                                    DataBaseConnection.requestFriend("Burak", arama);
+                                    Navigator.of(context).pop(true);}, child: Text("Ekle"))
+                                ],
+
+                              );
+                            });
+                          
 
                           setState(() {});
                         },
