@@ -16,18 +16,18 @@ class TarihKart extends StatefulWidget {
 class _TarihKartState extends State<TarihKart> {
   
   List<String> titles=[];
-  int sayi = 0;
   List<Widget> olustur = [];
+  List<String> eventNames=[];
+  int sayi = 0;
 
   Future<void> setSayi() async {
-    List<String> eventNames = await DataBaseConnection.getEventNames("Burak");
+    eventNames = await DataBaseConnection.getEventNames("Burak");
     sayi = await DataBaseConnection.eventLength("Burak");
     titles=await DataBaseConnection.getEventTitles(eventNames);
-    print(titles);
-    setState(() {
-      olustur = listeYapici(sayi,titles,eventNames, context);
-    });
 
+    setState(() {
+      olustur = listeYapici(sayi,titles,eventNames,context);
+    });
   }
 
   @override
@@ -36,7 +36,6 @@ class _TarihKartState extends State<TarihKart> {
     super.initState();
     setSayi();
     print(sayi);
-
   }
 
   @override

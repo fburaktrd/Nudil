@@ -1,10 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'dart:math';
-
 import 'package:flutter_first_app/models/generate.dart';
-
+import 'package:intl/intl.dart';
 class DataBaseConnection {
-
 
 
   static final ref = FirebaseDatabase.instance.reference();
@@ -12,6 +9,31 @@ class DataBaseConnection {
   static List<String> eventTitle = [];
   static List<String> friendList=[];
   static List<String> requestList=[];
+  static String eventComment="";
+
+  static void setComments(String displayName,String eventId,String comment){
+    var now = new DateTime.now();
+    String formattedTime = DateFormat('kk:mm').format(now);
+    var currentTime = DateTime.now().microsecondsSinceEpoch;
+    ref.child("Comments").child(eventId).child(formattedTime+displayName+":"+comment).set(currentTime.toString());
+  }
+
+  static Future<String> getComments(String eventId)async{
+    DataSnapshot b;
+    b = await ref.child("Comments").child(eventId).once();
+    if(b.value!=null) {
+      eventComment="";
+      for (String eleman in b.value.keys) {
+        eventComment+=ref.child("Comments").child(eventId).child(eleman).key;
+        eventComment += "\n";
+      }
+      return eventComment;
+    }
+    else {
+      eventComment="Henüz Yorum Yapan Olmadı";
+      return eventComment;
+    }
+  }
 
   static Future<List<String>> returnFriends(String userName)async{
     DataSnapshot b;
@@ -95,7 +117,7 @@ class DataBaseConnection {
     }
     ref.child("ParticipantOfEvent").child(eventId).set(sample);
   }
-  static void createEvent(String creatorName, Map gecici,List<String> users,String title)async {
+  static void createEvent(String creatorName, Map gecici,List<String> users,String title,String instruction)async {
     Map seceneklerx = new Map();
     for(var key in gecici.keys){
       seceneklerx[key.toString()]={
@@ -107,6 +129,7 @@ class DataBaseConnection {
     var key=Generate.getRandom(15);
     var currentTime = DateTime.now().microsecondsSinceEpoch;
     ref.child("Events").child(key).set({
+      "instruction":instruction,
       "title":title,
       "secenekler":seceneklerx,
       "location": {

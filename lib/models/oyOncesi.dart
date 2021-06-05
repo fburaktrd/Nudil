@@ -13,11 +13,14 @@ class OyOncesi extends StatefulWidget {
 }
 
 class _OyOncesiState extends State<OyOncesi> {
+  String ab;
   String _comment = "";
   TextEditingController textController2;
   String instruction ="";
+  String comments ="";
   Future<void> setAciklama()async{
     instruction= await DataBaseConnection.getEventDiscription(widget.eventID);
+    comments = await DataBaseConnection.getComments(widget.eventID);
     setState(() {
 
     });
@@ -114,19 +117,50 @@ class _OyOncesiState extends State<OyOncesi> {
                     margin: EdgeInsets.all(10),
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height / 2.7,
-                    child: TextField(
-                      controller: textController2,
-                      maxLines: 20,
-                      onChanged: (value) {
-                        _comment = value;
-                        debugPrint("yazildi: $value");
-                      },
-                      //debugPrint("yazildi: $s");
-                      onEditingComplete: () {},
-                      decoration: InputDecoration(
-                        hintText: "Comment",
-                        suffixIcon: Icon(Icons.arrow_right),
+                    child: Column(
+                      children: [Container(
+                        padding: EdgeInsets.fromLTRB(0, 4, 4, 0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(14),
+                          color: Colors.white,
+                        ),
+                        margin: EdgeInsets.all(0),
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height / 4,
+                        child: SingleChildScrollView(
+                          child: Text(
+                            "$comments",
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
                       ),
+
+
+                        TextField(
+                          controller: textController2,
+                          maxLines: 1,
+                          onSubmitted: (String s) {
+
+
+                            DataBaseConnection.setComments("Burak", widget.eventID, s);
+                            //debugPrint("yazildi: $value");
+                            textController2.clear();
+                            Navigator.pop(context,OyOncesi(eventName: widget.eventName,eventID:widget.eventID)
+
+                            );
+                          },
+                          //debugPrint("yazildi: $s");
+                          //onEditingComplete: () {
+                          //  DataBaseConnection.setComments("Burak", widget.eventID, _comment);
+                          //},
+                          decoration: InputDecoration(
+                            hintText: "Yorum yap",
+                            suffixIcon: Icon(Icons.arrow_right),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
