@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/main.dart';
 import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/screens/apbar/apbar.dart';
+import 'package:flutter_first_app/services/auth.dart';
 
 class OyOncesi extends StatefulWidget {
   final String eventName;
@@ -13,12 +16,18 @@ class OyOncesi extends StatefulWidget {
 }
 
 class _OyOncesiState extends State<OyOncesi> {
+  final AuthService _auth = AuthService();
+  String userName="";
   String ab;
   String _comment = "";
   TextEditingController textController2;
   String instruction ="";
   String comments ="";
-  Future<void> setAciklama()async{
+  Future<void> setBilgiler()async{
+    String uid =await _auth.getUseruid();
+    print(uid);
+    userName=await DataBaseConnection.getUserDisplayName(uid);
+
     instruction= await DataBaseConnection.getEventDiscription(widget.eventID);
     comments = await DataBaseConnection.getComments(widget.eventID);
     setState(() {
@@ -31,7 +40,7 @@ class _OyOncesiState extends State<OyOncesi> {
   @override
   void initState() {
     super.initState();
-    setAciklama();
+    setBilgiler();
 
     textController2 = TextEditingController();
   }
@@ -144,16 +153,15 @@ class _OyOncesiState extends State<OyOncesi> {
                           onSubmitted: (String s) {
 
 
-                            DataBaseConnection.setComments("Burak", widget.eventID, s);
+                            DataBaseConnection.setComments(userName, widget.eventID, s);
                             //debugPrint("yazildi: $value");
                             textController2.clear();
-                            Navigator.pop(context,OyOncesi(eventName: widget.eventName,eventID:widget.eventID)
+                            RestartWidget.restartApp(context);
 
-                            );
                           },
                           //debugPrint("yazildi: $s");
                           //onEditingComplete: () {
-                          //  DataBaseConnection.setComments("Burak", widget.eventID, _comment);
+                          //  DataBaseConnection.setComments(userName, widget.eventID, _comment);
                           //},
                           decoration: InputDecoration(
                             hintText: "Yorum yap",

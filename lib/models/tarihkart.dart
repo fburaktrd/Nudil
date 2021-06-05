@@ -19,10 +19,17 @@ class _TarihKartState extends State<TarihKart> {
   List<Widget> olustur = [];
   List<String> eventNames=[];
   int sayi = 0;
-
-  Future<void> setSayi() async {
-    eventNames = await DataBaseConnection.getEventNames("Burak");
-    sayi = await DataBaseConnection.eventLength("Burak");
+  final AuthService _auth = AuthService();
+  String userName ="";
+  static String temp ="";
+  Future<void> setBilgiler() async {
+    String uid =await _auth.getUseruid();
+    print(uid);
+    userName=await DataBaseConnection.getUserDisplayName(uid);
+    print("yazıyorum");
+    print(userName);
+    eventNames = await DataBaseConnection.getEventNames(userName);
+    sayi = await DataBaseConnection.eventLength(userName);
     titles=await DataBaseConnection.getEventTitles(eventNames);
 
     setState(() {
@@ -34,7 +41,7 @@ class _TarihKartState extends State<TarihKart> {
   void initState() {
     titles.clear();
     super.initState();
-    setSayi();
+    setBilgiler();
     print(sayi);
   }
 
@@ -94,7 +101,7 @@ List<Widget> listeYapici(int sayi,List<String> deneme,List<String> eventID,Build
       onDoubleTap: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return OyOncesi(eventName: deneme[i],eventID:eventID[i]);
+            return RestartWidget(child: OyOncesi(eventName: deneme[i],eventID:eventID[i]));
           },
         ) //        Grup(i: x),
 

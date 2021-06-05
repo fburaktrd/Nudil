@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/models/database.dart';
+import 'package:flutter_first_app/services/auth.dart';
 import './apbar.dart';
 import 'package:flutter_first_app/main.dart';
 
@@ -14,10 +15,14 @@ class ArkadasEkle extends StatefulWidget {
 class Ekle extends State<ArkadasEkle> {
   int reqLength=0;
   List<String> reqList = [];
+  String userName="";
+  final AuthService _auth = AuthService();
+  Future<void> setBilgiler()async{
+    String uid =await _auth.getUseruid();
+    print(uid);
+    userName=await DataBaseConnection.getUserDisplayName(uid);
 
-
-  Future<void> getFriends()async{
-    reqList=await DataBaseConnection.returnRequests("Burak");
+    reqList=await DataBaseConnection.returnRequests(userName);
     reqLength=reqList.length;
     print(reqList);
     setState(() {
@@ -33,7 +38,7 @@ class Ekle extends State<ArkadasEkle> {
   void initState(){
     
     super.initState();
-    getFriends();
+    setBilgiler();
   }
   
   
@@ -113,7 +118,7 @@ class Ekle extends State<ArkadasEkle> {
                                 actions: [
                                   TextButton(onPressed: (){Navigator.of(context).pop(false);}, child: Text("İptal")),
                                   TextButton(onPressed: (){
-                                    DataBaseConnection.requestFriend("Burak", arama);
+                                    DataBaseConnection.requestFriend(userName, arama);
                                     Navigator.of(context).pop(true);}, child: Text("Ekle"))
                                 ],
 
@@ -181,6 +186,7 @@ class Ekle extends State<ArkadasEkle> {
                                   },),
                                   SizedBox(width: 16),
                                   IconButton(icon:Icon(Icons.check),onPressed: (){
+                                    DataBaseConnection.addFriend(userName, reqList.elementAt(index));
                                     //kabul et
                                     //sayfa yenileme
                                     RestartWidget.restartApp(context);

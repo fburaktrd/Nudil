@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/models/database.dart';
+import 'package:flutter_first_app/services/auth.dart';
 
 import './listeButonu.dart';
 
@@ -13,6 +14,16 @@ class ArkadasListe extends StatefulWidget {
 }
 
 class ArkListe extends State<ArkadasListe> {
+  String userName="";
+  final AuthService _auth = AuthService();
+  Future<void> setBilgiler()async{
+    String uid =await _auth.getUseruid();
+    print(uid);
+    userName=await DataBaseConnection.getUserDisplayName(uid);
+    setState(() {
+
+    });
+  }
   List<String> friendList = [];
   List<Widget> asilListe = [];
   String search = '';
@@ -29,7 +40,7 @@ class ArkListe extends State<ArkadasListe> {
   }
 
   Future<void> getFriends()async{
-    friendList=await DataBaseConnection.returnFriends("Burak");
+    friendList=await DataBaseConnection.returnFriends(userName);
     print(friendList);
     asilListe=friends(friendList);
     setState(() {
@@ -41,10 +52,10 @@ class ArkListe extends State<ArkadasListe> {
 
   @override
   void initState() {
-    //friendList.clear();
     super.initState();
+    setBilgiler();
     getFriends();
-    //print(friendList);
+
   }
   Map seciliArk = new Map();
   

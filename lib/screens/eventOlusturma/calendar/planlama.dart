@@ -19,17 +19,29 @@ class Planlama extends StatefulWidget {
 }
 
 class _PlanlamaState extends State<Planlama> {
+  final AuthService _auth = AuthService();
   TextEditingController baslik;
   TextEditingController aciklama;
   FocusNode _focusNode;
   int maxLine = 1;
+  String userName="";
+  Future<void> setUserName()async{
+    String uid =await _auth.getUseruid();
+    print(uid);
+    userName=await DataBaseConnection.getUserDisplayName(uid);
+    print("yazıyorum");
+    print(userName);
+    setState(() {
+
+    });
+  }
   @override
 
   void initState() {
 
     super.initState();
     //findUser();
-
+    setUserName();
     baslik = TextEditingController();
     aciklama = TextEditingController();
     _focusNode = FocusNode();
@@ -97,7 +109,7 @@ class _PlanlamaState extends State<Planlama> {
                           fontWeight: FontWeight.bold)),
                   onPressed: () {
                     //print(tarihler);
-                    DataBaseConnection.createEvent("Burak", tarihler, arkadas,title);
+                    DataBaseConnection.createEvent(userName, tarihler, arkadas,title,instruction);
                     Navigator.pop(context);
                   } //calendar(),
                   ),

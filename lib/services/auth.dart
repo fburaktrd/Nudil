@@ -5,6 +5,10 @@ import 'package:flutter_first_app/models/user.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  Future<String> getUseruid() async {
+    FirebaseUser cur_user = await _auth.currentUser();
+    return cur_user.uid;
+  }
   Future getUser() async {
     try {
       FirebaseUser user = await _auth.currentUser();
@@ -72,6 +76,7 @@ class AuthService {
     DataBaseConnection.setUser(val[0].uid, email, displayName);
     print("buraaassıı hoştur");
     print(val[0].displayName);
+    DataBaseConnection.setUserDisplayName(val[0].uid, displayName);
     return val[1];
   }
 

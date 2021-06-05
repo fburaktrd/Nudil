@@ -15,18 +15,27 @@ class DataBaseConnection {
     var now = new DateTime.now();
     String formattedTime = DateFormat('kk:mm').format(now);
     var currentTime = DateTime.now().microsecondsSinceEpoch;
-    ref.child("Comments").child(eventId).child(formattedTime+displayName+":"+comment).set(currentTime.toString());
+    ref.child("Comments").child(eventId).child(currentTime.toString()).set(formattedTime+displayName+":"+comment);
   }
 
   static Future<String> getComments(String eventId)async{
+    List<String> keys =[];
     DataSnapshot b;
     b = await ref.child("Comments").child(eventId).once();
     if(b.value!=null) {
       eventComment="";
+      print(b.value);
+
       for (String eleman in b.value.keys) {
-        eventComment+=ref.child("Comments").child(eventId).child(eleman).key;
-        eventComment += "\n";
+        keys.add(eleman);
       }
+      keys.sort((String a, String b)=>a.compareTo(b));
+      for(String eleman in keys){
+        eventComment+=b.value[eleman];
+        eventComment += "\n";
+
+      }
+
       return eventComment;
     }
     else {
@@ -98,10 +107,13 @@ class DataBaseConnection {
     b = await ref.child("Users").child(userName).once();
     return b;
   }
-  static Future<String> getUserDisplayName(String userName) async {
+  static Future<String> getUserDisplayName(String uid) async {
     DataSnapshot b;
-    b = await ref.child("Users").child(userName).once();
+    b = await ref.child("UserNames").child(uid).once();
     return b.value;
+  }
+  static setUserDisplayName(String uid,String displayName){
+    ref.child("UserNames").child(uid).set(displayName);
   }
   static Future<DataSnapshot> getUserName(String uid) async {
     DataSnapshot b;
