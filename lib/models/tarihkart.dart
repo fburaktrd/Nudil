@@ -53,11 +53,8 @@ class _TarihKartState extends State<TarihKart> {
       appBar: Apbar(context: context, widget: widget).x(),
       body: NotificationListener<OverscrollNotification>(
         onNotification: (x) {
-          if (x.overscroll < 0) {
-            setBilgiler();
-            setState(() {
-              
-            });
+          if (x.overscroll < -5) {
+            RestartWidget.restartApp(context);
           }
           return true;
         },
