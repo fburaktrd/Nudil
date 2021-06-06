@@ -70,7 +70,8 @@ class _OyOncesiState extends State<OyOncesi> {
               alignment: Alignment.center,
               margin: EdgeInsets.all(11),
               width: double.infinity,
-              height: MediaQuery.of(context).size.width / 7.5,
+              //height: MediaQuery.of(context).size.width / 7.5,
+              padding: EdgeInsets.symmetric(vertical: 8),
               child: Text(
                 "${widget.eventName}",
                 style: TextStyle(
@@ -94,79 +95,78 @@ class _OyOncesiState extends State<OyOncesi> {
               ),
               margin: EdgeInsets.all(10),
               width: double.infinity,
-              height: MediaQuery.of(context).size.height / 1.25,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14),
-                        color: Colors.white,
-                      ),
-                      margin: EdgeInsets.all(10),
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height / 2.7,
-                      child: Text(
-                        "$instruction",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
+              //height: MediaQuery.of(context).size.height / 1.25,
+              padding: EdgeInsets.symmetric(vertical: 4),
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(14),
+                      color: Colors.white,
+                    ),
+                    margin: EdgeInsets.all(10),
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height / 2.7,
+                    child: Text(
+                      "$instruction",
+                      style: TextStyle(
+                        fontSize: 16,
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14),
-                        color: Colors.white,
-                      ),
-                      margin: EdgeInsets.all(10),
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height / 2.7,
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.fromLTRB(0, 4, 4, 0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              color: Colors.white,
-                            ),
-                            margin: EdgeInsets.all(0),
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height / 4,
-                            child: SingleChildScrollView(
-                              child: Text(
-                                "$comments",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(14),
+                      color: Colors.white,
+                    ),
+                    margin: EdgeInsets.all(10),
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height / 2.7,
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 4, 4, 0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Colors.white,
+                          ),
+                          margin: EdgeInsets.all(0),
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height / 4,
+                          child: SingleChildScrollView(
+                            child: Text(
+                              "$comments",
+                              style: TextStyle(
+                                fontSize: 16,
                               ),
                             ),
                           ),
-                          TextField(
-                            controller: textController2,
-                            maxLines: 1,
-                            onSubmitted: (String s) {
-                              DataBaseConnection.setComments(
-                                  userName, widget.eventID, s);
-                              //debugPrint("yazildi: $value");
-                              textController2.clear();
-                              RestartWidget.restartApp(context);
-                            },
-                            //debugPrint("yazildi: $s");
-                            //onEditingComplete: () {
-                            //  DataBaseConnection.setComments(userName, widget.eventID, _comment);
-                            //},
-                            decoration: InputDecoration(
-                              hintText: "Yorum yap",
-                              suffixIcon: Icon(Icons.arrow_right),
-                            ),
+                        ),
+                        TextField(
+                          controller: textController2,
+                          maxLines: 1,
+                          onSubmitted: (String s) {
+                            DataBaseConnection.setComments(
+                                userName, widget.eventID, s);
+                            //debugPrint("yazildi: $value");
+                            textController2.clear();
+                            RestartWidget.restartApp(context);
+                          },
+                          //debugPrint("yazildi: $s");
+                          //onEditingComplete: () {
+                          //  DataBaseConnection.setComments(userName, widget.eventID, _comment);
+                          //},
+                          decoration: InputDecoration(
+                            hintText: "Yorum yap",
+                            suffixIcon: Icon(Icons.arrow_right),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],
