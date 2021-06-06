@@ -65,7 +65,7 @@ class _PlanlamaState extends State<Planlama> {
   }
   List<String> arkadas = ["samet","ali","ibo","naim"];
   Map tarihler=new Map();
-  Map arkadaslar=new Map();
+  List<String> arkadaslar=[];
   String title="";
   String instruction="";
   int tarihLength=0;
@@ -109,7 +109,7 @@ class _PlanlamaState extends State<Planlama> {
                           fontWeight: FontWeight.bold)),
                   onPressed: () {
                     //print(tarihler);
-                    DataBaseConnection.createEvent(userName, tarihler, arkadas,title,instruction);
+                    DataBaseConnection.createEvent(userName, tarihler, arkadaslar,title,instruction);
                     Navigator.pop(context);
                   } //calendar(),
                   ),
@@ -277,7 +277,7 @@ class _PlanlamaState extends State<Planlama> {
               //Seçilen arkadaşlar 
               arkadaslar= await Navigator.push(context,MaterialPageRoute(builder: (context) => ArkadasListe()));
               try{
-                arkLength=arkadaslar.keys.length;
+                arkLength=arkadaslar.length;
               }catch(e){
                 arkLength=0;
               }

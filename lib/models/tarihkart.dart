@@ -30,12 +30,13 @@ class _TarihKartState extends State<TarihKart> {
     eventNames = await DataBaseConnection.getEventNames(userName);
     sayi = await DataBaseConnection.eventLength(userName);
     titles = await DataBaseConnection.getEventTitles(eventNames);
-    if (this.mounted) {
+    print(this.mounted);
+    //if (this.mounted) {
       setState(() {
         olustur = listeYapici(sayi, titles, eventNames, context);
       });
-    }
-    ;
+    //} 
+    
   }
 
   @override
@@ -43,7 +44,7 @@ class _TarihKartState extends State<TarihKart> {
     titles.clear();
     super.initState();
     setBilgiler();
-    print(sayi);
+    
   }
 
   @override
@@ -52,7 +53,12 @@ class _TarihKartState extends State<TarihKart> {
       appBar: Apbar(context: context, widget: widget).x(),
       body: NotificationListener<OverscrollNotification>(
         onNotification: (x) {
-          if (x.overscroll < 0) RestartWidget.restartApp(context);
+          if (x.overscroll < 0) {
+            setBilgiler();
+            setState(() {
+              
+            });
+          }
           return true;
         },
         child: Container(

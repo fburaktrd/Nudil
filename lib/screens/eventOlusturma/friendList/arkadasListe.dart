@@ -1,4 +1,4 @@
-import 'dart:math';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/models/database.dart';
@@ -7,7 +7,7 @@ import 'package:flutter_first_app/services/auth.dart';
 import './listeButonu.dart';
 
 class ArkadasListe extends StatefulWidget {
-  //Kişinin arkadaş listesi
+  
   
 
   ArkListe createState() => ArkListe();
@@ -20,6 +20,7 @@ class ArkListe extends State<ArkadasListe> {
     String uid =await _auth.getUseruid();
     print(uid);
     userName=await DataBaseConnection.getUserDisplayName(uid);
+    getFriends(userName);
     setState(() {
 
     });
@@ -39,8 +40,8 @@ class ArkListe extends State<ArkadasListe> {
     return bruh;
   }
 
-  Future<void> getFriends()async{
-    friendList=await DataBaseConnection.returnFriends(userName);
+  Future<void> getFriends(String userName1)async{
+    friendList=await DataBaseConnection.returnFriends(userName1);
     print(friendList);
     asilListe=friends(friendList);
     setState(() {
@@ -54,20 +55,21 @@ class ArkListe extends State<ArkadasListe> {
   void initState() {
     super.initState();
     setBilgiler();
-    getFriends();
+    
 
   }
-  Map seciliArk = new Map();
+  Set<String> seciliArk = {};
   
   @override
   Widget build(BuildContext context) {
     
     List<Widget> seciliWidget = [];
      //user type
-    int kisi=0;
+    
     for (int i = 0; i < asilListe.length; i++) {
       
       if (asilListe.cast<ListeButon>().elementAt(i).seci == true) {
+        print(asilListe.cast<ListeButon>().elementAt(i).isim);
         seciliWidget.add(
           Container(
             alignment: Alignment.center,
@@ -84,7 +86,7 @@ class ArkListe extends State<ArkadasListe> {
             ),
           )
         );
-        seciliArk[kisi++]=asilListe.cast<ListeButon>().elementAt(i).isim;
+        seciliArk.add(asilListe.cast<ListeButon>().elementAt(i).isim);
       }
     }
 
@@ -139,9 +141,11 @@ class ArkListe extends State<ArkadasListe> {
                       ),
                     ),
                     GestureDetector(
-                      onVerticalDragCancel: (){setState(() {
-                        
-                      });},
+                      onVerticalDragCancel: (){
+                        setState(() {
+                          
+                        });
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width/1.22,
                         height: MediaQuery.of(context).size.height/1.44,
@@ -172,11 +176,10 @@ class ArkListe extends State<ArkadasListe> {
                 //Eklenen kişiler Planlamya bu butondan dönecek
                 RawMaterialButton(
                   onPressed: (){
-                    print(seciliArk.values);
-                    Navigator.of(context).pop(seciliArk);
-                    setState(() {
-                      
-                    });
+                    
+                    List<String> bro=seciliArk.toList();
+                    Navigator.of(context).pop(bro);
+                    
                   },
                   child: Container(
                     margin: EdgeInsets.fromLTRB(0,8,0,8),

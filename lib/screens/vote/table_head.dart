@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'file:///C:/Users/ibrah/OneDrive/Documents/GitHub/nyp-proje/nyp-proje/lib/screens/vote/cal_table.dart';
-import 'file:///C:/Users/ibrah/OneDrive/Documents/GitHub/nyp-proje/nyp-proje/lib/screens/vote/persons.dart';
+import 'cal_table.dart';
+import 'persons.dart';
+
+
 
 class TableHead extends StatelessWidget {
   final ScrollController scrollController;

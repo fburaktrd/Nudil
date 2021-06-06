@@ -52,6 +52,7 @@ class DataBaseConnection {
       b = await ref.child("Social").child(userName).child("friend").once();
       for (String eleman in b.value.keys) {
         friendList.add(eleman);
+        
       }
       return friendList;
     } catch (e) {
@@ -67,7 +68,7 @@ class DataBaseConnection {
       for (String eleman in b.value.keys) {
         requestList.add(eleman);
       }
-      return requestList;
+      return requestList.toSet().toList();
     } catch (e) {
       print(e.toString());
       return requestList;
@@ -122,7 +123,7 @@ class DataBaseConnection {
         b = await ref.child("Events").child(eleman).child("title").once();
         eventTitle.add(b.value);
       }
-      return eventTitle;
+      return eventTitle.toSet().toList();
     } catch (e) {
       print(e.toString());
       return eventTitle;
@@ -185,11 +186,11 @@ class DataBaseConnection {
       "timeStamp": currentTime
     });
 
-    /* for(String eleman in users){
+     for(String eleman in users){
       DataSnapshot user =await getUser(eleman);
       print(user.value);
       setMyEvents(user.value["displayName"], key);
-    } */
+    } 
     setMyEvents(creatorName, key);
     setParticipantOfEvent(key, users);
   }

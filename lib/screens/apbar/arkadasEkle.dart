@@ -24,27 +24,34 @@ class Ekle extends State<ArkadasEkle> {
 
     reqList=await DataBaseConnection.returnRequests(userName);
     reqLength=reqList.length;
+    
     print(reqList);
-    setState(() {
-      
-    });
+    if(this.mounted){
+      setState(() {
+        
+      });
+    }
+    
   }
 
 
 
   PageController kontrol=new PageController(initialPage: 1,viewportFraction: .99);
   String aranacakKisi = "";
-@override
+  @override
   void initState(){
-    
-    super.initState();
     setBilgiler();
+    super.initState();
+    
   }
   
-  
+ 
   
   @override
   Widget build(BuildContext context) {
+    
+    print(reqList);
+    
     return Scaffold(
       appBar: Apbar(context: context,widget: widget).x(),
       
@@ -55,7 +62,10 @@ class Ekle extends State<ArkadasEkle> {
           if(notific.overscroll<0){
             
             //sayfa yenileme
-            RestartWidget.restartApp(context);
+            
+            //RestartWidget.restartApp(context);
+            setBilgiler();
+            
           }
           
           return true;
@@ -162,7 +172,7 @@ class Ekle extends State<ArkadasEkle> {
                     ),
                     
                     Column(
-                      children: List.generate(reqLength, (index){
+                      children: List.generate(reqList.length, (index){
                         return Container(
                           padding: EdgeInsets.fromLTRB(8,24,16,20),
                           alignment: Alignment.centerLeft,
