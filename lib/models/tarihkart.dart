@@ -31,11 +31,11 @@ class _TarihKartState extends State<TarihKart> {
     sayi = await DataBaseConnection.eventLength(userName);
     titles = await DataBaseConnection.getEventTitles(eventNames);
     print(this.mounted);
-    //if (this.mounted) {
+    if (this.mounted) {
       setState(() {
         olustur = listeYapici(sayi, titles, eventNames, context);
       });
-    //} 
+    } 
     
   }
 
