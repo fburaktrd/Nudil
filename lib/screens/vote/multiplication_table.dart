@@ -113,37 +113,39 @@ class _MultiplicationTableState extends State<MultiplicationTable> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          TableHead(
-            scrollController: _headController,
-            tarihListesi: tarihler,
-          ),
-          Expanded(
-            child: TableBody(
-              scrollController: _bodyController,
+      body: SafeArea(
+        child: Column(
+          children: [
+            TableHead(
+              scrollController: _headController,
               tarihListesi: tarihler,
-              kisiler: kisiler,
             ),
-          ),
-          Container(
-            color: Colors.deepPurple[800],
-            height: 35,
-            width: MediaQuery.of(context).size.width / 1,
-            child: RawMaterialButton(
-              child: Text(
-                "ONAYLA",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Colors.white),
+            Expanded(
+              child: TableBody(
+                scrollController: _bodyController,
+                tarihListesi: tarihler,
+                kisiler: kisiler,
               ),
-              onPressed: () {
-                Navigator.of(context)..pop()..pop();
-              },
             ),
-          ),
-        ],
+            Container(
+              color: Colors.deepPurple[800],
+              height: 35,
+              width: MediaQuery.of(context).size.width / 1,
+              child: RawMaterialButton(
+                child: Text(
+                  "ONAYLA",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.of(context)..pop()..pop();
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
