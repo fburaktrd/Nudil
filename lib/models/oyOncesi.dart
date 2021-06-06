@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first_app/main.dart';
 import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/screens/apbar/apbar.dart';
+import 'package:flutter_first_app/screens/vote/multiplication_table.dart';
 import 'package:flutter_first_app/services/auth.dart';
 
 class OyOncesi extends StatefulWidget {
   final String eventName;
   final String eventID;
-  OyOncesi({this.eventName,this.eventID});
+  OyOncesi({this.eventName, this.eventID});
 
   @override
   _OyOncesiState createState() => _OyOncesiState();
@@ -17,25 +18,20 @@ class OyOncesi extends StatefulWidget {
 
 class _OyOncesiState extends State<OyOncesi> {
   final AuthService _auth = AuthService();
-  String userName="";
+  String userName = "";
   String ab;
-  String _comment = "";
   TextEditingController textController2;
-  String instruction ="";
-  String comments ="";
-  Future<void> setBilgiler()async{
-    String uid =await _auth.getUseruid();
+  String instruction = "";
+  String comments = "";
+  Future<void> setBilgiler() async {
+    String uid = await _auth.getUseruid();
     print(uid);
-    userName=await DataBaseConnection.getUserDisplayName(uid);
+    userName = await DataBaseConnection.getUserDisplayName(uid);
 
-    instruction= await DataBaseConnection.getEventDiscription(widget.eventID);
+    instruction = await DataBaseConnection.getEventDiscription(widget.eventID);
     comments = await DataBaseConnection.getComments(widget.eventID);
-    setState(() {
-
-    });
+    setState(() {});
   }
-
-
 
   @override
   void initState() {
@@ -54,7 +50,7 @@ class _OyOncesiState extends State<OyOncesi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Apbar(context: context,widget: widget).x(),
+      appBar: Apbar(context: context, widget: widget).x(),
       body: SafeArea(
         child: ListView(
           children: [
@@ -127,37 +123,34 @@ class _OyOncesiState extends State<OyOncesi> {
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height / 2.7,
                     child: Column(
-                      children: [Container(
-                        padding: EdgeInsets.fromLTRB(0, 4, 4, 0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          color: Colors.white,
-                        ),
-                        margin: EdgeInsets.all(0),
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height / 4,
-                        child: SingleChildScrollView(
-                          child: Text(
-                            "$comments",
-                            style: TextStyle(
-                              fontSize: 16,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 4, 4, 0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Colors.white,
+                          ),
+                          margin: EdgeInsets.all(0),
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height / 4,
+                          child: SingleChildScrollView(
+                            child: Text(
+                              "$comments",
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-
-
                         TextField(
                           controller: textController2,
                           maxLines: 1,
                           onSubmitted: (String s) {
-
-
-                            DataBaseConnection.setComments(userName, widget.eventID, s);
+                            DataBaseConnection.setComments(
+                                userName, widget.eventID, s);
                             //debugPrint("yazildi: $value");
                             textController2.clear();
                             RestartWidget.restartApp(context);
-
                           },
                           //debugPrint("yazildi: $s");
                           //onEditingComplete: () {
@@ -178,7 +171,10 @@ class _OyOncesiState extends State<OyOncesi> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MultiplicationTable()));
+        },
         child: Text("Vote"),
         backgroundColor: Color(0xff651fff),
       ),

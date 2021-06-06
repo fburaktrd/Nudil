@@ -36,8 +36,12 @@ dependencies:
   table_calendar:
   day_night_time_picker:
   numberpicker: ^2.1.1
+  date_picker_timeline: ^1.2.3
+  linked_scroll_controller: ^0.1.2
 
-  
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
