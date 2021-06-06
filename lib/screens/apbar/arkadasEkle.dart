@@ -15,6 +15,8 @@ class ArkadasEkle extends StatefulWidget {
 class Ekle extends State<ArkadasEkle> {
   int reqLength=0;
   List<String> reqList = [];
+  int friLength=0;
+  List<String> friList = [];
   String userName="";
   final AuthService _auth = AuthService();
   Future<void> setBilgiler()async{
@@ -24,7 +26,8 @@ class Ekle extends State<ArkadasEkle> {
 
     reqList=await DataBaseConnection.returnRequests(userName);
     reqLength=reqList.length;
-    
+    friList=await DataBaseConnection.returnFriends(userName);
+    friLength=friList.length;
     print(reqList);
     if(this.mounted){
       setState(() {
@@ -156,23 +159,42 @@ class Ekle extends State<ArkadasEkle> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    RawMaterialButton(
-                      child: Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.chevron_left_sharp),
-                            Text("Arkadaş ara")
-                          ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RawMaterialButton(
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(Icons.chevron_left_sharp),
+                                Text("Arkadaş ara")
+                              ],
+                            ),
+                          ),
+                          onPressed: (){
+                            kontrol.previousPage(duration: Duration(milliseconds: 500), curve: Curves.linear);
+                          }
                         ),
-                      ),
-                      onPressed: (){
-                        kontrol.previousPage(duration: Duration(milliseconds: 500), curve: Curves.linear);
-                      }
+                        RawMaterialButton(
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text("Arkadaşlarım"),
+                                Icon(Icons.chevron_right_sharp)
+                              ],
+                            ),
+                          ),
+                          onPressed: (){
+                            kontrol.nextPage(duration: Duration(milliseconds: 500), curve: Curves.linear);
+                          }
+                        )
+                      ],
                     ),
                     
                     Column(
-                      children: List.generate(reqList.length, (index){
+                      children: List.generate(reqLength, (index){
                         return Container(
                           padding: EdgeInsets.fromLTRB(8,24,16,20),
                           alignment: Alignment.centerLeft,
@@ -205,6 +227,44 @@ class Ekle extends State<ArkadasEkle> {
                               )
                             ],
                           ),
+                        );
+                      }),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            //Arkadaşlarım 
+            Container(
+              margin: EdgeInsets.all(16),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    RawMaterialButton(
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.chevron_left_sharp),
+                            Text("Arkadaş İstekleri")
+                          ],
+                        ),
+                      ),
+                      onPressed: (){
+                        kontrol.previousPage(duration: Duration(milliseconds: 500), curve: Curves.linear);
+                      }
+                    ),
+                    
+                    Column(
+                      children: List.generate(friLength, (index){
+                        return Container(
+                          padding: EdgeInsets.fromLTRB(8,24,16,20),
+                          alignment: Alignment.centerLeft,
+                          color: Colors.blueGrey,
+                          
+                          width: 400,
+                          margin: EdgeInsets.all(8),
+                          child: Text("@${friList.elementAt(index)}"),
                         );
                       }),
                     ),
