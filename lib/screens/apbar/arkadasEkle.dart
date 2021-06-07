@@ -101,7 +101,16 @@ class Ekle extends State<ArkadasEkle> {
                       kontrol.nextPage(duration: Duration(milliseconds: 500), curve: Curves.linear);
                     }
                   ),
-                  
+                  Container(
+                    padding: EdgeInsets.all(9),
+                    margin: EdgeInsets.all(7),
+                    decoration: ShapeDecoration(color:Color(0xff30374b).withAlpha(240),
+                        shape:BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4)))
+                    ),
+
+                    child: Text("Arkadaş Ekle",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+
+                  ),
                   Container(
                     margin: EdgeInsets.all(24),
                     decoration: BoxDecoration(
@@ -189,7 +198,7 @@ class Ekle extends State<ArkadasEkle> {
                                               3,
                                           horizontal: 40),
                                       title: Text("Uyarı"),
-                                      content: Text("@$arama arkadaşınız."),
+                                      content: Text("@$arama zaten arkadaşınız."),
                                       actions: [
                                         TextButton(
                                             onPressed: () {
@@ -279,20 +288,24 @@ class Ekle extends State<ArkadasEkle> {
 
                       List.generate(reqLength, (index){
                         return Container(
-                          padding: EdgeInsets.fromLTRB(8,24,16,20),
+                          padding: EdgeInsets.fromLTRB(8,20,16,20),
                           alignment: Alignment.centerLeft,
-                          color: Color(0xff30374b),
-                          
+
+
                           width: 400,
                           margin: EdgeInsets.all(8),
+                          decoration: BoxDecoration(color:Color(0xff30374b).withAlpha(240),
+                            borderRadius:BorderRadius.circular(14)
+
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("@${reqList.elementAt(index)}",style: TextStyle(color: Colors.white,fontWeight:FontWeight.bold),),
+                              Text("@${reqList.elementAt(index)}",style: TextStyle(color: Colors.white,fontWeight:FontWeight.bold,fontSize:17),),
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  IconButton(icon:Icon(Icons.clear),onPressed: (){
+                                  IconButton(icon:Icon(Icons.clear,color: Colors.white,),onPressed: (){
                                     //reddet
                                     //sayfa yenileme
                                     RestartWidget.restartApp(context);
@@ -300,8 +313,9 @@ class Ekle extends State<ArkadasEkle> {
                                     
                                   },),
                                   SizedBox(width: 16),
-                                  IconButton(icon:Icon(Icons.check),onPressed: (){
+                                  IconButton(icon:Icon(Icons.check,color: Colors.white,),onPressed: (){
                                     DataBaseConnection.addFriend(userName, reqList.elementAt(index));
+
                                     //kabul et
                                     //sayfa yenileme
                                     RestartWidget.restartApp(context);
@@ -348,15 +362,25 @@ class Ekle extends State<ArkadasEkle> {
 
                         child: Text("Arkadaşlık isteği yok.",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
 
-                      )]: List.generate(friLength, (index){
+                      )]:[Container(
+                        padding: EdgeInsets.all(9),
+                        margin: EdgeInsets.all(7),
+                        decoration: ShapeDecoration(color:Color(0xff30374b).withAlpha(240),
+                            shape:BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4)))
+                        ),
+
+                        child: Text("Arkadaşlarım",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+
+                      )]+ List.generate(friLength, (index){
                         return Container(
                           padding: EdgeInsets.fromLTRB(8,24,16,20),
                           alignment: Alignment.centerLeft,
-                          color: Colors.blueGrey,
-                          
+                          decoration: ShapeDecoration(color:Color(0xff30374b).withAlpha(240),
+                              shape:RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)))
+                          ),
                           width: 400,
                           margin: EdgeInsets.all(8),
-                          child: Text("@${friList.elementAt(index)}"),
+                          child: Text("@${friList.elementAt(index)}",style: TextStyle(color: Colors.white,fontSize:14,fontWeight:FontWeight.bold),),
                         );
                       }),
                     ),

@@ -80,7 +80,7 @@ class _PlanlamaState extends State<Planlama> {
           Row(
             children: [
               RawMaterialButton(
-                child: Text('Back',
+                child: Text('Geri',
                     style: TextStyle(
                         color: Color(0xff30374b),
                         fontSize: 18,
@@ -92,7 +92,7 @@ class _PlanlamaState extends State<Planlama> {
                   margin: EdgeInsets.fromLTRB(6, 5, 5, 6),
                   padding: const EdgeInsets.fromLTRB(6, 6, 6, 6),
                   child: Text(
-                    "Plan An Event",
+                    "Etkinlik Planla",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
@@ -101,7 +101,7 @@ class _PlanlamaState extends State<Planlama> {
                 ),
               ),
               RawMaterialButton(
-                  child: Text('Create',
+                  child: Text('Oluştur',
                       style: TextStyle(
                           color: Color(0xff30374b),
                           fontSize: 18,
@@ -140,7 +140,7 @@ class _PlanlamaState extends State<Planlama> {
                   debugPrint("on submit:$s");
                 },
                 decoration: InputDecoration(
-                    hintText: "Enter title",
+                    hintText: "Başlık Giriniz..",
                     suffixIcon: Icon(Icons.arrow_right),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5)),
@@ -178,7 +178,7 @@ class _PlanlamaState extends State<Planlama> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text('Add Day',
+                      Text('Gün Ekle',
                           style: TextStyle(
                               color: Color(0xff30374b),
                               fontSize: 18,
@@ -299,7 +299,7 @@ class _PlanlamaState extends State<Planlama> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text('Add Friend',
+                      Text('Arkadaş Ekle',
                           style: TextStyle(
                               color: Color(0xff30374b),
                               fontSize: 18,
@@ -404,7 +404,7 @@ class _PlanlamaState extends State<Planlama> {
                   debugPrint("on submit:$s");
                 },
                 decoration: InputDecoration(
-                    hintText: "Enter explanation",
+                    hintText: "Açıklama Giriniz..",
                     suffixIcon: Icon(Icons.arrow_right),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5)),

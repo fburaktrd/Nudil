@@ -15,7 +15,7 @@ class _MyHomePageState extends State<SaatSayiSec> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff30374b),
-          title: Text('Aralık Sayısı Seciniz'),
+          title: Text('Aralık Sayısı Seçiniz'),
         ),
         body: _IntegerExample(),
       ),
@@ -48,7 +48,7 @@ class __IntegerExampleState extends State<_IntegerExample> {
         ),
         Divider(color: Colors.grey, height: 32),
         SizedBox(height: 16),
-        Text('Current int value: $_currentIntValue'),
+        //Text('Current int value: $_currentIntValue'),
         RawMaterialButton(
             child: Text('Thanks',
                 style: GoogleFonts.montserrat(

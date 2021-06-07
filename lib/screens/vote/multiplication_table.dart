@@ -140,7 +140,7 @@ class _MultiplicationTableState extends State<MultiplicationTable> {
                       color: Colors.white),
                 ),
                 onPressed: () {
-                  Navigator.of(context)..pop()..pop();
+                  Navigator.pop(context);
                 },
               ),
             ),
