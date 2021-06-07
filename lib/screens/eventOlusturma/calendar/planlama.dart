@@ -63,7 +63,6 @@ class _PlanlamaState extends State<Planlama> {
     _focusNode.dispose();
     super.dispose();
   }
-  List<String> arkadas = ["samet","ali","ibo","naim"];
   Map tarihler=new Map();
   List<String> arkadaslar=[];
   String title="";

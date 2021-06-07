@@ -44,7 +44,24 @@ class DataBaseConnection {
       return eventComment;
     }
   }
-
+  static Future<bool> findUser(String userName)async{
+    DataSnapshot b;
+    b= await ref.child("Users").child(userName).once();
+    if(b.value==null){
+      return true;
+    }
+    else return false;
+  }
+  static Future<bool> getFriend (String displayName,String friendName)async{
+    DataSnapshot b;
+    b= await ref.child("Social").child(displayName).child("friend").once();
+    for(String eleman in b.value.keys){
+      if(eleman == friendName){
+        return false;
+      }
+      else return true;
+    }
+  }
   static Future<List<String>> returnFriends(String userName) async {
     DataSnapshot b;
     friendList.clear();

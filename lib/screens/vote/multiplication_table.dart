@@ -90,12 +90,12 @@ class _MultiplicationTableState extends State<MultiplicationTable> {
       "05.06.2021 18.45 - 21.30",
     ];
     kisiler.add(Ibo);
-    Voters Aslan = new Voters("156877456", "Aslan Öztürk");
-    Aslan.tarihler = [
+    Voters AslanMashadow = new Voters("156877456", "Aslan of Course");
+    AslanMashadow.tarihler = [
       "02.06.2021 19.00 - 21.00",
       "05.06.2021 18.45 - 21.30",
     ];
-    kisiler.add(Aslan);
+    kisiler.add(AslanMashadow);
     //
     _controllers = LinkedScrollControllerGroup();
     _headController = _controllers.addAndGet();

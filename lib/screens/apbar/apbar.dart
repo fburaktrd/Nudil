@@ -16,7 +16,9 @@ class Apbar {
     return AppBar(
       automaticallyImplyLeading: false,
       title: Text("Nudıl"),
-      actions:[ 
+      backgroundColor: Color(0xff30374b),
+      actions:[
+
         IconButton(
           
           icon: Icon(Icons.person_add_alt_1),

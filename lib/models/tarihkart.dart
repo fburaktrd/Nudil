@@ -72,8 +72,8 @@ class _TarihKartState extends State<TarihKart> {
       floatingActionButton: RawMaterialButton(
         child: Container(
           decoration: BoxDecoration(
-            color: Color(0xff651fff),
-            borderRadius: BorderRadius.circular(7.31),
+            color: Color(0xff30374b),
+            borderRadius: BorderRadius.circular(7.30),
           ),
           padding: EdgeInsets.all(8),
           child: Text('Planlama',

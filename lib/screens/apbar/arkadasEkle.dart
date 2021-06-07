@@ -25,9 +25,14 @@ class Ekle extends State<ArkadasEkle> {
     userName=await DataBaseConnection.getUserDisplayName(uid);
 
     reqList=await DataBaseConnection.returnRequests(userName);
-    reqLength=reqList.length;
+    if(reqList!=null){
+      reqLength=reqList.length;
+    }
     friList=await DataBaseConnection.returnFriends(userName);
-    friLength=friList.length;
+    if(friList!=null){
+      friLength=friList.length;
+    }
+
     print(reqList);
     if(this.mounted){
       setState(() {
@@ -120,24 +125,82 @@ class Ekle extends State<ArkadasEkle> {
                         autocorrect: false,
                         keyboardType: TextInputType.text,
                         onSubmitted: (arama) async{
+
                           //aranacak kişi buradan
                           aranacakKisi = arama;
-                          bool x;
-                            x=await showDialog(context: context, builder: (context){
+                          bool b =await  DataBaseConnection.getFriend(userName, aranacakKisi);
+                          bool userBool =await DataBaseConnection.findUser(aranacakKisi);
+                          if(userBool){
+                            await showDialog(context: context, builder: (context){
+
                               return AlertDialog(
                                 insetPadding: EdgeInsets.symmetric(vertical:MediaQuery.of(context).size.height/3,horizontal: 40),
-                                title: Text("Yabancı ?"),
-                                content: Text("@$arama arkadaşınız değil.\nEklemek istediğinize emin misiniz?"),
+                                title: Text("Uyarı"),
+                                content: Text("@$arama isimli kişi bulunamadı."),
                                 actions: [
-                                  TextButton(onPressed: (){Navigator.of(context).pop(false);}, child: Text("İptal")),
-                                  TextButton(onPressed: (){
-                                    DataBaseConnection.requestFriend(userName, arama);
-                                    Navigator.of(context).pop(true);}, child: Text("Ekle"))
+                                  TextButton(onPressed: (){Navigator.of(context).pop(false);}, child: Text("Tamam")),
                                 ],
 
                               );
                             });
-                          
+
+                          }
+                          else {
+                            if (b) {
+                              bool x;
+                              x = await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      insetPadding: EdgeInsets.symmetric(
+                                          vertical: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              3,
+                                          horizontal: 40),
+                                      title: Text("Yabancı ?"),
+                                      content: Text(
+                                          "@$arama arkadaşınız değil.\nEklemek istediğinize emin misiniz?"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop(false);
+                                            },
+                                            child: Text("İptal")),
+                                        TextButton(
+                                            onPressed: () {
+                                              DataBaseConnection.requestFriend(
+                                                  userName, arama);
+                                              Navigator.of(context).pop(true);
+                                            },
+                                            child: Text("Ekle"))
+                                      ],
+                                    );
+                                  });
+                            } else {
+                              await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      insetPadding: EdgeInsets.symmetric(
+                                          vertical: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              3,
+                                          horizontal: 40),
+                                      title: Text("Uyarı"),
+                                      content: Text("@$arama arkadaşınız."),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop(false);
+                                            },
+                                            child: Text("Tamam")),
+                                      ],
+                                    );
+                                  });
+                            }
+                          }
 
                           setState(() {});
                         },
@@ -194,18 +257,38 @@ class Ekle extends State<ArkadasEkle> {
                     ),
                     
                     Column(
-                      children: List.generate(reqLength, (index){
+                      children:reqLength==0?[Container(
+                        padding: EdgeInsets.all(9),
+                        margin: EdgeInsets.all(7),
+                        decoration: ShapeDecoration(color:Color(0xff30374b).withAlpha(240),
+                          shape:BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4)))
+                        ),
+                        
+                        child: Text("Arkadaşlık isteği yok.",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+
+                      )]:[Container(
+                        padding: EdgeInsets.all(9),
+                        margin: EdgeInsets.all(7),
+                        decoration: ShapeDecoration(color:Color(0xff30374b).withAlpha(240),
+                            shape:BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4)))
+                        ),
+
+                        child: Text("Arkadaşlık istekleri.",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+
+                      )]+
+
+                      List.generate(reqLength, (index){
                         return Container(
                           padding: EdgeInsets.fromLTRB(8,24,16,20),
                           alignment: Alignment.centerLeft,
-                          color: Colors.blueGrey,
+                          color: Color(0xff30374b),
                           
                           width: 400,
                           margin: EdgeInsets.all(8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("@${reqList.elementAt(index)}"),
+                              Text("@${reqList.elementAt(index)}",style: TextStyle(color: Colors.white,fontWeight:FontWeight.bold),),
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -256,7 +339,16 @@ class Ekle extends State<ArkadasEkle> {
                     ),
                     
                     Column(
-                      children: List.generate(friLength, (index){
+                      children:friLength==0?[Container(
+                        padding: EdgeInsets.all(9),
+                        margin: EdgeInsets.all(7),
+                        decoration: ShapeDecoration(color:Color(0xff30374b).withAlpha(240),
+                            shape:BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4)))
+                        ),
+
+                        child: Text("Arkadaşlık isteği yok.",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+
+                      )]: List.generate(friLength, (index){
                         return Container(
                           padding: EdgeInsets.fromLTRB(8,24,16,20),
                           alignment: Alignment.centerLeft,
