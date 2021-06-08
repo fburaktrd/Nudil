@@ -75,6 +75,7 @@ class DataBaseConnection {
       return friendList;
     } catch (e) {
       print(e.toString());
+      return friendList;
     }
   }
 
