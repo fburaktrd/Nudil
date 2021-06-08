@@ -137,9 +137,11 @@ class Ekle extends State<ArkadasEkle> {
 
                           //aranacak kişi buradan
                           aranacakKisi = arama;
-                          bool b =await  DataBaseConnection.getFriend(userName, aranacakKisi);
                           bool userBool =await DataBaseConnection.findUser(aranacakKisi);
+
+
                           if(userBool){
+
                             await showDialog(context: context, builder: (context){
 
                               return AlertDialog(
@@ -155,6 +157,7 @@ class Ekle extends State<ArkadasEkle> {
 
                           }
                           else {
+                            bool b =await  DataBaseConnection.getFriend(userName, aranacakKisi);
                             if (b) {
                               bool x;
                               x = await showDialog(
