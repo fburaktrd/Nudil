@@ -45,24 +45,31 @@ class DataBaseConnection {
       return eventComment;
     }
   }
-  static Future<bool> findUser(String userName)async{
+
+  static Future<bool> findUser(String userName) async {
     DataSnapshot b;
-    b= await ref.child("Users").child(userName).once();
-    if(b.value==null){
+    b = await ref.child("Users").child(userName).once();
+    if (b.value == null) {
       return true;
-    }
-    else return false;
+    } else
+      return false;
   }
-  static Future<bool> getFriend (String displayName,String friendName)async{
+
+  static Future<bool> getFriend(String displayName, String friendName) async {
     DataSnapshot b;
-    b= await ref.child("Social").child(displayName).child("friend").once();
-    for(String eleman in b.value.keys){
-      if(eleman == friendName){
-        return false;
-      }
-      else return true;
-    }
+    b = await ref.child("Social").child(displayName).child("friend").once();
+    if (b.value != null){
+      for (String eleman in b.value.keys) {
+        if (eleman == friendName) {
+          return false;
+        } else
+          return true;
+      }}
+      else{
+        return true;
+        }
   }
+
   static Future<List<String>> returnFriends(String userName) async {
     DataSnapshot b;
     friendList.clear();
@@ -70,7 +77,6 @@ class DataBaseConnection {
       b = await ref.child("Social").child(userName).child("friend").once();
       for (String eleman in b.value.keys) {
         friendList.add(eleman);
-
       }
       return friendList;
     } catch (e) {
@@ -130,47 +136,47 @@ class DataBaseConnection {
       return eventList;
     } else {
       return eventList;
-
     }
   }
-  static Future<Map> getChoices(String userName,String eventId)async{
+
+  static Future<Map> getChoices(String userName, String eventId) async {
     DataSnapshot b;
     DataSnapshot c;
-    String tempDate="";
-    Map dates={};
+    String tempDate = "";
+    Map dates = {};
     dates.clear();
-      b = await ref.child("Events").child(eventId).child("secenekler").once();
-      print(b.value);
-      dates=b.value;
-      print("dates");
-      print(dates);
+    b = await ref.child("Events").child(eventId).child("secenekler").once();
+    print(b.value);
+    dates = b.value;
+    print("dates");
+    print(dates);
     return dates;
-
   }
-  static Future<Map> getParticipantMap(String eventId)async{
+
+  static Future<Map> getParticipantMap(String eventId) async {
     DataSnapshot b;
-    b= await ref.child("ParticipantOfEvent").child(eventId).once();
+    b = await ref.child("ParticipantOfEvent").child(eventId).once();
     return b.value;
   }
 
-  static Future<List<String>> getParticipantChoices(String userName)async{
+  static Future<List<String>> getParticipantChoices(String userName) async {
     List<String> choices = [];
     choices.clear();
     DataSnapshot b;
-    b= await ref.child("ParticipantOfEvent").child(userName).once();
-    if(b.value!=null){
-      for(String eleman in b.value.keys){
+    b = await ref.child("ParticipantOfEvent").child(userName).once();
+    if (b.value != null) {
+      for (String eleman in b.value.keys) {
         choices.add(eleman);
       }
       return choices;
-    }
-    else return choices;
-
+    } else
+      return choices;
   }
-  static Future<void> setChoices(Map choices,String eventId,String userName)async{
+
+  static Future<void> setChoices(
+      Map choices, String eventId, String userName) async {
     ref.child("ParticipantOfEvent").child(eventId).child(userName).set(choices);
   }
-
 
   static Future<List<String>> getEventTitles(List<String> events) async {
     DataSnapshot b;
@@ -209,12 +215,13 @@ class DataBaseConnection {
     return b;
   }
 
-  static void setParticipantOfEvent(String eventId, List<String> users,Map secenekler) {
+  static void setParticipantOfEvent(
+      String eventId, List<String> users, Map secenekler) {
     var currentTime = DateTime.now().microsecondsSinceEpoch;
     Map sample = new Map();
     for (String user in users) {
       sample[user] = currentTime;
-      for(String elemmans in secenekler.keys) {
+      for (String elemmans in secenekler.keys) {
         ref
             .child("ParticipantOfEvent")
             .child(eventId)
@@ -223,10 +230,10 @@ class DataBaseConnection {
             .set(false);
       }
     }
-
   }
 
-  static void createEvent(String creatorName, Map gecici, List<String> users, String title, String instruction) async {
+  static void createEvent(String creatorName, Map gecici, List<String> users,
+      String title, String instruction) async {
     users.add(creatorName);
     Map seceneklerx = new Map();
     for (var key in gecici.keys) {
@@ -251,14 +258,14 @@ class DataBaseConnection {
       "timeStamp": currentTime
     });
 
-     for(String eleman in users){
-      DataSnapshot user =await getUser(eleman);
+    for (String eleman in users) {
+      DataSnapshot user = await getUser(eleman);
       print(user.value);
       setMyEvents(user.value["displayName"], key);
     }
     setMyEvents(creatorName, key);
 
-    setParticipantOfEvent(key, users,seceneklerx);
+    setParticipantOfEvent(key, users, seceneklerx);
   }
 
   static void setMyEvents(String displayName, String eventId) {
