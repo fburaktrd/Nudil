@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_first_app/models/generate.dart';
 import 'package:intl/intl.dart';
 
@@ -131,6 +132,52 @@ class DataBaseConnection {
       
     }
   }
+  static Future<List<String>> getChoices(String userName)async{
+    DataSnapshot b;
+    DataSnapshot c;
+    String tempDate="";
+    List<String> dates=[];
+    dates.clear();
+    List<String> eventIds = await getEventNames(userName);
+    for(String eleman in eventIds) {
+      b = await ref.child("Events").child(eleman).child("secenekler").once();
+      for(String elemans in b.value.keys){
+        c=await ref.child("Events").child(eleman).child("secenekler").child(elemans).once();
+        for(String elemanss in c.value.values){
+          tempDate+=elemanss;
+          tempDate+=" ";
+        }
+        dates.add(tempDate);
+        tempDate="";
+
+      }
+    }
+    return dates;
+    
+    
+    
+  }
+
+  static Future<List<String>> getParticipantChoices(String userName)async{
+    List<String> choices = [];
+    choices.clear();
+    DataSnapshot b;
+    b= await ref.child("ParticipantOfEvent").child(userName).once();
+    if(b.value!=null){
+      for(String eleman in b.value.keys){
+        choices.add(eleman);
+      }
+      return choices;
+    }
+    else return choices;
+    
+  }
+  static Future<List<String>> setChoices()async{
+
+
+
+  }
+
 
   static Future<List<String>> getEventTitles(List<String> events) async {
     DataSnapshot b;

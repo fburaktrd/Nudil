@@ -23,11 +23,12 @@ class _OyOncesiState extends State<OyOncesi> {
   TextEditingController textController2;
   String instruction = "";
   String comments = "";
+  List<String> dates=[];
   Future<void> setBilgiler() async {
     String uid = await _auth.getUseruid();
     print(uid);
     userName = await DataBaseConnection.getUserDisplayName(uid);
-
+    dates = await DataBaseConnection.getChoices(userName);
     instruction = await DataBaseConnection.getEventDiscription(widget.eventID);
     comments = await DataBaseConnection.getComments(widget.eventID);
     setState(() {});
@@ -187,6 +188,7 @@ class _OyOncesiState extends State<OyOncesi> {
                               onSubmitted: (String s) {
                                 DataBaseConnection.setComments(
                                     userName, widget.eventID, s);
+                                print(dates);
                                 //debugPrint("yazildi: $value");
                                 textController2.clear();
                                 RestartWidget.restartApp(context);
