@@ -19,7 +19,7 @@ class DataBaseConnection {
         .child("Comments")
         .child(eventId)
         .child(currentTime.toString())
-        .set(formattedTime + displayName + ":" + comment);
+        .set(formattedTime+ " > "+ displayName + ":" + comment);
   }
 
   static Future<String> getComments(String eventId) async {
