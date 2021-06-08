@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nyp_proje">
+        <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="nyp_proje"
+        android:label="Noodle"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
