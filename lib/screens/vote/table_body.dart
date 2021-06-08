@@ -7,17 +7,10 @@ import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 class TableBody extends StatefulWidget {
   final ScrollController scrollController;
   List<String> tarihListesi;
-  List<List<String>> kisiListesi;
-
-  //
   List<Voters> kisiler;
 
   //
-  TableBody(
-      {@required this.scrollController,
-      this.tarihListesi,
-      this.kisiListesi,
-      this.kisiler});
+  TableBody({@required this.scrollController, this.tarihListesi, this.kisiler});
 
   @override
   _TableBodyState createState() => _TableBodyState();
@@ -83,24 +76,17 @@ class _TableBodyState extends State<TableBody> {
                           color: Colors.white,
                           value: index.toString(),
                           index: index,
-                          isChecked: widget.kisiler[index].tarihler
-                              .contains(widget.tarihListesi[x]),
+                          isChecked: widget.kisiler
+                              .elementAt(index)
+                              .tarihler[((x + 1) * 10).toString()],
                           addList: () {
-                            widget.kisiler[index].tarihler
-                                .add(widget.tarihListesi[x]);
-                            widget.kisiler[index].tarihler.sort();
-                            setState(
-                              () {
-                                debugPrint(widget.kisiler[index].name
-                                        .toString() +
-                                    ": " +
-                                    widget.kisiler[index].tarihler.toString());
-                              },
-                            );
+                            widget.kisiler.elementAt(index).tarihler[((x + 1) * 10).toString()]=true;
+                            setState(() {
+
+                            });
                           },
                           removeFromList: () {
-                            widget.kisiler[index].tarihler
-                                .remove(widget.tarihListesi[x]);
+                            widget.kisiler.elementAt(index).tarihler[((x + 1) * 10).toString()]=false;
                             setState(
                               () {
                                 debugPrint(widget.kisiler[index].name

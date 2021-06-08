@@ -37,6 +37,19 @@ class RestartWidget extends StatefulWidget {
   @override
   _RestartWidgetState createState() => _RestartWidgetState();
 }
+class Splash extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Icon(
+          Icons.apartment_outlined,
+          size: MediaQuery.of(context).size.width * 0.785,
+        ),
+      ),
+    );
+  }
+}
 
 class _RestartWidgetState extends State<RestartWidget> {
   Key key = UniqueKey();

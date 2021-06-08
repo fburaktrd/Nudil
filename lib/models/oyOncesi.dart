@@ -17,18 +17,21 @@ class OyOncesi extends StatefulWidget {
 }
 
 class _OyOncesiState extends State<OyOncesi> {
+
   final AuthService _auth = AuthService();
   String userName = "";
   String ab;
   TextEditingController textController2;
   String instruction = "";
   String comments = "";
-  List<String> dates=[];
+  Map dates= {};
+  Map katilanlar={};
   Future<void> setBilgiler() async {
+    katilanlar=await DataBaseConnection.getParticipantMap(widget.eventID);
     String uid = await _auth.getUseruid();
     print(uid);
     userName = await DataBaseConnection.getUserDisplayName(uid);
-    dates = await DataBaseConnection.getChoices(userName);
+    dates = await DataBaseConnection.getChoices(userName,widget.eventID);
     instruction = await DataBaseConnection.getEventDiscription(widget.eventID);
     comments = await DataBaseConnection.getComments(widget.eventID);
     setState(() {});
@@ -84,7 +87,7 @@ class _OyOncesiState extends State<OyOncesi> {
 
                           "     ${widget.eventName}",
                           style: TextStyle(
-                            fontSize: 22,
+                            fontSize: widget.eventName.length>10?15:20,
                             color: Colors.white,
                           ),
                         ),
@@ -211,7 +214,7 @@ class _OyOncesiState extends State<OyOncesi> {
                 ),
               ],
             ),
-            MultiplicationTable()
+            MultiplicationTable(eventId: widget.eventID,dates: dates,katilanlar: katilanlar,)
           ],
         ),
       ),

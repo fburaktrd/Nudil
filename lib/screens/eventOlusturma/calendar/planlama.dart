@@ -239,7 +239,7 @@ class _PlanlamaState extends State<Planlama> {
                                   //height: 109,
                                   color: Colors.transparent,
                                   alignment: Alignment.center,
-                                  child: Text(tarihler[index]["tarih"]),
+                                  child: Text(tarihler[(index+1)*10]["tarih"]),
                                 )),
                                 Expanded(
                                     child: Container(
@@ -249,7 +249,7 @@ class _PlanlamaState extends State<Planlama> {
                                   //height: 109,
                                   child: Text(
                                     //saat eklenmediği zaman başlangıç ve bitiş değeri 0 dönüyor
-                                    tarihler[index]["baslangic"]==""?"":"Başlangic: "+tarihler[index]["baslangic"],
+                                    tarihler[(index+1)*10]["baslangic"]==""?"":"Başlangic: "+tarihler[(index+1)*10]["baslangic"],
                                    
                                   ),
                                 )),
@@ -260,7 +260,7 @@ class _PlanlamaState extends State<Planlama> {
                                   //width: 100,
                                   //height: 109,
                                   child: Text(
-                                    tarihler[index]["bitis"]==""?"":"Bitis: "+tarihler[index]["bitis"],
+                                    tarihler[(index+1)*10]["bitis"]==""?"":"Bitis: "+tarihler[(index+1)*10]["bitis"],
                                   ),
                                 )),
                               ],

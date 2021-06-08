@@ -226,7 +226,7 @@ Map tarihSec(List<DateTime> x){
   Map tarihler=new Map();
   for(int i=0;i<x.length;i++){
 
-    tarihler[i]={"tarih":takvimFormat(x.elementAt(i)),"baslangic":"","bitis":""};
+    tarihler[(i+1)*10]={"tarih":takvimFormat(x.elementAt(i)),"baslangic":"","bitis":""};
   }
 
   return tarihler;

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class SaatSec extends StatefulWidget {
   //oluşan saat seçme widgetlarının sayısını tutmak ve bunların mapte kullanılması için static değişken tanımlandı
-  static int siradakiId = 0;
-  int id = siradakiId++;
+  static int siradakiId = 10;
+  int id = siradakiId+=10;
   
   final Map tarihler;
   final String tarihString;
