@@ -95,7 +95,7 @@ class DataBaseConnection {
       }
       return requestList.toSet().toList();
     } catch (e) {
-      print(e.toString());
+      print("buradan "+e.toString()+" buraya");
       return requestList;
     }
   }

@@ -31,19 +31,17 @@ class _TarihKartState extends State<TarihKart> {
     sayi = await DataBaseConnection.eventLength(userName);
     titles = await DataBaseConnection.getEventTitles(eventNames);
     print(this.mounted);
-    if (this.mounted) {
-      setState(() {
-        olustur = listeYapici(sayi, titles, eventNames, context);
-      });
-    } 
+    
+    olustur = listeYapici(sayi, titles, eventNames, context);
+     
     
   }
 
   @override
   void initState() {
-    titles.clear();
+    
     super.initState();
-    setBilgiler();
+    
     
   }
 
@@ -54,19 +52,30 @@ class _TarihKartState extends State<TarihKart> {
       body: NotificationListener<OverscrollNotification>(
         onNotification: (x) {
           if (x.overscroll < -5) {
-            RestartWidget.restartApp(context);
+            setState(() {
+              
+            });
           }
           return true;
         },
-        child: Container(
-          decoration: BoxDecoration(),
-          child: GridView.count(
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            crossAxisCount: 2,
-            childAspectRatio: 0.75,
-            children: olustur,
-          ),
+        child: FutureBuilder(
+          future: setBilgiler(),
+          builder:(context,snap) {
+            if(snap.connectionState==ConnectionState.waiting){
+              
+              return Center(child: CircularProgressIndicator(strokeWidth: 2,backgroundColor: Colors.amber,));
+            }
+            else{return Container(
+              decoration: BoxDecoration(),
+              child: GridView.count(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                crossAxisCount: 2,
+                childAspectRatio: 0.75,
+                children: olustur,
+              ),
+            );}
+          },
         ),
       ),
       floatingActionButton: RawMaterialButton(
@@ -95,7 +104,7 @@ List<Widget> listeYapici(
   List<Widget> liste = [];
   //faik event sayisi
   for (int i = 0; i < sayi; i++) {
-    String x = i.toString();
+    
     Widget a = GestureDetector(
       onTap: () {
         tek = !tek;
@@ -106,7 +115,7 @@ List<Widget> listeYapici(
             return RestartWidget(
                 child: OyOncesi(eventName: deneme[i], eventID: eventID[i]));
           },
-        ) //        Grup(i: x),
+        ) 
 
             );
       },
