@@ -17,21 +17,20 @@ class OyOncesi extends StatefulWidget {
 }
 
 class _OyOncesiState extends State<OyOncesi> {
-
   final AuthService _auth = AuthService();
   String userName = "";
   String ab;
   TextEditingController textController2;
   String instruction = "";
   String comments = "";
-  Map dates= {};
-  Map katilanlar={};
+  Map dates = {};
+  Map katilanlar = {};
   Future<void> setBilgiler() async {
-    katilanlar=await DataBaseConnection.getParticipantMap(widget.eventID);
+    katilanlar = await DataBaseConnection.getParticipantMap(widget.eventID);
     String uid = await _auth.getUseruid();
     print(uid);
     userName = await DataBaseConnection.getUserDisplayName(uid);
-    dates = await DataBaseConnection.getChoices(userName,widget.eventID);
+    dates = await DataBaseConnection.getChoices(userName, widget.eventID);
     instruction = await DataBaseConnection.getEventDiscription(widget.eventID);
     comments = await DataBaseConnection.getComments(widget.eventID);
     setState(() {});
@@ -50,8 +49,8 @@ class _OyOncesiState extends State<OyOncesi> {
     textController2.dispose();
     super.dispose();
   }
-  PageController x=new PageController();
 
+  PageController x = new PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -63,51 +62,54 @@ class _OyOncesiState extends State<OyOncesi> {
           children: [
             ListView(
               children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xff30374b),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.all(11),
-                    //height: MediaQuery.of(context).size.width / 7.5,
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-
-                          "     ${widget.eventName}",
-                          style: TextStyle(
-                            fontSize: widget.eventName.length>10?15:20,
-                            color: Colors.white,
-                          ),
-                        ),
-                        RawMaterialButton(
-                            child: Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text("Oylamaya Git",style: TextStyle(color: Colors.white),),
-                                  Icon(Icons.arrow_right_outlined,color: Colors.white),
-                                ],
-                              ),
-                            ),
-                            onPressed: (){
-                              x.nextPage(duration: Duration(milliseconds: 500), curve:Curves.easeOut);
-                            }
-                        ),
-                      ],
-                    ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xff30374b),
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
                   ),
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.all(11),
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "     ${widget.eventName}",
+                        style: TextStyle(
+                          fontSize: widget.eventName.length > 10 ? 15 : 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                      RawMaterialButton(
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "Oylamaya Git",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                Icon(Icons.arrow_right_outlined,
+                                    color: Colors.white),
+                              ],
+                            ),
+                          ),
+                          onPressed: () {
+                            x.nextPage(
+                                duration: Duration(milliseconds: 500),
+                                curve: Curves.easeOut);
+                          }),
+                    ],
+                  ),
+                ),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
@@ -123,7 +125,6 @@ class _OyOncesiState extends State<OyOncesi> {
                   ),
                   margin: EdgeInsets.all(10),
                   width: double.infinity,
-                  //height: MediaQuery.of(context).size.height / 1.25,
                   padding: EdgeInsets.symmetric(vertical: 4),
                   child: Column(
                     children: [
@@ -139,11 +140,13 @@ class _OyOncesiState extends State<OyOncesi> {
                         child: Column(
                           children: [
                             Container(
-                              child: Text("Açıklama",style: TextStyle(color: Colors.white)),
-                              padding: EdgeInsets.fromLTRB(24, 0, 24, 8),
-
-                              decoration: BoxDecoration(color: Color(0xff30374b),borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)))
-                            ),
+                                child: Text("Açıklama",
+                                    style: TextStyle(color: Colors.white)),
+                                padding: EdgeInsets.fromLTRB(24, 0, 24, 8),
+                                decoration: BoxDecoration(
+                                    color: Color(0xff30374b),
+                                    borderRadius: BorderRadius.vertical(
+                                        bottom: Radius.circular(12)))),
                             Text(
                               "$instruction",
                               style: TextStyle(
@@ -161,26 +164,34 @@ class _OyOncesiState extends State<OyOncesi> {
                         ),
                         margin: EdgeInsets.all(10),
                         width: double.infinity,
+                        height: MediaQuery.of(context).size.height / 2.5,
                         child: Column(
-                          children: [ Container(
-                              child: Text("Yorumlar",style: TextStyle(color: Colors.white),),
-                              padding: EdgeInsets.fromLTRB(32, 0, 32, 8),
-
-                              decoration: BoxDecoration(color: Color(0xff30374b),borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)))
-                          ),
+                          children: [
                             Container(
-                              padding: EdgeInsets.fromLTRB(0, 4, 4, 152),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14),
-                                color: Colors.white,
-                              ),
-                              margin: EdgeInsets.all(0),
-                              width: double.infinity,
-                              child: SingleChildScrollView(
                                 child: Text(
-                                  "$comments",
-                                  style: TextStyle(
-                                    fontSize: 16,
+                                  "Yorumlar",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                padding: EdgeInsets.fromLTRB(32, 0, 32, 8),
+                                decoration: BoxDecoration(
+                                    color: Color(0xff30374b),
+                                    borderRadius: BorderRadius.vertical(
+                                        bottom: Radius.circular(12)))),
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(0, 4, 4, 8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(14),
+                                  color: Colors.white,
+                                ),
+                                margin: EdgeInsets.all(0),
+                                width: double.infinity,
+                                child: SingleChildScrollView(
+                                  child: Text(
+                                    "$comments",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -214,7 +225,11 @@ class _OyOncesiState extends State<OyOncesi> {
                 ),
               ],
             ),
-            MultiplicationTable(eventId: widget.eventID,dates: dates,katilanlar: katilanlar,)
+            MultiplicationTable(
+              eventId: widget.eventID,
+              dates: dates,
+              katilanlar: katilanlar,
+            )
           ],
         ),
       ),
