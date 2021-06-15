@@ -6,6 +6,7 @@ import 'package:flutter_first_app/screens/eventOlusturma/calendar/planlama.dart'
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_first_app/services/auth.dart';
 import 'oyOncesi.dart';
+import 'user.dart';
 import 'package:flutter_first_app/screens/apbar/apbar.dart';
 
 class TarihKart extends StatefulWidget {
@@ -19,7 +20,7 @@ class _TarihKartState extends State<TarihKart> {
   List<String> eventNames = [];
   int sayi = 0;
   final AuthService _auth = AuthService();
-  String userName = "";
+  static String userName = "";
   static String temp = "";
   Future<void> setBilgiler() async {
     String uid = await _auth.getUseruid();
@@ -31,8 +32,8 @@ class _TarihKartState extends State<TarihKart> {
     sayi = await DataBaseConnection.eventLength(userName);
     titles = await DataBaseConnection.getEventTitles(eventNames);
     print(this.mounted);
-    
     olustur = listeYapici(sayi, titles, eventNames, context);
+    
      
     
   }
@@ -73,7 +74,7 @@ class _TarihKartState extends State<TarihKart> {
                 crossAxisCount: 2,
                 childAspectRatio: 0.75,
                 children: olustur,
-              ),
+              ), 
             );}
           },
         ),
@@ -100,37 +101,43 @@ class _TarihKartState extends State<TarihKart> {
 
 List<Widget> listeYapici(
     int sayi, List<String> deneme, List<String> eventID, BuildContext context) {
-  bool tek = false;
+  
   List<Widget> liste = [];
   //faik event sayisi
   for (int i = 0; i < sayi; i++) {
-    
+    Events event=new Events(eventID:eventID.elementAt(i),eventName: deneme.elementAt(i));
     Widget a = GestureDetector(
+      
       onTap: () {
-        tek = !tek;
-      },
-      onDoubleTap: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return RestartWidget(
-                child: OyOncesi(eventName: deneme[i], eventID: eventID[i]));
+            return OyOncesi(event:event);
           },
         ) 
 
             );
       },
-      child: Container(
-        alignment: Alignment.center,
-        margin: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(7.31),
-          color: Color(0xff30374b),
-        ),
+      child: Card(
+        
+        color: Colors.transparent,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        elevation: 8,
+        
+        margin: EdgeInsets.all(4),
+        clipBehavior: Clip.antiAlias,
         child: Container(
-            child: Text(
+          padding: EdgeInsets.symmetric(vertical:12),
+          alignment: Alignment.center,
+          margin: EdgeInsets.only(bottom:4),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Color(0xff30374b),
+          ),
+          child: Text(
           deneme[i],
           style: TextStyle(fontSize: 30, color: Colors.white),
-        )),
+        ),
+        ),
       ),
     );
     liste.add(a);

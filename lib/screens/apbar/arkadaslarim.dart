@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/models/user.dart';
+import 'package:provider/provider.dart';
 
 class Arkadaslarim extends StatelessWidget{
   final PageController kontrol;
-  final int friLength;
-  final List<String> friList;
-  Arkadaslarim({this.kontrol,this.friLength,this.friList});
+  
+  Arkadaslarim({this.kontrol});
 
   @override
   Widget build(BuildContext context) {
+    
+    final user = Provider.of<User>(context);
     return Container(
       margin: EdgeInsets.all(16),
       child: SingleChildScrollView(
@@ -29,7 +32,7 @@ class Arkadaslarim extends StatelessWidget{
             ),
             
             Column(
-              children:friLength==0?[Container(
+              children:user.friends.length==0?[Container(
                 padding: EdgeInsets.all(9),
                 margin: EdgeInsets.all(7),
                 decoration: ShapeDecoration(color:Color(0xff30374b).withAlpha(240),
@@ -47,7 +50,7 @@ class Arkadaslarim extends StatelessWidget{
 
                 child: Text("Arkadaşlarım",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
 
-              )]+ List.generate(friLength, (index){
+              )]+ List.generate(user.friends.length, (index){
                 return Container(
                   padding: EdgeInsets.fromLTRB(8,24,16,20),
                   alignment: Alignment.centerLeft,
@@ -56,7 +59,7 @@ class Arkadaslarim extends StatelessWidget{
                   ),
                   width: 400,
                   margin: EdgeInsets.all(8),
-                  child: Text("@${friList.elementAt(index)}",style: TextStyle(color: Colors.white,fontSize:14,fontWeight:FontWeight.bold),),
+                  child: Text("@${user.friends.elementAt(index)}",style: TextStyle(color: Colors.white,fontSize:14,fontWeight:FontWeight.bold),),
                 );
               }),
             ),

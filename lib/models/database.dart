@@ -139,17 +139,16 @@ class DataBaseConnection {
     }
   }
 
-  static Future<Map> getChoices(String userName, String eventId) async {
+  static Future<Map> getChoices(String eventId) async {
     DataSnapshot b;
     DataSnapshot c;
     String tempDate = "";
     Map dates = {};
     dates.clear();
     b = await ref.child("Events").child(eventId).child("secenekler").once();
-    print(b.value);
+    
     dates = b.value;
-    print("dates");
-    print(dates);
+    
     return dates;
   }
 

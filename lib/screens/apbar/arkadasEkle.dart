@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/models/database.dart';
+import 'package:flutter_first_app/models/user.dart';
 import 'package:flutter_first_app/screens/apbar/arkadasArama.dart';
 import 'package:flutter_first_app/screens/apbar/arkadasIstekleri.dart';
 import 'package:flutter_first_app/screens/apbar/arkadaslarim.dart';
 import 'package:flutter_first_app/services/auth.dart';
+import 'package:provider/provider.dart';
 import './apbar.dart';
 
 
@@ -16,6 +18,7 @@ class ArkadasEkle extends StatefulWidget {
 }
 
 class Ekle extends State<ArkadasEkle> {
+  
   int reqLength=0;
   List<String> reqList = [];
   int friLength=0;
@@ -31,10 +34,6 @@ class Ekle extends State<ArkadasEkle> {
     if(reqList!=null){
       reqLength=reqList.length;
     }
-    friList=await DataBaseConnection.returnFriends(userName);
-    if(friList!=null){
-      friLength=friList.length;
-    }
     
     print(reqList);
     
@@ -48,8 +47,8 @@ class Ekle extends State<ArkadasEkle> {
   
   @override
   void initState(){
+     
     
-    setBilgiler();
     super.initState();
     
   }
@@ -60,7 +59,7 @@ class Ekle extends State<ArkadasEkle> {
   Widget build(BuildContext context) {
     
     print(reqList);
-    
+    bool a=true;
     return Scaffold(
       appBar: Apbar(context: context,widget: widget).x(),
       
@@ -68,11 +67,11 @@ class Ekle extends State<ArkadasEkle> {
         onNotification: (notific){
 
           print(notific.overscroll);
-          if(notific.overscroll<0){
-            
+          if(notific.overscroll<0 && a){
+            a=!a;
             //sayfa yenileme
 
-            setBilgiler();
+            
             setState(() {
               
             });
@@ -96,7 +95,7 @@ class Ekle extends State<ArkadasEkle> {
               //Arkadaş istkleri
               ArkadasIstekleri(kontrol: kontrol,reqLength: reqLength,reqList: reqList,userName: userName,),
               //Arkadaşlarım 
-              Arkadaslarim(kontrol: kontrol,friLength: friLength,friList: friList,),
+              Arkadaslarim(kontrol: kontrol),
               
             ],
           );}

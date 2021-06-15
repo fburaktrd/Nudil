@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/main.dart';
 import 'package:flutter_first_app/models/database.dart';
+import 'package:flutter_first_app/models/user.dart';
+import 'package:provider/provider.dart';
 
 class ArkadasIstekleri extends StatelessWidget{
 
@@ -11,6 +13,7 @@ class ArkadasIstekleri extends StatelessWidget{
   ArkadasIstekleri({this.kontrol,this.reqLength,this.reqList,this.userName});
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return Container(
       margin: EdgeInsets.all(16),
       child: SingleChildScrollView(

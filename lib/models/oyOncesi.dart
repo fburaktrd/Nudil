@@ -6,11 +6,13 @@ import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/screens/apbar/apbar.dart';
 import 'package:flutter_first_app/screens/vote/multiplication_table.dart';
 import 'package:flutter_first_app/services/auth.dart';
+import 'user.dart';
 
 class OyOncesi extends StatefulWidget {
-  final String eventName;
-  final String eventID;
-  OyOncesi({this.eventName, this.eventID});
+ 
+  String eventID;
+  final Events event;
+  OyOncesi({this.eventID,this.event});
 
   @override
   _OyOncesiState createState() => _OyOncesiState();
@@ -25,14 +27,14 @@ class _OyOncesiState extends State<OyOncesi> {
   String comments = "";
   Map dates = {};
   Map katilanlar = {};
-  Future<void> setBilgiler() async {
-    katilanlar = await DataBaseConnection.getParticipantMap(widget.eventID);
-    String uid = await _auth.getUseruid();
-    print(uid);
-    userName = await DataBaseConnection.getUserDisplayName(uid);
-    dates = await DataBaseConnection.getChoices(userName, widget.eventID);
-    instruction = await DataBaseConnection.getEventDiscription(widget.eventID);
-    comments = await DataBaseConnection.getComments(widget.eventID);
+  setBilgiler() {
+    katilanlar = widget.event.katilan;
+    
+    userName = widget.event.userName;
+    
+    dates = widget.event.tarihler;
+    instruction = widget.event.aciklama;
+    comments = widget.event.yorumlar;
     
   }
 
@@ -57,9 +59,8 @@ class _OyOncesiState extends State<OyOncesi> {
     return Scaffold(
       appBar: Apbar(context: context, widget: widget).x(),
       body: SafeArea(
-        child: FutureBuilder(
-          future: setBilgiler(),
-          builder:(c,s){return PageView(
+        child: 
+          PageView(
             controller: x,
             children: [
               ListView(
@@ -83,10 +84,11 @@ class _OyOncesiState extends State<OyOncesi> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        
                         Text(
-                          "     ${widget.eventName}",
+                          "         ${widget.event.eventName}",
                           style: TextStyle(
-                            fontSize: widget.eventName.length > 10 ? 15 : 20,
+                            fontSize: 20,
                             color: Colors.white,
                           ),
                         ),
@@ -228,15 +230,13 @@ class _OyOncesiState extends State<OyOncesi> {
                 ],
               ),
               MultiplicationTable(
-                eventId: widget.eventID,
-                dates: dates,
-                katilanlar: katilanlar,
                 user: userName,
-              )
+                event:widget.event
+              ) 
             ],
          
-        );
-        }
+        
+        
       )
       )
     );

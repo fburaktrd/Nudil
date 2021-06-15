@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/models/database.dart';
+import 'package:flutter_first_app/models/user.dart';
 import 'package:flutter_first_app/screens/vote/table_body.dart';
 import 'package:flutter_first_app/screens/vote/table_head.dart';
 import 'package:flutter_first_app/screens/vote/voters.dart';
@@ -10,10 +11,9 @@ import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 
 class MultiplicationTable extends StatefulWidget {
   final String  user;
-  final String eventId;
-  final Map dates;
-  final Map katilanlar;
-  MultiplicationTable({this.eventId,this.dates,this.katilanlar,this.user});
+  
+  final Events event;
+  MultiplicationTable({this.user,this.event});
   @override
   _MultiplicationTableState createState() => _MultiplicationTableState();
 }
@@ -31,23 +31,23 @@ class _MultiplicationTableState extends State<MultiplicationTable> {
   bilgiler(){
     
 
-    for(String key in widget.dates.keys){
+    for(String key in widget.event.tarihler.keys){
       
-      tarihler.insert(0,widget.dates[key]["tarih"]+" "+widget.dates[key]["baslangic"]+"-"+widget.dates[key]["bitis"]);
+      tarihler.insert(0,widget.event.tarihler[key]["tarih"]+" "+widget.event.tarihler[key]["baslangic"]+"-"+widget.event.tarihler[key]["bitis"]);
       print(tarihler);
     }
-    var ben =new Voters(widget.user, widget.katilanlar[widget.user]);
+    var ben =new Voters(widget.user, widget.event.katilan[widget.user]);
     kisiler.add(ben);
-    for(String eleman in widget.katilanlar.keys){
+    for(String eleman in widget.event.katilan.keys){
       if(eleman == widget.user){
         continue;
       }
-      var kisi = new Voters(eleman,widget.katilanlar[eleman]);
+      var kisi = new Voters(eleman,widget.event.katilan[eleman]);
       print("welrtyujkışo");
      
       kisiler.add(kisi);
     }
-    
+    print(kisiler.first.name);
   }
 
   //
@@ -98,7 +98,7 @@ class _MultiplicationTableState extends State<MultiplicationTable> {
                       color: Colors.white),
                 ),
                 onPressed: () {
-                  DataBaseConnection.setChoices(kisiler.elementAt(0).tarihler, widget.eventId, widget.user);
+                  DataBaseConnection.setChoices(kisiler.elementAt(0).tarihler, widget.event.eventID, widget.event.userName);
                   Navigator.pop(context);
                 },
               ),
