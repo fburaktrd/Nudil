@@ -1,16 +1,20 @@
-import 'database.dart';
+import 'package:flutter_first_app/models/database.dart';
 
 class User {
   final String uid;
   String displayName;
   List<String> friends;
+  List<String> requests;
+
   User({this.uid}) {
-    initiliaze(uid);
+    initialize(uid);
+    
   }
 
-  initiliaze(String uid) async {
+  initialize(String uid) async {
     await getDisplayNameFromFirebase(uid);
     await getFriends(displayName);
+    await getRequestList(displayName);
   }
 
   getDisplayNameFromFirebase(String uid) async {
@@ -19,43 +23,15 @@ class User {
 
   getFriends(String displayName) async {
     friends = await DataBaseConnection.returnFriends(displayName);
-    print(friends);
-  }
-}
-
-class Events {
-  final String userName;
-  final String eventID;
-  final String eventName;
-  String aciklama;
-  String yorumlar;
-  Map katilan;
-  Map tarihler;
-  Events({this.eventID, this.userName, this.eventName}) {
-    basla();
-    print("evet");
-  }
-  basla() async {
-    await setTarih();
-    await setParticipants();
-    await setAciklama();
-    await setYorumlar();
-    print(katilan);
+    // print(friends);
   }
 
-  setTarih() async {
-    this.tarihler = await DataBaseConnection.getChoices(eventID);
+  getRequestList(String displayName) async {
+    requests = await DataBaseConnection.returnRequests(displayName);
   }
 
-  setParticipants() async {
-    this.katilan = await DataBaseConnection.getParticipantMap(eventID);
-  }
-
-  setAciklama() async {
-    this.aciklama = await DataBaseConnection.getEventDiscription(eventID);
-  }
-
-  setYorumlar() async {
-    this.yorumlar = await DataBaseConnection.getComments(eventID);
+  Future<List<String>> returnReqList(String displayName) async {
+    requests = await DataBaseConnection.returnRequests(displayName);
+    return requests;
   }
 }

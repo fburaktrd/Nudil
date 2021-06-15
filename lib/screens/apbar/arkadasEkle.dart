@@ -8,101 +8,91 @@ import 'package:flutter_first_app/services/auth.dart';
 import 'package:provider/provider.dart';
 import './apbar.dart';
 
-
-
 class ArkadasEkle extends StatefulWidget {
-  Key key=new Key("asd");
- 
+  Key key = new Key("asd");
+
   @override
   Ekle createState() => Ekle();
 }
 
 class Ekle extends State<ArkadasEkle> {
-  
-  int reqLength=0;
+  int reqLength = 0;
   List<String> reqList = [];
-  int friLength=0;
+  int friLength = 0;
   List<String> friList = [];
-  String userName="";
-  final AuthService _auth = AuthService();
-  Future<void> setBilgiler()async{
-    String uid =await _auth.getUseruid();
-    print(uid);
-    userName=await DataBaseConnection.getUserDisplayName(uid);
-
-    reqList=await DataBaseConnection.returnRequests(userName);
-    if(reqList!=null){
-      reqLength=reqList.length;
+  String userName = "";
+  Future<void> setBilgiler(User user) async {
+    userName = user.displayName;
+    reqList = await user.returnReqList(user.displayName);
+    if (reqList != null) {
+      reqLength = reqList.length;
     }
-    
+
     print(reqList);
-    
-    
   }
 
-
-
-  PageController kontrol=new PageController(initialPage: 1,viewportFraction: .99);
+  PageController kontrol =
+      new PageController(initialPage: 1, viewportFraction: .99);
   String aranacakKisi = "";
-  
+
   @override
-  void initState(){
-     
-    
+  void initState() {
     super.initState();
-    
   }
-  
- 
-  
+
   @override
   Widget build(BuildContext context) {
-    
+    final user = Provider.of<User>(context);
     print(reqList);
-    bool a=true;
+    bool a = true;
     return Scaffold(
-      appBar: Apbar(context: context,widget: widget).x(),
-      
+      appBar: Apbar(context: context, widget: widget).x(),
       body: NotificationListener<OverscrollNotification>(
-        onNotification: (notific){
-
+        onNotification: (notific) {
           print(notific.overscroll);
-          if(notific.overscroll<0 && a){
-            a=!a;
+          if (notific.overscroll < 0 && a) {
+            a = !a;
             //sayfa yenileme
 
-            
-            setState(() {
-              
-            });
+            setState(() {});
           }
-          
+
           return true;
         },
         child: FutureBuilder(
-          future: setBilgiler(),
-          builder:(context,snapShot) {
+          future: setBilgiler(user),
+          builder: (context, snapShot) {
             print(snapShot.connectionState);
-            if(snapShot.connectionState==ConnectionState.waiting){
-              
-              return Center(child: CircularProgressIndicator(strokeWidth: 2,backgroundColor: Colors.amber,));
+            if (snapShot.connectionState == ConnectionState.waiting) {
+              return Center(
+                  child: CircularProgressIndicator(
+                strokeWidth: 2,
+                backgroundColor: Colors.amber,
+              ));
+            } else {
+              return PageView(
+                controller: kontrol,
+                children: [
+                  //Arkadaş arama
+                  ArkadasArama(
+                    kontrol: kontrol,
+                    userName: userName,
+                  ),
+                  //Arkadaş istkleri
+                  ArkadasIstekleri(
+                    kontrol: kontrol,
+                    reqLength: reqLength,
+                    reqList: reqList,
+                    userName: userName,
+                  ),
+                  //Arkadaşlarım
+                  Arkadaslarim(kontrol: kontrol),
+                ],
+              );
             }
-            else{return PageView(
-            controller: kontrol,
-            children: [
-              //Arkadaş arama
-              ArkadasArama(kontrol: kontrol,userName: userName,),
-              //Arkadaş istkleri
-              ArkadasIstekleri(kontrol: kontrol,reqLength: reqLength,reqList: reqList,userName: userName,),
-              //Arkadaşlarım 
-              Arkadaslarim(kontrol: kontrol),
-              
-            ],
-          );}
           },
         ),
       ),
-      
     );
   }
 }

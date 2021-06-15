@@ -85,7 +85,7 @@ class ArkadasArama extends StatelessWidget{
 
                   }
                   else {
-                    bool b =await  DataBaseConnection.getFriend(userName, aranacakKisi);
+                    bool b = await  DataBaseConnection.getFriend(userName, aranacakKisi);
                     if (b) {
                       bool x;
                       x = await showDialog(

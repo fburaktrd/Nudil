@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/models/tarihkart.dart';
+import 'package:flutter_first_app/models/user.dart';
 import 'package:flutter_first_app/screens/apbar/apbar.dart';
 import 'package:flutter_first_app/screens/eventOlusturma/calendar/saatState.dart';
 import 'package:flutter_first_app/screens/eventOlusturma/friendList/arkadasListe.dart';
@@ -13,7 +14,6 @@ import 'package:provider/provider.dart';
 import './calendar.dart';
 
 class Planlama extends StatefulWidget {
-
   @override
   _PlanlamaState createState() => _PlanlamaState();
 }
@@ -24,24 +24,12 @@ class _PlanlamaState extends State<Planlama> {
   TextEditingController aciklama;
   FocusNode _focusNode;
   int maxLine = 1;
-  String userName="";
-  Future<void> setUserName()async{
-    String uid =await _auth.getUseruid();
-    print(uid);
-    userName=await DataBaseConnection.getUserDisplayName(uid);
-    print("yazıyorum");
-    print(userName);
-    setState(() {
 
-    });
-  }
   @override
-
   void initState() {
-
     super.initState();
     //findUser();
-    setUserName();
+
     baslik = TextEditingController();
     aciklama = TextEditingController();
     _focusNode = FocusNode();
@@ -63,16 +51,18 @@ class _PlanlamaState extends State<Planlama> {
     _focusNode.dispose();
     super.dispose();
   }
-  Map tarihler=new Map();
-  List<String> arkadaslar=[];
-  String title="";
-  String instruction="";
-  int tarihLength=0;
-  int arkLength=0;
+
+  Map tarihler = new Map();
+  List<String> arkadaslar = [];
+  String title = "";
+  String instruction = "";
+  int tarihLength = 0;
+  int arkLength = 0;
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return Scaffold(
-      appBar: Apbar(context: context,widget: widget).x(),
+      appBar: Apbar(context: context, widget: widget).x(),
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -108,7 +98,8 @@ class _PlanlamaState extends State<Planlama> {
                           fontWeight: FontWeight.bold)),
                   onPressed: () {
                     //print(tarihler);
-                    DataBaseConnection.createEvent(userName, tarihler, arkadaslar,title,instruction);
+                    DataBaseConnection.createEvent(user.displayName, tarihler,
+                        arkadaslar, title, instruction);
                     Navigator.pop(context);
                   } //calendar(),
                   ),
@@ -133,10 +124,9 @@ class _PlanlamaState extends State<Planlama> {
               child: TextField(
                 controller: baslik,
                 onSubmitted: (String s) {
-
                   //title
 
-                  title=s;
+                  title = s;
                   debugPrint("on submit:$s");
                 },
                 decoration: InputDecoration(
@@ -154,13 +144,12 @@ class _PlanlamaState extends State<Planlama> {
             onPressed: () async {
               tarihler = await Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Calendar()));
-              try{
-                tarihLength=tarihler.keys.length;
-              }catch(e){
-                tarihLength=0;
-              }   
+              try {
+                tarihLength = tarihler.keys.length;
+              } catch (e) {
+                tarihLength = 0;
+              }
               setState(() {});
-              print(tarihler);
             },
             child: Container(
               margin: EdgeInsets.fromLTRB(.5, 5, .5, 10),
@@ -239,7 +228,8 @@ class _PlanlamaState extends State<Planlama> {
                                   //height: 109,
                                   color: Colors.transparent,
                                   alignment: Alignment.center,
-                                  child: Text(tarihler[(index+1)*10]["tarih"]),
+                                  child:
+                                      Text(tarihler[(index + 1) * 10]["tarih"]),
                                 )),
                                 Expanded(
                                     child: Container(
@@ -249,8 +239,12 @@ class _PlanlamaState extends State<Planlama> {
                                   //height: 109,
                                   child: Text(
                                     //saat eklenmediği zaman başlangıç ve bitiş değeri 0 dönüyor
-                                    tarihler[(index+1)*10]["baslangic"]==""?"":"Başlangic: "+tarihler[(index+1)*10]["baslangic"],
-                                   
+                                    tarihler[(index + 1) * 10]["baslangic"] ==
+                                            ""
+                                        ? ""
+                                        : "Başlangic: " +
+                                            tarihler[(index + 1) * 10]
+                                                ["baslangic"],
                                   ),
                                 )),
                                 Expanded(
@@ -260,7 +254,10 @@ class _PlanlamaState extends State<Planlama> {
                                   //width: 100,
                                   //height: 109,
                                   child: Text(
-                                    tarihler[(index+1)*10]["bitis"]==""?"":"Bitis: "+tarihler[(index+1)*10]["bitis"],
+                                    tarihler[(index + 1) * 10]["bitis"] == ""
+                                        ? ""
+                                        : "Bitis: " +
+                                            tarihler[(index + 1) * 10]["bitis"],
                                   ),
                                 )),
                               ],
@@ -273,18 +270,16 @@ class _PlanlamaState extends State<Planlama> {
           RawMaterialButton(
             splashColor: Colors.blueGrey,
             onPressed: () async {
-              //Seçilen arkadaşlar 
-              arkadaslar= await Navigator.push(context,MaterialPageRoute(builder: (context) => ArkadasListe()));
-              try{
-                arkLength=arkadaslar.length;
-              }catch(e){
-                arkLength=0;
+              //Seçilen arkadaşlar
+              arkadaslar = await Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ArkadasListe()));
+              try {
+                arkLength = arkadaslar.length;
+              } catch (e) {
+                arkLength = 0;
               }
-              setState(() {
-                
-              });
+              setState(() {});
             },
-
             child: Container(
               margin: EdgeInsets.fromLTRB(.5, 5, .5, 5),
               width: double.infinity,
@@ -397,10 +392,9 @@ class _PlanlamaState extends State<Planlama> {
                 maxLines: maxLine,
                 focusNode: _focusNode,
                 onSubmitted: (String s) {
-
                   //instruction
 
-                  instruction=s;
+                  instruction = s;
                   debugPrint("on submit:$s");
                 },
                 decoration: InputDecoration(

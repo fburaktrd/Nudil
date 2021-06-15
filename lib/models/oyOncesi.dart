@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/main.dart';
 import 'package:flutter_first_app/models/database.dart';
+import 'package:flutter_first_app/models/events.dart';
 import 'package:flutter_first_app/screens/apbar/apbar.dart';
 import 'package:flutter_first_app/screens/vote/multiplication_table.dart';
 import 'package:flutter_first_app/services/auth.dart';
@@ -228,7 +229,7 @@ class _OyOncesiState extends State<OyOncesi> {
                 ),
               ],
             ),
-            MultiplicationTable(user: user.displayName, event: widget.event)
+            MultiplicationTable(user: widget.event.userName, event: widget.event)
           ],
         )));
   }

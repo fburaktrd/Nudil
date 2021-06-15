@@ -54,7 +54,7 @@ class ArkadasIstekleri extends StatelessWidget{
             ),
             
             Column(
-              children:reqLength==0?[Container(
+              children:user.requests.length==0?[Container(
                 padding: EdgeInsets.all(9),
                 margin: EdgeInsets.all(7),
                 decoration: ShapeDecoration(color:Color(0xff30374b).withAlpha(240),
@@ -74,7 +74,7 @@ class ArkadasIstekleri extends StatelessWidget{
 
               )]+
 
-              List.generate(reqLength, (index){
+              List.generate(user.requests.length, (index){
                 return Container(
                   padding: EdgeInsets.fromLTRB(8,20,16,20),
                   alignment: Alignment.centerLeft,
@@ -89,12 +89,13 @@ class ArkadasIstekleri extends StatelessWidget{
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("@${reqList.elementAt(index)}",style: TextStyle(color: Colors.white,fontWeight:FontWeight.bold,fontSize:17),),
+                      Text("@${user.requests.elementAt(index)}",style: TextStyle(color: Colors.white,fontWeight:FontWeight.bold,fontSize:17),),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(icon:Icon(Icons.clear,color: Colors.white,),onPressed: (){
                             //reddet
+                            DataBaseConnection.dontAddFriend(userName, reqList.elementAt(index));
                             //sayfa yenileme
                             RestartWidget.restartApp(context);
                             

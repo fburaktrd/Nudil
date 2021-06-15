@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/models/database.dart';
+import 'package:flutter_first_app/models/events.dart';
 import 'package:flutter_first_app/models/user.dart';
 import 'package:flutter_first_app/screens/vote/table_body.dart';
 import 'package:flutter_first_app/screens/vote/table_head.dart';
@@ -36,7 +37,7 @@ class _MultiplicationTableState extends State<MultiplicationTable> {
               widget.event.tarihler[key]["baslangic"] +
               "-" +
               widget.event.tarihler[key]["bitis"]);
-      print(tarihler);
+      
     }
 
     var ben = new Voters(widget.user, widget.event.katilan[widget.user]);
@@ -48,8 +49,7 @@ class _MultiplicationTableState extends State<MultiplicationTable> {
         continue;
       }
       var kisi = new Voters(eleman, widget.event.katilan[eleman]);
-      print("Eleman ->");
-      print(eleman);
+      
       kisiler.add(kisi);
     }
   }

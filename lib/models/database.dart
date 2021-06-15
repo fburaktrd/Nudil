@@ -7,9 +7,6 @@ class DataBaseConnection {
   static final ref = FirebaseDatabase.instance.reference();
   static List<String> eventList = [];
   static List<String> eventTitle = [];
-  
-  static List<String> requestList = [];
-  
 
   static void setComments(String displayName, String eventId, String comment) {
     var now = new DateTime.now();
@@ -19,23 +16,23 @@ class DataBaseConnection {
         .child("Comments")
         .child(eventId)
         .child(currentTime.toString())
-        .set(formattedTime+ " > "+ displayName + ":" + comment);
+        .set(formattedTime + " > " + displayName + ":" + comment);
   }
 
   static Future<String> getComments(String eventId) async {
     List<String> keys = [];
     String eventComment = "";
-    DataSnapshot b;
-    b = await ref.child("Comments").child(eventId).once();
-    if (b.value != null) {
+    DataSnapshot snap;
+    snap = await ref.child("Comments").child(eventId).once();
+    if (snap.value != null) {
       eventComment = "";
 
-      for (String eleman in b.value.keys) {
+      for (String eleman in snap.value.keys) {
         keys.add(eleman);
       }
       keys.sort((String a, String b) => a.compareTo(b));
       for (String eleman in keys) {
-        eventComment += b.value[eleman];
+        eventComment += snap.value[eleman];
         eventComment += "\n";
       }
 
@@ -47,27 +44,27 @@ class DataBaseConnection {
   }
 
   static Future<bool> findUser(String userName) async {
-    DataSnapshot b;
-    b = await ref.child("Users").child(userName).once();
-    if (b.value == null) {
+    DataSnapshot snap;
+    snap = await ref.child("Users").child(userName).once();
+    if (snap.value == null) {
       return true;
     } else
       return false;
   }
 
   static Future<bool> getFriend(String displayName, String friendName) async {
-    DataSnapshot b;
-    b = await ref.child("Social").child(displayName).child("friend").once();
-    if (b.value != null){
-      for (String eleman in b.value.keys) {
+    DataSnapshot snap;
+    snap = await ref.child("Social").child(displayName).child("friend").once();
+    if (snap.value != null) {
+      for (String eleman in snap.value.keys) {
         if (eleman == friendName) {
           return false;
         } else
           return true;
-      }}
-      else{
-        return true;
-        }
+      }
+    } else {
+      return true;
+    }
   }
 
   static Future<List<String>> returnFriends(String userName) async {
@@ -87,6 +84,7 @@ class DataBaseConnection {
   }
 
   static Future<List<String>> returnRequests(String userName) async {
+    List<String> requestList = [];
     DataSnapshot snap;
     requestList.clear();
     try {
@@ -96,15 +94,15 @@ class DataBaseConnection {
       }
       return requestList.toSet().toList();
     } catch (e) {
-      print("buradan "+e.toString()+" buraya");
+      print("buradan " + e.toString() + " buraya");
       return requestList;
     }
   }
 
   static Future<String> getEventDiscription(String eventId) async {
-    DataSnapshot b;
-    b = await ref.child("Events").child(eventId).child("instruction").once();
-    return b.value;
+    DataSnapshot snap;
+    snap = await ref.child("Events").child(eventId).child("instruction").once();
+    return snap.value;
   }
 
   static void setUser(String uid, String email, String displayName) {
@@ -126,12 +124,18 @@ class DataBaseConnection {
     }
   }
 
+  static Future<bool> getEventStatus(String eventID) async {
+    DataSnapshot snap;
+    snap = await ref.child("Events").child(eventID).once();
+    return snap.value["isOpen"];
+  }
+
   static Future<List<String>> getEventNames(String userName) async {
-    DataSnapshot b;
+    DataSnapshot snap;
     eventList.clear();
-    b = await ref.child("MyEvents").child(userName).once();
-    if (b.value != null) {
-      for (String eleman in b.value.keys) {
+    snap = await ref.child("MyEvents").child(userName).once();
+    if (snap.value != null) {
+      for (String eleman in snap.value.keys) {
         eventList.add(eleman);
       }
       return eventList;
@@ -141,37 +145,36 @@ class DataBaseConnection {
   }
 
   static Future<Map> getChoices(String eventId) async {
-    DataSnapshot b;
-    DataSnapshot c;
-    String tempDate = "";
+    DataSnapshot snap;
     Map dates = {};
     dates.clear();
-    b = await ref.child("Events").child(eventId).child("secenekler").once();
-    
-    dates = b.value;
-    
+    snap = await ref.child("Events").child(eventId).child("secenekler").once();
+
+    dates = snap.value;
+
     return dates;
   }
 
   static Future<Map> getParticipantMap(String eventId) async {
-    DataSnapshot b;
-    b = await ref.child("ParticipantOfEvent").child(eventId).once();
-    return b.value;
+    DataSnapshot snap;
+    snap = await ref.child("ParticipantOfEvent").child(eventId).once();
+    return snap.value;
   }
 
   static Future<List<String>> getParticipantChoices(String userName) async {
     List<String> choices = [];
     choices.clear();
-    DataSnapshot b;
-    b = await ref.child("ParticipantOfEvent").child(userName).once();
-    if (b.value != null) {
-      for (String eleman in b.value.keys) {
+    DataSnapshot snap;
+    snap = await ref.child("ParticipantOfEvent").child(userName).once();
+    if (snap.value != null) {
+      for (String eleman in snap.value.keys) {
         choices.add(eleman);
       }
       return choices;
     } else
       return choices;
   }
+
   static Future<List<String>> getEmails() async {
     DataSnapshot snap;
     List<String> emails = [];
@@ -181,18 +184,19 @@ class DataBaseConnection {
     }
     return emails;
   }
+
   static Future<void> setChoices(
       Map choices, String eventId, String userName) async {
     ref.child("ParticipantOfEvent").child(eventId).child(userName).set(choices);
   }
 
   static Future<List<String>> getEventTitles(List<String> events) async {
-    DataSnapshot b;
+    DataSnapshot snap;
     eventTitle.clear();
     try {
       for (String eleman in events) {
-        b = await ref.child("Events").child(eleman).child("title").once();
-        eventTitle.add(b.value);
+        snap = await ref.child("Events").child(eleman).child("title").once();
+        eventTitle.add(snap.value);
       }
       return eventTitle.toSet().toList();
     } catch (e) {
@@ -202,15 +206,15 @@ class DataBaseConnection {
   }
 
   static Future<DataSnapshot> getUser(String userName) async {
-    DataSnapshot b;
-    b = await ref.child("Users").child(userName).once();
-    return b;
+    DataSnapshot snap;
+    snap = await ref.child("Users").child(userName).once();
+    return snap;
   }
 
   static Future<String> getUserDisplayName(String uid) async {
-    DataSnapshot b;
-    b = await ref.child("UserNames").child(uid).once();
-    return b.value;
+    DataSnapshot snap;
+    snap = await ref.child("UserNames").child(uid).once();
+    return snap.value;
   }
 
   static setUserDisplayName(String uid, String displayName) {
@@ -218,9 +222,9 @@ class DataBaseConnection {
   }
 
   static Future<DataSnapshot> getUserName(String uid) async {
-    DataSnapshot b;
-    b = await ref.child("UserNames").child(uid).once();
-    return b;
+    DataSnapshot snap;
+    snap = await ref.child("UserNames").child(uid).once();
+    return snap;
   }
 
   static void setParticipantOfEvent(
@@ -240,6 +244,12 @@ class DataBaseConnection {
     }
   }
 
+  static Future<String> getCreator(String eventID) async {
+    DataSnapshot snap;
+    snap = await ref.child("Events").child(eventID).once();
+    return snap.value["creatorId"];
+  }
+
   static void createEvent(String creatorName, Map gecici, List<String> users,
       String title, String instruction) async {
     users.add(creatorName);
@@ -254,6 +264,7 @@ class DataBaseConnection {
     var key = Generate.getRandom(15);
     var currentTime = DateTime.now().microsecondsSinceEpoch;
     ref.child("Events").child(key).set({
+      "isOpen": true,
       "instruction": instruction,
       "title": title,
       "secenekler": seceneklerx,
@@ -268,7 +279,7 @@ class DataBaseConnection {
 
     for (String eleman in users) {
       DataSnapshot user = await getUser(eleman);
-      print(user.value);
+
       setMyEvents(user.value["displayName"], key);
     }
     setMyEvents(creatorName, key);
