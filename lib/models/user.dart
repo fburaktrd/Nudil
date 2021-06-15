@@ -1,7 +1,5 @@
 import 'database.dart';
 
-
-
 class User {
   final String uid;
   String displayName;
@@ -23,11 +21,9 @@ class User {
     friends = await DataBaseConnection.returnFriends(displayName);
     print(friends);
   }
-
-
 }
 
-class Events{
+class Events {
   final String userName;
   final String eventID;
   final String eventName;
@@ -35,32 +31,31 @@ class Events{
   String yorumlar;
   Map katilan;
   Map tarihler;
-  Events({this.eventID,this.userName,this.eventName}){
+  Events({this.eventID, this.userName, this.eventName}) {
     basla();
     print("evet");
   }
-  basla()async{
+  basla() async {
     await setTarih();
     await setParticipants();
     await setAciklama();
     await setYorumlar();
-    
-  }
-  
-  setTarih()async{
-    this.tarihler=await DataBaseConnection.getChoices(eventID);
-  }
-    
-  setParticipants()async{
-    this.katilan=await DataBaseConnection.getParticipantMap(eventID);
+    print(katilan);
   }
 
-  setAciklama()async{
-    this.aciklama=await DataBaseConnection.getEventDiscription(eventID);
+  setTarih() async {
+    this.tarihler = await DataBaseConnection.getChoices(eventID);
   }
 
-  setYorumlar()async{
-    this.yorumlar=await DataBaseConnection.getComments(eventID);
+  setParticipants() async {
+    this.katilan = await DataBaseConnection.getParticipantMap(eventID);
   }
-  
+
+  setAciklama() async {
+    this.aciklama = await DataBaseConnection.getEventDiscription(eventID);
+  }
+
+  setYorumlar() async {
+    this.yorumlar = await DataBaseConnection.getComments(eventID);
+  }
 }

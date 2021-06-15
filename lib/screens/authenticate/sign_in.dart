@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_first_app/screens/authenticate/register.dart';
+import 'package:flutter_first_app/screens/authenticate/reset_page.dart';
 import 'package:flutter_first_app/services/auth.dart';
 
 class SignIn extends StatefulWidget {
@@ -181,7 +182,17 @@ class _SignInState extends State<SignIn> {
                           ),
                         ],
                       ),
-                      SizedBox(height: MediaQuery.of(context).viewInsets.bottom)
+                      SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                              onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => ResetPass())),
+                              child: Text('Reset Password'))
+                        ],
+                      )
                     ],
                   ),
                 ),

@@ -10,10 +10,10 @@ import 'package:flutter_first_app/screens/vote/voters.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 
 class MultiplicationTable extends StatefulWidget {
-  final String  user;
-  
+  final String user;
+
   final Events event;
-  MultiplicationTable({this.user,this.event});
+  MultiplicationTable({this.user, this.event});
   @override
   _MultiplicationTableState createState() => _MultiplicationTableState();
 }
@@ -22,32 +22,36 @@ class _MultiplicationTableState extends State<MultiplicationTable> {
   LinkedScrollControllerGroup _controllers;
   ScrollController _headController;
   ScrollController _bodyController;
-  List<String> tarihler=[];
-  Map onaylanan={};
+  List<String> tarihler = [];
+  Map onaylanan = {};
   //String userName="";
   List<Voters> kisiler = [];
-  
 
-  bilgiler(){
-    
-
-    for(String key in widget.event.tarihler.keys){
-      
-      tarihler.insert(0,widget.event.tarihler[key]["tarih"]+" "+widget.event.tarihler[key]["baslangic"]+"-"+widget.event.tarihler[key]["bitis"]);
+  bilgiler() {
+    for (String key in widget.event.tarihler.keys) {
+      tarihler.insert(
+          0,
+          widget.event.tarihler[key]["tarih"] +
+              " " +
+              widget.event.tarihler[key]["baslangic"] +
+              "-" +
+              widget.event.tarihler[key]["bitis"]);
       print(tarihler);
     }
-    var ben =new Voters(widget.user, widget.event.katilan[widget.user]);
+
+    var ben = new Voters(widget.user, widget.event.katilan[widget.user]);
+      
+
     kisiler.add(ben);
-    for(String eleman in widget.event.katilan.keys){
-      if(eleman == widget.user){
+    for (String eleman in widget.event.katilan.keys) {
+      if (eleman == widget.user) {
         continue;
       }
-      var kisi = new Voters(eleman,widget.event.katilan[eleman]);
-      print("welrtyujkışo");
-     
+      var kisi = new Voters(eleman, widget.event.katilan[eleman]);
+      print("Eleman ->");
+      print(eleman);
       kisiler.add(kisi);
     }
-    print(kisiler.first.name);
   }
 
   //
@@ -98,7 +102,8 @@ class _MultiplicationTableState extends State<MultiplicationTable> {
                       color: Colors.white),
                 ),
                 onPressed: () {
-                  DataBaseConnection.setChoices(kisiler.elementAt(0).tarihler, widget.event.eventID, widget.event.userName);
+                  DataBaseConnection.setChoices(kisiler.elementAt(0).tarihler,
+                      widget.event.eventID, widget.user);
                   Navigator.pop(context);
                 },
               ),

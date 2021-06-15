@@ -48,6 +48,7 @@ class _TarihKartState extends State<TarihKart> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: Apbar(context: context, widget: widget).x(),
       body: NotificationListener<OverscrollNotification>(
@@ -103,7 +104,6 @@ List<Widget> listeYapici(
     int sayi, List<String> deneme, List<String> eventID, BuildContext context) {
   
   List<Widget> liste = [];
-  //faik event sayisi
   for (int i = 0; i < sayi; i++) {
     Events event=new Events(eventID:eventID.elementAt(i),eventName: deneme.elementAt(i));
     Widget a = GestureDetector(

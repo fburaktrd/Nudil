@@ -43,7 +43,10 @@ class AuthService {
       return null;
     }
   }
-
+  
+  void sendResetReqPassword(String email) {
+    _auth.sendPasswordResetEmail(email: email);
+  }
   // sign in with email & password
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
