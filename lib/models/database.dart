@@ -124,6 +124,15 @@ class DataBaseConnection {
     }
   }
 
+  static Future<Map> getAllEventsStatus(
+      String userName, List<String> eventIDs) async {
+    Map stats = {};
+    for (var event in eventIDs) {
+      stats[event] = await getEventStatus(event);
+    }
+    return stats;
+  }
+
   static Future<bool> getEventStatus(String eventID) async {
     DataSnapshot snap;
     snap = await ref.child("Events").child(eventID).once();
@@ -190,6 +199,21 @@ class DataBaseConnection {
     ref.child("ParticipantOfEvent").child(eventId).child(userName).set(choices);
   }
 
+  static void leaveEvent(String eventID, String userName) {
+    ref.child("MyEvents").child(userName).child(eventID).remove();
+    ref.child("ParticipantOfEvent").child(eventID).child(userName).remove();
+  }
+
+  static void removeEvent(String eventID) async {
+    var allChoices = await getParticipantMap(eventID);
+    for (var participant in allChoices.keys) {
+      leaveEvent(eventID, participant);
+    }
+    ref.child("ParticipantOfEvent").child(eventID).remove();
+    ref.child("Events").child(eventID).remove();
+    ref.child("Comments").child(eventID).remove();
+  }
+
   static Future<List<String>> getEventTitles(List<String> events) async {
     DataSnapshot snap;
     eventTitle.clear();
@@ -227,6 +251,10 @@ class DataBaseConnection {
     return snap;
   }
 
+  static closeEvent(String eventID) {
+    ref.child("Events").child(eventID).child("isOpen").set(false);
+  }
+
   static void setParticipantOfEvent(
       String eventId, List<String> users, Map secenekler) {
     var currentTime = DateTime.now().microsecondsSinceEpoch;
@@ -248,6 +276,10 @@ class DataBaseConnection {
     DataSnapshot snap;
     snap = await ref.child("Events").child(eventID).once();
     return snap.value["creatorId"];
+  }
+
+  static Future<void> setEventInstruction(String instruction, String eventID) {
+    ref.child("Events").child(eventID).child("instruciton").set(instruction);
   }
 
   static void createEvent(String creatorName, Map gecici, List<String> users,

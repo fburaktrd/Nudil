@@ -31,6 +31,14 @@ class Apbar {
           icon: Icon(Icons.logout),
           onPressed: () async{
             await _auth.signOut();
+            final snackBar = SnackBar(
+                backgroundColor: Colors.lightBlue,
+                content: Text(
+                  "Başarıyla çıkış yapıldı , görüşmek üzere !",
+                  style: TextStyle(fontSize: 20),
+                ));
+            ScaffoldMessenger.of(context)
+                .showSnackBar(snackBar);
             
           }
         ),

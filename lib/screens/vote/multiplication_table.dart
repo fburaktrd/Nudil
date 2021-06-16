@@ -37,11 +37,9 @@ class _MultiplicationTableState extends State<MultiplicationTable> {
               widget.event.tarihler[key]["baslangic"] +
               "-" +
               widget.event.tarihler[key]["bitis"]);
-      
     }
 
     var ben = new Voters(widget.user, widget.event.katilan[widget.user]);
-      
 
     kisiler.add(ben);
     for (String eleman in widget.event.katilan.keys) {
@@ -49,7 +47,7 @@ class _MultiplicationTableState extends State<MultiplicationTable> {
         continue;
       }
       var kisi = new Voters(eleman, widget.event.katilan[eleman]);
-      
+
       kisiler.add(kisi);
     }
   }
@@ -102,8 +100,27 @@ class _MultiplicationTableState extends State<MultiplicationTable> {
                       color: Colors.white),
                 ),
                 onPressed: () {
-                  DataBaseConnection.setChoices(kisiler.elementAt(0).tarihler,
-                      widget.event.eventID, widget.user);
+                  if(widget.event.status){
+                    DataBaseConnection.setChoices(kisiler.elementAt(0).tarihler,
+                        widget.event.eventID, widget.user);
+                        final snackBar = SnackBar(
+                                      backgroundColor: Colors.lightBlue,
+                                      content: Text(
+                                        "Başarıyla oy verildi !",
+                                        style: TextStyle(fontSize: 20),
+                                      ));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                  }else{
+                    final snackBar = SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                        "Bu event için belirli bir gün çoktan kararlaştırılmış !",
+                                        style: TextStyle(fontSize: 20),
+                                      ));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                  }
                   Navigator.pop(context);
                 },
               ),

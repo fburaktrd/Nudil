@@ -21,7 +21,7 @@ class OyOncesi extends StatefulWidget {
 
 class _OyOncesiState extends State<OyOncesi> {
   final AuthService _auth = AuthService();
-  
+
   String userName = "";
   String ab;
   TextEditingController textController2;
@@ -203,9 +203,11 @@ class _OyOncesiState extends State<OyOncesi> {
                             TextField(
                               controller: textController2,
                               maxLines: 1,
+                              
                               onSubmitted: (String s) {
+                               
                                 DataBaseConnection.setComments(
-                                    userName, widget.eventID, s);
+                                    user.displayName, widget.event.eventID, s);
                                 print(dates);
                                 //debugPrint("yazildi: $value");
                                 textController2.clear();
@@ -229,7 +231,8 @@ class _OyOncesiState extends State<OyOncesi> {
                 ),
               ],
             ),
-            MultiplicationTable(user: widget.event.userName, event: widget.event)
+            MultiplicationTable(
+                user: widget.event.userName, event: widget.event)
           ],
         )));
   }

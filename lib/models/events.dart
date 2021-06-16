@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_first_app/models/database.dart';
 
@@ -8,28 +10,23 @@ class Events {
   String creator;
   String aciklama;
   String yorumlar;
-  bool status = true;
+  bool status;
   Map katilan;
   Map tarihler;
-  Events({this.eventID, this.userName, this.eventName}) {
+  Events({this.eventID, this.userName, this.eventName, this.status}) {
     basla();
   }
+
   basla() async {
     await setTarih();
     await setParticipants();
     await setAciklama();
     await setYorumlar();
     await setCreator();
-    await setStatus();
-    print("Event class içerisi "+status.toString());
   }
 
   setCreator() async {
     this.creator = await DataBaseConnection.getCreator(eventID);
-  }
-
-  setStatus() async {
-    status = await DataBaseConnection.getEventStatus(eventID);
   }
 
   setTarih() async {
@@ -46,5 +43,12 @@ class Events {
 
   setYorumlar() async {
     this.yorumlar = await DataBaseConnection.getComments(eventID);
+  }
+
+  setEventInstructionAfterDecide(Map tarih) {
+    this.aciklama = this.aciklama +
+        " " +
+        "\nKararlaştırılan Gün ${tarih["tarih"]} de/da \nSaat ${tarih["baslangic"]}-${tarih["bitis"]} arası.";
+    DataBaseConnection.setEventInstruction(this.aciklama, this.eventID);
   }
 }

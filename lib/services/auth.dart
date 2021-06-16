@@ -6,8 +6,8 @@ import 'package:flutter_first_app/models/user.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Future<String> getUseruid() async {
-    FirebaseUser cur_user = await _auth.currentUser();
-    return cur_user.uid;
+    FirebaseUser currentUser = await _auth.currentUser();
+    return currentUser.uid;
   }
   Future getUser() async {
     try {

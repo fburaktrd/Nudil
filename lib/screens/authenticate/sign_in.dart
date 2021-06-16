@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_first_app/models/user.dart';
 import 'package:flutter_first_app/screens/authenticate/register.dart';
 import 'package:flutter_first_app/screens/authenticate/reset_page.dart';
+import 'package:flutter_first_app/screens/home/home.dart';
 import 'package:flutter_first_app/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -172,6 +175,17 @@ class _SignInState extends State<SignIn> {
                                 if (result == null) {
                                   setState(() => error =
                                       'Could not sign in with those credentials.');
+                                } else {
+                                  
+                                  final snackBar = SnackBar(
+                                      backgroundColor: Colors.lightBlue,
+                                      content: Text(
+                                        "Başarıyla giriş yapıldı !",
+                                        style: TextStyle(fontSize: 20),
+                                      ));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                  
                                 }
                               }
                             },
@@ -182,7 +196,8 @@ class _SignInState extends State<SignIn> {
                           ),
                         ],
                       ),
-                      SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
+                      SizedBox(
+                          height: MediaQuery.of(context).viewInsets.bottom),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
