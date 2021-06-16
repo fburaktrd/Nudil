@@ -126,6 +126,14 @@ class _RegisterState extends State<Register> {
                       print("Kaydedildi.");
                       if (result == null) {
                         setState(() => error = 'Please supply a valid email.');
+                        final snackBar = SnackBar(
+                                      backgroundColor: Colors.lightBlue,
+                                      content: Text(
+                                        "Başarıyla kayıt olundu !",
+                                        style: TextStyle(fontSize: 20),
+                                      ));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
                       }
                     }
                   } else {

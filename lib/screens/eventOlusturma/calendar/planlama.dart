@@ -100,6 +100,13 @@ class _PlanlamaState extends State<Planlama> {
                     //print(tarihler);
                     DataBaseConnection.createEvent(user.displayName, tarihler,
                         arkadaslar, title, instruction);
+                        final snackBar = SnackBar(
+                          backgroundColor: Colors.lightBlue,
+                          content: Text(
+                              "$title isimli event oluşturuldu !"));
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(snackBar);
+              
                     Navigator.pop(context);
                   } //calendar(),
                   ),

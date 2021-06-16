@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/models/events.dart';
 import 'package:flutter_first_app/screens/eventOlusturma/calendar/planlama.dart';
+import 'package:flutter_first_app/screens/wrapper.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'oyOncesi.dart';
 import 'user.dart';
 import 'package:flutter_first_app/screens/apbar/apbar.dart';
-
-bool first = true;
 
 class TarihKart extends StatefulWidget {
   @override
@@ -152,12 +151,16 @@ class _TarihKartState extends State<TarihKart> {
                                                   event.eventID);
 
                                               final snackBar = SnackBar(
-                                                  backgroundColor:
-                                                      Colors.lightBlue,
-                                                  content: Text(
-                                                      "${event.eventName} isimli eventi herkesten sildiniz."));
+                                                backgroundColor:
+                                                    Colors.lightBlue,
+                                                content: Text(
+                                                    "${event.eventName} isimli eventi herkesten sildiniz.",
+                                                    style: TextStyle(
+                                                        fontSize: 20)),
+                                              );
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(snackBar);
+
                                               Navigator.of(context).pop(false);
                                             },
                                             child: Text("Evet")),
@@ -189,14 +192,45 @@ class _TarihKartState extends State<TarihKart> {
                       actions: [
                         TextButton(
                             onPressed: () async {
-                              DataBaseConnection.leaveEvent(
-                                  event.eventID, event.userName);
-                              final snackBar = SnackBar(
-                                  backgroundColor: Colors.lightBlue,
-                                  content: Text(
-                                      "${event.eventName} isimli eventten başarıyla ayrıldınız."));
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
+                              await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      insetPadding: EdgeInsets.symmetric(
+                                          vertical: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              3,
+                                          horizontal: 40),
+                                      title: Text("Uyarı"),
+                                      content: Text(
+                                          "${event.eventName} isimli etkinlikten ayrılmak istediğinize emin misiniz ?"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () async {
+                                              DataBaseConnection.leaveEvent(
+                                                  event.eventID,
+                                                  event.userName);
+                                              final snackBar = SnackBar(
+                                                  backgroundColor:
+                                                      Colors.lightBlue,
+                                                  content: Text(
+                                                      "${event.eventName} isimli eventten başarıyla ayrıldınız.",
+                                                      style: TextStyle(
+                                                          fontSize: 20)));
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                              Navigator.of(context).pop(false);
+                                            },
+                                            child: Text("Evet")),
+                                        TextButton(
+                                            onPressed: () async {
+                                              Navigator.of(context).pop(false);
+                                            },
+                                            child: Text("Hayır"))
+                                      ],
+                                    );
+                                  });
                               Navigator.of(context).pop(false);
                             },
                             child: Text("Eventten ayrıl.")),
@@ -280,7 +314,9 @@ class _TarihKartState extends State<TarihKart> {
                                                   backgroundColor:
                                                       Colors.lightBlue,
                                                   content: Text(
-                                                      "${event.eventName} isimli eventi herkesten sildiniz."));
+                                                      "${event.eventName} isimli eventi herkesten sildiniz.",
+                                                      style: TextStyle(
+                                                          fontSize: 20)));
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(snackBar);
                                               Navigator.of(context).pop(false);
@@ -329,21 +365,30 @@ class _TarihKartState extends State<TarihKart> {
                                 }
                               }
                               print(lastDecision);
+                              List<String> radioSecenekler = [];
                               if (lastDecision.length > 1) {
+                                bool _checked = false;
+                                for (var dec in lastDecision) {
+                                  String secenek =
+                                      "Tarih: ${event.tarihler[dec]["tarih"]}  Başlangıç: ${event.tarihler[dec]["baslangic"]}  Bitiş: ${event.tarihler[dec]["bitis"]}";
+                                  radioSecenekler.add(secenek);
+                                }
+                                
                               } else {
                                 var secilen =
                                     event.tarihler[lastDecision.elementAt(0)];
                                 final snackBar = SnackBar(
                                     backgroundColor: Colors.lightBlue,
                                     content: Text(
-                                        "${event.eventName} isimli etkinlik için ${secilen["tarih"]} tarihinde saat ${secilen["baslangic"]}-${secilen["bitis"]} saatlerine karar verildi !\nİyi eğlenceler !"));
+                                        "${event.eventName} isimli etkinlik için ${secilen["tarih"]} tarihinde saat ${secilen["baslangic"]}-${secilen["bitis"]} saatlerine karar verildi !\nİyi eğlenceler !",
+                                        style: TextStyle(fontSize: 15)));
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackBar);
                                 event.setEventInstructionAfterDecide(secilen);
                                 print(event.aciklama);
+                                DataBaseConnection.closeEvent(event.eventID);
                               }
 
-                              DataBaseConnection.closeEvent(event.eventID);
                               Navigator.of(context).pop(false);
                             },
                             child: Text("Eventi sonlandır")),
@@ -364,14 +409,45 @@ class _TarihKartState extends State<TarihKart> {
                       actions: [
                         TextButton(
                             onPressed: () async {
-                              DataBaseConnection.leaveEvent(
-                                  event.eventID, event.userName);
-                              final snackBar = SnackBar(
-                                  backgroundColor: Colors.lightBlue,
-                                  content: Text(
-                                      "${event.eventName} isimli eventten başarıyla ayrıldınız."));
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
+                              await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      insetPadding: EdgeInsets.symmetric(
+                                        vertical:
+                                            MediaQuery.of(context).size.height /
+                                                3,
+                                        horizontal: 40,
+                                      ),
+                                      title: Text("Uyarı"),
+                                      content: Text(
+                                          "${event.eventName} isimli etkinlikten çıkmak isteidğinize emin misiniz ?"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () async {
+                                              DataBaseConnection.leaveEvent(
+                                                  event.eventID,
+                                                  event.userName);
+                                              final snackBar = SnackBar(
+                                                  backgroundColor:
+                                                      Colors.lightBlue,
+                                                  content: Text(
+                                                      "${event.eventName} isimli eventten başarıyla ayrıldınız.",
+                                                      style: TextStyle(
+                                                          fontSize: 20)));
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                              Navigator.of(context).pop(false);
+                                            },
+                                            child: Text("Evet")),
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop(false);
+                                            },
+                                            child: Text("Hayır")),
+                                      ],
+                                    );
+                                  });
                               Navigator.of(context).pop(false);
                             },
                             child: Text("Eventten ayrıl.")),
