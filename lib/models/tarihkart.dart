@@ -4,6 +4,7 @@ import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/models/events.dart';
 import 'package:flutter_first_app/screens/eventOlusturma/calendar/planlama.dart';
 import 'package:flutter_first_app/screens/wrapper.dart';
+import 'package:flutter_first_app/services/auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'oyOncesi.dart';
@@ -21,14 +22,20 @@ class _TarihKartState extends State<TarihKart> {
   List<String> eventNames = [];
   int sayi = 0;
   String userName = "";
+  String uid = "";
   Map stats;
-  Future<void> setBilgiler(User user) async {
+
+  final _auth = AuthService();
+  Future<void> setBilgiler() async {
+    uid = await _auth.getUser();
+    userName = await DataBaseConnection.getUserDisplayName(uid);
+
     eventNames =
-        await DataBaseConnection.getEventNames(user.displayName.toString());
+        await DataBaseConnection.getEventNames(userName);
     //Tüm eventlerin kapalı veya açık olduğu durum.
     stats = await DataBaseConnection.getAllEventsStatus(
-        user.displayName, eventNames);
-    sayi = await DataBaseConnection.eventLength(user.displayName.toString());
+        userName, eventNames);
+    sayi = await DataBaseConnection.eventLength(userName);
     titles = await DataBaseConnection.getEventTitles(eventNames);
     print(this.mounted);
 
@@ -42,8 +49,6 @@ class _TarihKartState extends State<TarihKart> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context, listen: false);
-    userName = user.displayName;
     return WillPopScope(
       onWillPop: () {
         return Future.value(false);
@@ -58,7 +63,7 @@ class _TarihKartState extends State<TarihKart> {
             return true;
           },
           child: FutureBuilder(
-            future: setBilgiler(user),
+            future: setBilgiler(),
             builder: (context, snap) {
               if (snap.connectionState == ConnectionState.waiting) {
                 return Center(
@@ -252,8 +257,11 @@ class _TarihKartState extends State<TarihKart> {
             margin: EdgeInsets.all(4),
             clipBehavior: Clip.antiAlias,
             child: Scaffold(
-              floatingActionButton:
-                  FloatingActionButton(child: Icon(Icons.check)),
+              floatingActionButton: FloatingActionButton(
+                child: Icon(
+                  Icons.check,
+                ),
+              ),
               body: Container(
                 padding: EdgeInsets.symmetric(vertical: 12),
                 alignment: Alignment.center,
