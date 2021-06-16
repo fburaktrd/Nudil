@@ -279,7 +279,7 @@ class DataBaseConnection {
   }
 
   static Future<void> setEventInstruction(String instruction, String eventID) {
-    ref.child("Events").child(eventID).child("instruciton").set(instruction);
+    ref.child("Events").child(eventID).child("instruction").set(instruction);
   }
 
   static void createEvent(String creatorName, Map gecici, List<String> users,
