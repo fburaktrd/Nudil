@@ -44,54 +44,59 @@ class _TarihKartState extends State<TarihKart> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context, listen: false);
     userName = user.displayName;
-    return Scaffold(
-      appBar: Apbar(context: context, widget: widget).x(),
-      body: NotificationListener<OverscrollNotification>(
-        onNotification: (page) {
-          if (page.overscroll < -5) {
-            setState(() {});
-          }
-          return true;
-        },
-        child: FutureBuilder(
-          future: setBilgiler(user),
-          builder: (context, snap) {
-            if (snap.connectionState == ConnectionState.waiting) {
-              return Center(
-                  child: CircularProgressIndicator(
-                strokeWidth: 2,
-                backgroundColor: Colors.amber,
-              ));
-            } else {
-              return Container(
-                decoration: BoxDecoration(),
-                child: GridView.count(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.75,
-                  children: olustur,
-                ),
-              );
+    return WillPopScope(
+      onWillPop: () {
+        return Future.value(false);
+      },
+      child: Scaffold(
+        appBar: Apbar(context: context, widget: widget).x(),
+        body: NotificationListener<OverscrollNotification>(
+          onNotification: (page) {
+            if (page.overscroll < -5) {
+              setState(() {});
             }
+            return true;
           },
-        ),
-      ),
-      floatingActionButton: RawMaterialButton(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Color(0xff30374b),
-            borderRadius: BorderRadius.circular(7.30),
+          child: FutureBuilder(
+            future: setBilgiler(user),
+            builder: (context, snap) {
+              if (snap.connectionState == ConnectionState.waiting) {
+                return Center(
+                    child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  backgroundColor: Colors.amber,
+                ));
+              } else {
+                return Container(
+                  decoration: BoxDecoration(),
+                  child: GridView.count(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.75,
+                    children: olustur,
+                  ),
+                );
+              }
+            },
           ),
-          padding: EdgeInsets.all(8),
-          child: Text('Planlama',
-              style: GoogleFonts.montserrat(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
         ),
-        onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Planlama())),
+        floatingActionButton: RawMaterialButton(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Color(0xff30374b),
+              borderRadius: BorderRadius.circular(7.30),
+            ),
+            padding: EdgeInsets.all(8),
+            child: Text('Planlama',
+                style: GoogleFonts.montserrat(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+          ),
+          onPressed: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Planlama())),
+        ),
       ),
     );
   }
@@ -367,13 +372,79 @@ class _TarihKartState extends State<TarihKart> {
                               print(lastDecision);
                               List<String> radioSecenekler = [];
                               if (lastDecision.length > 1) {
-                                bool _checked = false;
                                 for (var dec in lastDecision) {
                                   String secenek =
                                       "Tarih: ${event.tarihler[dec]["tarih"]}  Başlangıç: ${event.tarihler[dec]["baslangic"]}  Bitiş: ${event.tarihler[dec]["bitis"]}";
                                   radioSecenekler.add(secenek);
                                 }
-                                
+
+                                await showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Scaffold(
+                                        backgroundColor: Colors.transparent,
+                                        body: Center(
+                                          child: Container(
+                                              color: Colors.white,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  3,
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                    "Etkinliğin son tarihini seçiniz",
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  ListView.builder(
+                                                      shrinkWrap: true,
+                                                      itemCount: radioSecenekler
+                                                          .length,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return Row(
+                                                          children: [
+                                                            Container(
+                                                                child: Checkbox(
+                                                                    value: true,
+                                                                    onChanged:
+                                                                        (value) {}),
+                                                                width: 50,
+                                                                height: 50),
+                                                            RaisedButton(
+                                                              onPressed: () {
+                                                                event.setEventInstructionAfterDecide(event
+                                                                        .tarihler[
+                                                                    lastDecision[
+                                                                        index]]);
+                                                                DataBaseConnection
+                                                                    .closeEvent(
+                                                                        event
+                                                                            .eventID);
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop(false);
+                                                              },
+                                                              child: Text(
+                                                                  radioSecenekler[
+                                                                      index]),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      }),
+                                                ],
+                                              )),
+                                        ),
+                                      );
+                                    });
                               } else {
                                 var secilen =
                                     event.tarihler[lastDecision.elementAt(0)];
