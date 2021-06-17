@@ -7,7 +7,7 @@ class DataBaseConnection {
   static final ref = FirebaseDatabase.instance.reference();
   static List<String> eventList = [];
   static List<String> eventTitle = [];
-  
+
   static void setComments(String displayName, String eventId, String comment) {
     var now = new DateTime.now();
     String formattedTime = DateFormat('kk:mm').format(now);
@@ -56,13 +56,9 @@ class DataBaseConnection {
     DataSnapshot snap;
     snap = await ref.child("Social").child(displayName).child("friend").once();
     if (snap.value != null) {
-      for (String eleman in snap.value.keys) {
-        if (eleman == friendName) {
-          return false;
-        } else
-          return true;
+      if (snap.value.keys.contains(friendName)) {
+        return false;
       }
-    } else {
       return true;
     }
   }

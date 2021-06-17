@@ -70,18 +70,13 @@ class ArkadasArama extends StatelessWidget{
 
                   if(userBool){
 
-                    await showDialog(context: context, builder: (context){
-
-                      return AlertDialog(
-                        insetPadding: EdgeInsets.symmetric(vertical:MediaQuery.of(context).size.height/3,horizontal: 40),
-                        title: Text("Uyarı"),
-                        content: Text("@$arama isimli kişi bulunamadı."),
-                        actions: [
-                          TextButton(onPressed: (){Navigator.of(context).pop(false);}, child: Text("Tamam")),
-                        ],
-
-                      );
-                    });
+                    final snackBar = SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Text(
+                              "$arama isimli kişi bulunamadı !",
+                              style: TextStyle(fontSize: 20),
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
                   }
                   else {
@@ -112,33 +107,26 @@ class ArkadasArama extends StatelessWidget{
                                       DataBaseConnection.requestFriend(
                                           userName, arama);
                                       Navigator.of(context).pop(true);
+                                      final snackBar = SnackBar(
+                                      backgroundColor: Colors.lightBlue,
+                                      content: Text(
+                                        "$arama adlı kişiye arkadaşlık isteği gönderildi",
+                                        style: TextStyle(fontSize: 20),
+                                      ));
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                     },
                                     child: Text("Ekle"))
                               ],
                             );
                           });
                     } else {
-                      await showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              insetPadding: EdgeInsets.symmetric(
-                                  vertical: MediaQuery.of(context)
-                                          .size
-                                          .height /
-                                      3,
-                                  horizontal: 40),
-                              title: Text("Uyarı"),
-                              content: Text("@$arama zaten arkadaşınız."),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop(false);
-                                    },
-                                    child: Text("Tamam")),
-                              ],
-                            );
-                          });
+                      final snackBar = SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Text(
+                              "$arama zaten arkadaşınız!",
+                              style: TextStyle(fontSize: 20),
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
                   }
 

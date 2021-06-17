@@ -138,7 +138,7 @@ class _TarihKartState extends State<TarihKart> {
                       insetPadding: EdgeInsets.symmetric(
                           vertical: MediaQuery.of(context).size.height / 3,
                           horizontal: 40),
-                      title: Text("Uyarı"),
+                      title: Text("Menü"),
                       content: Text(
                           "${event.eventName} isimli etkinlik ile ilgili yapabileceğiniz işlemler"),
                       actions: [
@@ -309,7 +309,7 @@ class _TarihKartState extends State<TarihKart> {
                       insetPadding: EdgeInsets.symmetric(
                           vertical: MediaQuery.of(context).size.height / 3,
                           horizontal: 40),
-                      title: Text("Uyarı"),
+                      title: Text("Menü"),
                       content: Text(
                           "${event.eventName} isimli etkinlik ile ilgili yapabileceğiniz işlemler"),
                       actions: [
@@ -498,7 +498,7 @@ class _TarihKartState extends State<TarihKart> {
                       insetPadding: EdgeInsets.symmetric(
                           vertical: MediaQuery.of(context).size.height / 3,
                           horizontal: 40),
-                      title: Text("Uyarı"),
+                      title: Text("Menü"),
                       content: Text(
                           "${event.eventName} isimli etkinlik ile ilgili yapabileceğiniz işlemler"),
                       actions: [
@@ -516,7 +516,7 @@ class _TarihKartState extends State<TarihKart> {
                                       ),
                                       title: Text("Uyarı"),
                                       content: Text(
-                                          "${event.eventName} isimli etkinlikten çıkmak isteidğinize emin misiniz ?"),
+                                          "${event.eventName} isimli etkinlikten çıkmak istediğinize emin misiniz ?"),
                                       actions: [
                                         TextButton(
                                             onPressed: () async {

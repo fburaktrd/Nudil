@@ -65,32 +65,19 @@ class _ResetPage extends State<ResetPass> {
                     onPressed: () async {
                       var emails = await DataBaseConnection.getEmails();
                       if (!(emails.contains(email))) {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                insetPadding: EdgeInsets.symmetric(
-                                    vertical:
-                                        MediaQuery.of(context).size.height / 3,
-                                    horizontal: 40),
-                                title: Text("Uyarı"),
-                                content:
-                                    Text("$email ile ilişkili bir hesap yok."),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop(false);
-                                      },
-                                      child: Text("Tamam")),
-                                ],
-                              );
-                            });
+                        final snackBar = SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Text(
+                              "$email emaili ile ilişkili bir hesap yok.",
+                              style: TextStyle(fontSize: 20),
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
                         _auth.sendResetReqPassword(email);
                         final snackBar = SnackBar(
                             backgroundColor: Colors.lightBlue,
                             content:
-                                Text("Parola sıfırlama emaili gönderildi!"));
+                                Text("Parola sıfırlama maili $email 'a gönderildi!",style: TextStyle(fontSize: 20),));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     })
