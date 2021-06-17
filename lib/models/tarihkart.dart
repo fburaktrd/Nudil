@@ -141,7 +141,51 @@ class _TarihKartState extends State<TarihKart> {
                       title: Text("Menü"),
                       content: Text(
                           "${event.eventName} isimli etkinlik ile ilgili yapabileceğiniz işlemler"),
-                      actions: [
+                      actions: [TextButton(
+                            onPressed: () async {
+                              await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      insetPadding: EdgeInsets.symmetric(
+                                          vertical: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              3,
+                                          horizontal: 40),
+                                      title: Text("Uyarı"),
+                                      content: Text(
+                                          "${event.eventName} isimli etkinlikten ayrılmak istediğinize emin misiniz ?"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () async {
+                                              DataBaseConnection.leaveEvent(
+                                                  event.eventID,
+                                                  event.userName);
+                                              final snackBar = SnackBar(
+                                                  backgroundColor:
+                                                      Colors.lightBlue,
+                                                  content: Text(
+                                                      "${event.eventName} isimli eventten başarıyla ayrıldınız.",
+                                                      style: TextStyle(
+                                                          fontSize: 20)));
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                              Navigator.of(context).pop(false);
+                                              setState(() {});
+                                            },
+                                            child: Text("Evet")),
+                                        TextButton(
+                                            onPressed: () async {
+                                              Navigator.of(context).pop(false);
+                                            },
+                                            child: Text("Hayır"))
+                                      ],
+                                    );
+                                  });
+                              Navigator.of(context).pop(false);
+                            },
+                            child: Text("Eventten ayrıl")),
                         TextButton(
                             onPressed: () async {
                               await showDialog(
@@ -254,7 +298,7 @@ class _TarihKartState extends State<TarihKart> {
                                   });
                               Navigator.of(context).pop(false);
                             },
-                            child: Text("Eventten ayrıl.")),
+                            child: Text("Eventten ayrıl")),
                       ],
                     );
                   });
@@ -312,7 +356,51 @@ class _TarihKartState extends State<TarihKart> {
                       title: Text("Menü"),
                       content: Text(
                           "${event.eventName} isimli etkinlik ile ilgili yapabileceğiniz işlemler"),
-                      actions: [
+                      actions: [TextButton(
+                            onPressed: () async {
+                              await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      insetPadding: EdgeInsets.symmetric(
+                                          vertical: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              3,
+                                          horizontal: 40),
+                                      title: Text("Uyarı"),
+                                      content: Text(
+                                          "${event.eventName} isimli etkinlikten ayrılmak istediğinize emin misiniz ?"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () async {
+                                              DataBaseConnection.leaveEvent(
+                                                  event.eventID,
+                                                  event.userName);
+                                              final snackBar = SnackBar(
+                                                  backgroundColor:
+                                                      Colors.lightBlue,
+                                                  content: Text(
+                                                      "${event.eventName} isimli eventten başarıyla ayrıldınız.",
+                                                      style: TextStyle(
+                                                          fontSize: 20)));
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                              Navigator.of(context).pop(false);
+                                              setState(() {});
+                                            },
+                                            child: Text("Evet")),
+                                        TextButton(
+                                            onPressed: () async {
+                                              Navigator.of(context).pop(false);
+                                            },
+                                            child: Text("Hayır"))
+                                      ],
+                                    );
+                                  });
+                              Navigator.of(context).pop(false);
+                            },
+                            child: Text("Eventten ayrıl")),
                         TextButton(
                             onPressed: () async {
                               await showDialog(
@@ -546,7 +634,7 @@ class _TarihKartState extends State<TarihKart> {
                                   });
                               Navigator.of(context).pop(false);
                             },
-                            child: Text("Eventten ayrıl.")),
+                            child: Text("Eventten ayrıl")),
                       ],
                     );
                   });
