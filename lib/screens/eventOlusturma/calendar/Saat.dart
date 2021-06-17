@@ -43,7 +43,7 @@ class Saat1 extends State<Saat> {
                   Container(
                     padding: EdgeInsets.all(8),
                     child: Text(
-                      "${tarihler.elementAt(i)} ${SaatSec.siradakiId}",
+                      "${tarihler.elementAt(i)}",
                       style: TextStyle(
                           color: Color(0xff30374b),
                           fontWeight: FontWeight.bold,

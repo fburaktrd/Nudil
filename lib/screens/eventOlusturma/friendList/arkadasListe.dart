@@ -108,7 +108,7 @@ class ArkListe extends State<ArkadasListe> {
                       margin: EdgeInsets.all(12),
                       width: MediaQuery.of(context).size.width/1.22,
                       child: TextField(
-                        decoration: InputDecoration(border: InputBorder.none),
+                        decoration: InputDecoration(border: InputBorder.none,hintText: "Aramak istediğiniz kişi"),
                         
                         onChanged: (ad){
                           search=ad;
@@ -125,11 +125,11 @@ class ArkListe extends State<ArkadasListe> {
                             x=await showDialog(context: context, builder: (context){
                               return AlertDialog(
                                 insetPadding: EdgeInsets.symmetric(vertical:MediaQuery.of(context).size.height/3,horizontal: 40),
-                                title: Text("Yabancı ?"),
-                                content: Text("@$aranan arkadaşınız değil.\nEklemek istediğinize emin misiniz?"),
+                                title: Text("Uyarı"),
+                                content: Text("@$aranan kişi arkadaşınız değil.\ Lütfen arkadaş ekledikten sonra tekrar deneyin."),
                                 actions: [
-                                  TextButton(onPressed: (){Navigator.of(context).pop(false);}, child: Text("İptal")),
-                                  TextButton(onPressed: (){Navigator.of(context).pop(true);}, child: Text("Ekle"))
+                                  TextButton(onPressed: (){Navigator.of(context).pop(false);}, child: Text("Tamam")),
+                                 
                                 ],
 
                               );

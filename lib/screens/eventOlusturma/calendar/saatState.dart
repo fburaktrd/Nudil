@@ -65,7 +65,7 @@ class SaatSecme extends State<SaatSec> {
                 maxWidth: MediaQuery.of(context).size.width / 4.5),
             color: Colors.grey[350].withAlpha(100),
             child: Text(
-              "\n" + "baslangic\n" + saatFormat(basAyar),
+              "\n" + "Başlangıç\n" + saatFormat(basAyar),
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.black,
@@ -103,7 +103,7 @@ class SaatSecme extends State<SaatSec> {
                   maxWidth: MediaQuery.of(context).size.width / 4.5),
               color: Colors.grey[350].withAlpha(100),
               child: Text(
-                "\n" + "bitis\n" + saatFormat(bitirAyar),
+                "\n" + "Bitiş\n" + saatFormat(bitirAyar),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.black),
               ),
