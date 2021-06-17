@@ -7,7 +7,7 @@ class DataBaseConnection {
   static final ref = FirebaseDatabase.instance.reference();
   static List<String> eventList = [];
   static List<String> eventTitle = [];
-
+  
   static void setComments(String displayName, String eventId, String comment) {
     var now = new DateTime.now();
     String formattedTime = DateFormat('kk:mm').format(now);
