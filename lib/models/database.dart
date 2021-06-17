@@ -60,6 +60,8 @@ class DataBaseConnection {
         return false;
       }
       return true;
+    } else {
+      return true;
     }
   }
 
@@ -240,8 +242,8 @@ class DataBaseConnection {
   static Future<bool> getInfoAboutIfUserNameIsValid(String displayName) async {
     DataSnapshot snap;
     snap = await ref.child("Users").once();
-    
-    return snap.value.keys.contains(displayName) ? false : true ;
+
+    return snap.value.keys.contains(displayName) ? false : true;
   }
 
   static setUserDisplayName(String uid, String displayName) {

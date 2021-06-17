@@ -47,6 +47,7 @@ class _TarihKartState extends State<TarihKart> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return WillPopScope(
       onWillPop: () {
         return Future.value(false);
@@ -56,6 +57,7 @@ class _TarihKartState extends State<TarihKart> {
         body: NotificationListener<OverscrollNotification>(
           onNotification: (page) {
             if (page.overscroll < -5) {
+              user.initialize(uid);
               setState(() {});
             }
             return true;
@@ -98,7 +100,6 @@ class _TarihKartState extends State<TarihKart> {
                       fontWeight: FontWeight.bold)),
             ),
             onPressed: () async {
-              
               bool statement = await Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Planlama()));
               if (statement) {
@@ -141,7 +142,8 @@ class _TarihKartState extends State<TarihKart> {
                       title: Text("Menü"),
                       content: Text(
                           "${event.eventName} isimli etkinlik ile ilgili yapabileceğiniz işlemler"),
-                      actions: [TextButton(
+                      actions: [
+                        TextButton(
                             onPressed: () async {
                               await showDialog(
                                   context: context,
@@ -239,7 +241,6 @@ class _TarihKartState extends State<TarihKart> {
                     );
                   });
               if (statement) {
-                
                 setState(() {});
               }
             } else {
@@ -356,7 +357,8 @@ class _TarihKartState extends State<TarihKart> {
                       title: Text("Menü"),
                       content: Text(
                           "${event.eventName} isimli etkinlik ile ilgili yapabileceğiniz işlemler"),
-                      actions: [TextButton(
+                      actions: [
+                        TextButton(
                             onPressed: () async {
                               await showDialog(
                                   context: context,
@@ -553,7 +555,7 @@ class _TarihKartState extends State<TarihKart> {
                                         ),
                                       );
                                     });
-                                    setState(() {});
+                                setState(() {});
                               } else {
                                 var secilen =
                                     event.tarihler[lastDecision.elementAt(0)];
@@ -569,15 +571,13 @@ class _TarihKartState extends State<TarihKart> {
                                 DataBaseConnection.closeEvent(event.eventID);
                                 setState(() {});
                               }
-                              
+
                               Navigator.of(context).pop(true);
                             },
                             child: Text("Eventi sonlandır")),
                       ],
                     );
-                  }
-                  );
-                  
+                  });
             } else {
               await showDialog(
                   context: context,
