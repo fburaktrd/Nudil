@@ -135,7 +135,7 @@ class _RegisterState extends State<Register> {
                         final snackBar = SnackBar(
                           backgroundColor: Colors.red,
                           content: Text(
-                            "Lütfen girilen bilgileri tekrar kontrol ediniz.",
+                            "Email formatı yanlış veya email çoktan alınmış olabilir.",
                             style: TextStyle(fontSize: 20),
                           ));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
