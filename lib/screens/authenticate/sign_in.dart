@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_first_app/models/user.dart';
 import 'package:flutter_first_app/screens/authenticate/register.dart';
 import 'package:flutter_first_app/screens/authenticate/reset_page.dart';
-import 'package:flutter_first_app/screens/home/home.dart';
 import 'package:flutter_first_app/services/auth.dart';
-import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -88,7 +85,7 @@ class _SignInState extends State<SignIn> {
                         width: MediaQuery.of(context).size.width / 1.5,
                         child: TextFormField(
                             decoration: InputDecoration(
-                              hintText: "Enter an email",
+                              hintText: "Email Giriniz",
                               hintStyle: TextStyle(
                                 color: Colors.white,
                               ),
@@ -102,7 +99,7 @@ class _SignInState extends State<SignIn> {
                             style: TextStyle(color: Colors.white, fontSize: 13),
                             keyboardType: TextInputType.text,
                             validator: (val) =>
-                                val.isEmpty ? 'Enter an email' : null,
+                                val.isEmpty ? 'Email Giriniz' : null,
                             onChanged: (val) {
                               setState(() => email = val);
                             }),
@@ -117,7 +114,7 @@ class _SignInState extends State<SignIn> {
                         child: TextFormField(
                             decoration: InputDecoration(
                               hintText:
-                                  "Enter a password", // burası değiştirilir keyfi konulur bir şeyler.
+                                  "Şifre Giriniz", // burası değiştirilir keyfi konulur bir şeyler.
                               hintStyle: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,
@@ -134,7 +131,7 @@ class _SignInState extends State<SignIn> {
                             obscureText: true,
                             obscuringCharacter: '*',
                             validator: (val) => val.length < 6
-                                ? 'Enter a password 6+ chars long'
+                                ? '6 karakterden fazla uzunlukta şifre giriniz'
                                 : null,
                             onChanged: (val) {
                               setState(() => pass = val);
@@ -173,10 +170,19 @@ class _SignInState extends State<SignIn> {
                                     .signInWithEmailAndPassword(email, pass);
 
                                 if (result == null) {
-                                  setState(() => error =
-                                      'Could not sign in with those credentials.');
+                                  setState(
+                                    () => error =
+                                        'Girilen değerlere göre giriş yapılamadı.',
+                                  );
+                                  final snackBar = SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                        error,
+                                        style: TextStyle(fontSize: 20),
+                                      ));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
                                 } else {
-                                  
                                   final snackBar = SnackBar(
                                       backgroundColor: Colors.lightBlue,
                                       content: Text(
@@ -185,7 +191,6 @@ class _SignInState extends State<SignIn> {
                                       ));
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
-                                  
                                 }
                               }
                             },
@@ -196,8 +201,6 @@ class _SignInState extends State<SignIn> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                          height: MediaQuery.of(context).viewInsets.bottom),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -205,7 +208,13 @@ class _SignInState extends State<SignIn> {
                               onPressed: () => Navigator.of(context).push(
                                   MaterialPageRoute(
                                       builder: (context) => ResetPass())),
-                              child: Text('Reset Password'))
+                              child: Text(
+                                'Şifremi unuttum',
+                                style: TextStyle(
+                                    color: Color(0xff30374b),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ))
                         ],
                       )
                     ],
