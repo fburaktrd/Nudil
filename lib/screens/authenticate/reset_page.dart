@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/models/database.dart';
-import 'package:flutter_first_app/screens/apbar/apbar.dart';
-import 'package:flutter_first_app/screens/authenticate/sign_in.dart';
 import 'package:flutter_first_app/services/auth.dart';
 
 class ResetPass extends StatefulWidget {
@@ -20,7 +18,8 @@ class _ResetPage extends State<ResetPass> {
         appBar: AppBar(
           backgroundColor: Color(0xff30374b),
           elevation: 0.0,
-          title: Text('Reset Password'),
+          title: Text('Şifre Yenile'),
+          centerTitle: true,
         ),
         body: Container(
           padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -36,19 +35,32 @@ class _ResetPage extends State<ResetPass> {
                       setState(() => email = val);
                     },
                     decoration: InputDecoration(
-                        hintText: "Enter an email",
+                        prefixIcon: Icon(
+                          Icons.email,
+                          size: 27,
+                          color: Color(0xff30374b),
+                        ),
+                        hintText: "Email Giriniz",
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5)),
+                            borderRadius: BorderRadius.circular(15)),
                         filled: true,
                         fillColor: Colors.white),
                   ),
                 ),
                 RawMaterialButton(
                     child: Container(
+                      decoration: BoxDecoration(
+                          color: Color(0xff30374b),
+                          borderRadius: BorderRadius.circular(10)),
                       padding: EdgeInsets.all(12),
                       margin: EdgeInsets.symmetric(vertical: 12),
-                      color: Colors.lightBlue,
-                      child: Text('Parola sıfırla'),
+                      child: Text(
+                        'Parola sıfırla',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                     onPressed: () async {
                       var emails = await DataBaseConnection.getEmails();
@@ -76,11 +88,10 @@ class _ResetPage extends State<ResetPass> {
                       } else {
                         _auth.sendResetReqPassword(email);
                         final snackBar = SnackBar(
-                                      backgroundColor: Colors.lightBlue,
-                                      content:
-                                          Text("Parola sıfırlama emaili gönderildi!"));
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
+                            backgroundColor: Colors.lightBlue,
+                            content:
+                                Text("Parola sıfırlama emaili gönderildi!"));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     })
               ],

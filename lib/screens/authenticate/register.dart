@@ -1,7 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/models/database.dart';
-import 'package:flutter_first_app/screens/authenticate/sign_in.dart';
 import 'package:flutter_first_app/services/auth.dart';
 
 class Register extends StatefulWidget {
@@ -27,26 +26,8 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(
         backgroundColor: Color(0xff30374b),
         elevation: 0.0,
-        title: Text('Sign up'),
-        actions: <Widget>[
-          RawMaterialButton(
-              //icon: Icon(Icons.remove),
-              //label: Text('Sign In'),
-              child: Text(
-                "Sign In",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Colors.white.withAlpha(205)),
-              ),
-              onPressed: () {
-                //widget.toggleView();
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return SignIn();
-                }));
-                //return SignIn();
-              })
-        ],
+        centerTitle: true,
+        title: Text('Kayıt Ol'),
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -64,7 +45,12 @@ class _RegisterState extends State<Register> {
                     setState(() => email = val);
                   },
                   decoration: InputDecoration(
-                      hintText: "Enter an email",
+                      prefixIcon: Icon(
+                        Icons.email,
+                        size: 27,
+                        color: Color(0xff30374b),
+                      ),
+                      hintText: "Email Giriniz",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5)),
                       filled: true,
@@ -85,7 +71,12 @@ class _RegisterState extends State<Register> {
                     setState(() => password = val);
                   },
                   decoration: InputDecoration(
-                      hintText: "Enter the password ",
+                      prefixIcon: Icon(
+                        Icons.vpn_key_rounded,
+                        size: 27,
+                        color: Color(0xff30374b),
+                      ),
+                      hintText: "Şifre Giriniz ",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5)),
                       filled: true,
@@ -101,6 +92,11 @@ class _RegisterState extends State<Register> {
                     setState(() => displayName = val);
                   },
                   decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.drive_file_rename_outline,
+                        size: 27,
+                        color: Color(0xff30374b),
+                      ),
                       hintText: "Kullanıcı Adınızı Giriniz",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5)),
@@ -112,12 +108,13 @@ class _RegisterState extends State<Register> {
               RaisedButton(
                 color: Color(0xff30374b),
                 child: Text(
-                  'Register',
+                  'Kaydet',
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
                   print(displayName); //denemek için yazdırdım
-                  DataSnapshot userNameDbResult = await DataBaseConnection.getUserName(displayName);
+                  DataSnapshot userNameDbResult =
+                      await DataBaseConnection.getUserName(displayName);
                   print(userNameDbResult.value is Future);
                   if (userNameDbResult.value == null) {
                     if (_formKey.currentState.validate()) {
@@ -127,13 +124,12 @@ class _RegisterState extends State<Register> {
                       if (result == null) {
                         setState(() => error = 'Please supply a valid email.');
                         final snackBar = SnackBar(
-                                      backgroundColor: Colors.lightBlue,
-                                      content: Text(
-                                        "Başarıyla kayıt olundu !",
-                                        style: TextStyle(fontSize: 20),
-                                      ));
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
+                            backgroundColor: Colors.lightBlue,
+                            content: Text(
+                              "Başarıyla kayıt olundu !",
+                              style: TextStyle(fontSize: 20),
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     }
                   } else {

@@ -50,7 +50,7 @@ class __IntegerExampleState extends State<_IntegerExample> {
         SizedBox(height: 16),
         //Text('Current int value: $_currentIntValue'),
         RawMaterialButton(
-            child: Text('Thanks',
+            child: Text('Tamam',
                 style: GoogleFonts.montserrat(
                     color: Color.fromRGBO(59, 57, 60, 1),
                     fontSize: 20,

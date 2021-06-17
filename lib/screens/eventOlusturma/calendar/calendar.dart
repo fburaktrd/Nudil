@@ -9,7 +9,6 @@ import './saatSayiSec.dart';
 import './saatState.dart';
 
 class Calendar extends StatefulWidget {
-  
   @override
   _CalendarState createState() => _CalendarState();
 }
@@ -21,6 +20,7 @@ class _CalendarState extends State<Calendar> {
   TextStyle dayStyle(FontWeight fontWeight) {
     return TextStyle(color: Color(0xff30374b), fontWeight: fontWeight);
   }
+
   Map sayiSec = new Map();
   List<DateTime> secililer = [];
 
@@ -45,7 +45,7 @@ class _CalendarState extends State<Calendar> {
                     sayiSec.remove(takvimFormat(focusDay));
                   } else {
                     //saat eklemeye gidilmesi durumunda başlangıç 1 olarak tanımlandı
-                    sayiSec[takvimFormat(focusDay)]=1;
+                    sayiSec[takvimFormat(focusDay)] = 1;
                     secililer.add(focusDay);
                   }
                   secililer.sort();
@@ -141,7 +141,9 @@ class _CalendarState extends State<Calendar> {
                                       color: Colors.transparent,
                                       child: RawMaterialButton(
                                         child: Text(
-                                            sayiSec[takvimFormat(secililer.elementAt(index))].toString(),
+                                            sayiSec[takvimFormat(
+                                                    secililer.elementAt(index))]
+                                                .toString(),
                                             style: GoogleFonts.montserrat(
                                                 color: Color.fromRGBO(
                                                     59, 57, 60, 1),
@@ -178,19 +180,22 @@ class _CalendarState extends State<Calendar> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           RawMaterialButton(
-              child: Text('Done',
+              child: Text('Tamam',
                   style: GoogleFonts.montserrat(
                       color: Color.fromRGBO(59, 57, 60, 1),
                       fontSize: 22,
                       fontWeight: FontWeight.bold)),
               onPressed: () {
                 //saat bilgileri olmayan tarihler dönüyor
-                Map don=tarihSec(secililer);
-                Navigator.pop(context,don);
+                Map don = tarihSec(secililer);
+                Navigator.pop(context, don);
                 print(secililer);
               }),
+          SizedBox(
+            width: 20,
+          ),
           RawMaterialButton(
-            child: Text('Add Clock',
+            child: Text('Saat Ekle',
                 style: GoogleFonts.montserrat(
                     color: Color.fromRGBO(59, 57, 60, 1),
                     fontSize: 22,
@@ -222,13 +227,15 @@ String takvimFormat(DateTime tarih) {
   return gun1 + "." + ay1 + "." + yil1;
 }
 
-Map tarihSec(List<DateTime> x){
-  Map tarihler=new Map();
-  for(int i=0;i<x.length;i++){
-
-    tarihler[(i+1)*10]={"tarih":takvimFormat(x.elementAt(i)),"baslangic":"","bitis":""};
+Map tarihSec(List<DateTime> x) {
+  Map tarihler = new Map();
+  for (int i = 0; i < x.length; i++) {
+    tarihler[(i + 1) * 10] = {
+      "tarih": takvimFormat(x.elementAt(i)),
+      "baslangic": "",
+      "bitis": ""
+    };
   }
 
   return tarihler;
-
 }
