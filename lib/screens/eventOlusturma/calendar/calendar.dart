@@ -106,7 +106,7 @@ class _CalendarState extends State<Calendar> {
                 margin: EdgeInsets.all(10),
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height / 6,
-                color: Colors.white,
+                //color: Colors.white,
                 padding: EdgeInsets.all(16),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -116,8 +116,17 @@ class _CalendarState extends State<Calendar> {
                         secililer.length,
                         (index) => Container(
                               decoration: BoxDecoration(
-                                  backgroundBlendMode: BlendMode.darken,
-                                  color: Colors.grey[350],
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                  //backgroundBlendMode: BlendMode.darken,
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(10)),
                               margin: EdgeInsets.all(4),
                               width: 100,
