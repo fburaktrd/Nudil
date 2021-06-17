@@ -44,11 +44,10 @@ class ListeButonu extends State<ListeButon> {
           children: [
             
             CircleAvatar(
-              backgroundColor: Colors.greenAccent.withAlpha(125),
-              maxRadius: widget.seci?24:32,
-              
+              backgroundImage: NetworkImage(
+                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRI4SgXIgt34ujxBvmx1MIyxWCaHyy_jsPKA&usqp=CAU"),
             ),
-            Text("${widget.isim} - ${widget.seci}")
+            Text("${widget.isim}")
           ],
         ),
       ),

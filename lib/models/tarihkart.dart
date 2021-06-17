@@ -30,11 +30,9 @@ class _TarihKartState extends State<TarihKart> {
     uid = await _auth.getUser();
     userName = await DataBaseConnection.getUserDisplayName(uid);
 
-    eventNames =
-        await DataBaseConnection.getEventNames(userName);
+    eventNames = await DataBaseConnection.getEventNames(userName);
     //Tüm eventlerin kapalı veya açık olduğu durum.
-    stats = await DataBaseConnection.getAllEventsStatus(
-        userName, eventNames);
+    stats = await DataBaseConnection.getAllEventsStatus(userName, eventNames);
     sayi = await DataBaseConnection.eventLength(userName);
     titles = await DataBaseConnection.getEventTitles(eventNames);
     print(this.mounted);
@@ -54,7 +52,7 @@ class _TarihKartState extends State<TarihKart> {
         return Future.value(false);
       },
       child: Scaffold(
-        appBar: Apbar(context: context, widget: widget).x(),
+        appBar: Apbar(context: context, widget: widget).bar(),
         body: NotificationListener<OverscrollNotification>(
           onNotification: (page) {
             if (page.overscroll < -5) {
@@ -87,21 +85,26 @@ class _TarihKartState extends State<TarihKart> {
           ),
         ),
         floatingActionButton: RawMaterialButton(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Color(0xff30374b),
-              borderRadius: BorderRadius.circular(7.30),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(0xff30374b),
+                borderRadius: BorderRadius.circular(7.30),
+              ),
+              padding: EdgeInsets.all(8),
+              child: Text('Planlama',
+                  style: GoogleFonts.montserrat(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold)),
             ),
-            padding: EdgeInsets.all(8),
-            child: Text('Planlama',
-                style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold)),
-          ),
-          onPressed: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Planlama())),
-        ),
+            onPressed: () async {
+              
+              bool statement = await Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Planlama()));
+              if (statement) {
+                setState(() {});
+              }
+            }),
       ),
     );
   }
@@ -128,7 +131,7 @@ class _TarihKartState extends State<TarihKart> {
           onDoubleTap: () async {
             print(userName + " " + event.creator);
             if (userName == event.creator) {
-              await showDialog(
+              bool statement = await showDialog(
                   context: context,
                   builder: (context) {
                     return AlertDialog(
@@ -171,23 +174,30 @@ class _TarihKartState extends State<TarihKart> {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(snackBar);
 
-                                              Navigator.of(context).pop(false);
+                                              Navigator.of(context)
+                                                ..pop()
+                                                ..pop(true);
                                             },
                                             child: Text("Evet")),
                                         TextButton(
                                             onPressed: () {
-                                              Navigator.of(context).pop(false);
+                                              Navigator.of(context)
+                                                ..pop()
+                                                ..pop(false);
                                             },
                                             child: Text("Hayır")),
                                       ],
                                     );
                                   });
-                              Navigator.of(context).pop(false);
                             },
                             child: Text("Eventi sil")),
                       ],
                     );
                   });
+              if (statement) {
+                
+                setState(() {});
+              }
             } else {
               await showDialog(
                   context: context,
@@ -231,6 +241,7 @@ class _TarihKartState extends State<TarihKart> {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(snackBar);
                                               Navigator.of(context).pop(false);
+                                              setState(() {});
                                             },
                                             child: Text("Evet")),
                                         TextButton(
@@ -333,6 +344,7 @@ class _TarihKartState extends State<TarihKart> {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(snackBar);
                                               Navigator.of(context).pop(false);
+                                              setState(() {});
                                             },
                                             child: Text("Evet")),
                                         TextButton(
@@ -453,6 +465,7 @@ class _TarihKartState extends State<TarihKart> {
                                         ),
                                       );
                                     });
+                                    setState(() {});
                               } else {
                                 var secilen =
                                     event.tarihler[lastDecision.elementAt(0)];
@@ -466,14 +479,17 @@ class _TarihKartState extends State<TarihKart> {
                                 event.setEventInstructionAfterDecide(secilen);
                                 print(event.aciklama);
                                 DataBaseConnection.closeEvent(event.eventID);
+                                setState(() {});
                               }
-
-                              Navigator.of(context).pop(false);
+                              
+                              Navigator.of(context).pop(true);
                             },
                             child: Text("Eventi sonlandır")),
                       ],
                     );
-                  });
+                  }
+                  );
+                  
             } else {
               await showDialog(
                   context: context,
@@ -517,6 +533,7 @@ class _TarihKartState extends State<TarihKart> {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(snackBar);
                                               Navigator.of(context).pop(false);
+                                              setState(() {});
                                             },
                                             child: Text("Evet")),
                                         TextButton(

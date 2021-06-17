@@ -130,6 +130,7 @@ class _RegisterState extends State<Register> {
                               style: TextStyle(fontSize: 20),
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        Navigator.of(context).pop();
                       }
                     }
                   } else {

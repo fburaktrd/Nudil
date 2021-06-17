@@ -7,7 +7,7 @@ import 'package:flutter_first_app/screens/apbar/arkadaslarim.dart';
 import 'package:flutter_first_app/services/auth.dart';
 import 'package:provider/provider.dart';
 import './apbar.dart';
-
+import 'package:flutter_first_app/main.dart';
 class ArkadasEkle extends StatefulWidget {
   Key key = new Key("asd");
 
@@ -46,14 +46,14 @@ class Ekle extends State<ArkadasEkle> {
     print(reqList);
     bool a = true;
     return Scaffold(
-      appBar: Apbar(context: context, widget: widget).x(),
+      appBar: Apbar(context: context, widget: widget).bar(),
       body: NotificationListener<OverscrollNotification>(
         onNotification: (notific) {
           print(notific.overscroll);
           if (notific.overscroll < 0 && a) {
             a = !a;
             //sayfa yenileme
-
+            user.initialize(user.uid);
             setState(() {});
           }
 
@@ -71,6 +71,7 @@ class Ekle extends State<ArkadasEkle> {
               ));
             } else {
               return PageView(
+                
                 controller: kontrol,
                 children: [
                   //Arkadaş arama

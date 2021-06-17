@@ -12,7 +12,7 @@ class Apbar {
   final Widget widget;
   Apbar({this.context, this.widget});
 
-  AppBar x() {
+  AppBar bar() {
     return AppBar(
         automaticallyImplyLeading: false,
         title: Text("Nudıl"),

@@ -39,7 +39,7 @@ class Arkadaslarim extends StatelessWidget{
                     shape:BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4)))
                 ),
 
-                child: Text("Arkadaşlık isteği yok.",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                child: Text("Şuan hiç arkadaşınız yok.",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
 
               )]:[Container(
                 padding: EdgeInsets.all(9),

@@ -121,6 +121,7 @@ class _MultiplicationTableState extends State<MultiplicationTable> {
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
                   }
+                  setState(() {});
                   Navigator.pop(context);
                 },
               ),

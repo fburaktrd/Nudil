@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_first_app/main.dart';
 import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/models/tarihkart.dart';
 import 'package:flutter_first_app/models/user.dart';
@@ -62,7 +63,7 @@ class _PlanlamaState extends State<Planlama> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     return Scaffold(
-      appBar: Apbar(context: context, widget: widget).x(),
+      appBar: Apbar(context: context, widget: widget).bar(),
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -100,14 +101,13 @@ class _PlanlamaState extends State<Planlama> {
                     //print(tarihler);
                     DataBaseConnection.createEvent(user.displayName, tarihler,
                         arkadaslar, title, instruction);
-                        final snackBar = SnackBar(
-                          backgroundColor: Colors.lightBlue,
-                          content: Text(
-                              "$title isimli event oluşturuldu !"));
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(snackBar);
-              
-                    Navigator.pop(context);
+                    final snackBar = SnackBar(
+                        backgroundColor: Colors.lightBlue,
+                        content: Text("$title isimli event oluşturuldu !",
+                            style: TextStyle(fontSize: 20)));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    
+                    Navigator.pop(context,true);
                   } //calendar(),
                   ),
             ],
@@ -130,10 +130,9 @@ class _PlanlamaState extends State<Planlama> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: baslik,
-                onSubmitted: (String s) {
+                onChanged: (String s) {
                   //title
-
-                  title = s;
+                  setState(() => title = s);
                   debugPrint("on submit:$s");
                 },
                 decoration: InputDecoration(

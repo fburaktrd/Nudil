@@ -59,7 +59,7 @@ class _OyOncesiState extends State<OyOncesi> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     return Scaffold(
-        appBar: Apbar(context: context, widget: widget).x(),
+        appBar: Apbar(context: context, widget: widget).bar(),
         body: SafeArea(
             child: PageView(
           controller: x,
