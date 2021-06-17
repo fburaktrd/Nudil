@@ -4,7 +4,6 @@ import 'package:flutter_first_app/models/database.dart';
 import 'package:flutter_first_app/models/events.dart';
 import 'package:flutter_first_app/screens/eventOlusturma/calendar/planlama.dart';
 import 'package:flutter_first_app/screens/wrapper.dart';
-import 'package:flutter_first_app/services/auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'oyOncesi.dart';
@@ -22,20 +21,14 @@ class _TarihKartState extends State<TarihKart> {
   List<String> eventNames = [];
   int sayi = 0;
   String userName = "";
-  String uid = "";
   Map stats;
-
-  final _auth = AuthService();
-  Future<void> setBilgiler() async {
-    uid = await _auth.getUser();
-    userName = await DataBaseConnection.getUserDisplayName(uid);
-
+  Future<void> setBilgiler(User user) async {
     eventNames =
-        await DataBaseConnection.getEventNames(userName);
+        await DataBaseConnection.getEventNames(user.displayName.toString());
     //Tüm eventlerin kapalı veya açık olduğu durum.
     stats = await DataBaseConnection.getAllEventsStatus(
-        userName, eventNames);
-    sayi = await DataBaseConnection.eventLength(userName);
+        user.displayName, eventNames);
+    sayi = await DataBaseConnection.eventLength(user.displayName.toString());
     titles = await DataBaseConnection.getEventTitles(eventNames);
     print(this.mounted);
 
@@ -49,59 +42,56 @@ class _TarihKartState extends State<TarihKart> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        return Future.value(false);
-      },
-      child: Scaffold(
-        appBar: Apbar(context: context, widget: widget).x(),
-        body: NotificationListener<OverscrollNotification>(
-          onNotification: (page) {
-            if (page.overscroll < -5) {
-              setState(() {});
+    final user = Provider.of<User>(context, listen: false);
+    userName = user.displayName;
+    return Scaffold(
+      appBar: Apbar(context: context, widget: widget).x(),
+      body: NotificationListener<OverscrollNotification>(
+        onNotification: (page) {
+          if (page.overscroll < -5) {
+            setState(() {});
+          }
+          return true;
+        },
+        child: FutureBuilder(
+          future: setBilgiler(user),
+          builder: (context, snap) {
+            if (snap.connectionState == ConnectionState.waiting) {
+              return Center(
+                  child: CircularProgressIndicator(
+                strokeWidth: 2,
+                backgroundColor: Colors.amber,
+              ));
+            } else {
+              return Container(
+                decoration: BoxDecoration(),
+                child: GridView.count(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.75,
+                  children: olustur,
+                ),
+              );
             }
-            return true;
           },
-          child: FutureBuilder(
-            future: setBilgiler(),
-            builder: (context, snap) {
-              if (snap.connectionState == ConnectionState.waiting) {
-                return Center(
-                    child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  backgroundColor: Colors.amber,
-                ));
-              } else {
-                return Container(
-                  decoration: BoxDecoration(),
-                  child: GridView.count(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.75,
-                    children: olustur,
-                  ),
-                );
-              }
-            },
-          ),
         ),
-        floatingActionButton: RawMaterialButton(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Color(0xff30374b),
-              borderRadius: BorderRadius.circular(7.30),
-            ),
-            padding: EdgeInsets.all(8),
-            child: Text('Planlama',
-                style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold)),
+      ),
+      floatingActionButton: RawMaterialButton(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Color(0xff30374b),
+            borderRadius: BorderRadius.circular(7.30),
           ),
-          onPressed: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Planlama())),
+          padding: EdgeInsets.all(8),
+          child: Text('Planlama',
+              style: GoogleFonts.montserrat(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold)),
         ),
+        onPressed: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Planlama())),
       ),
     );
   }
@@ -257,11 +247,8 @@ class _TarihKartState extends State<TarihKart> {
             margin: EdgeInsets.all(4),
             clipBehavior: Clip.antiAlias,
             child: Scaffold(
-              floatingActionButton: FloatingActionButton(
-                child: Icon(
-                  Icons.check,
-                ),
-              ),
+              floatingActionButton:
+                  FloatingActionButton(child: Icon(Icons.check)),
               body: Container(
                 padding: EdgeInsets.symmetric(vertical: 12),
                 alignment: Alignment.center,
@@ -380,79 +367,13 @@ class _TarihKartState extends State<TarihKart> {
                               print(lastDecision);
                               List<String> radioSecenekler = [];
                               if (lastDecision.length > 1) {
+                                bool _checked = false;
                                 for (var dec in lastDecision) {
                                   String secenek =
                                       "Tarih: ${event.tarihler[dec]["tarih"]}  Başlangıç: ${event.tarihler[dec]["baslangic"]}  Bitiş: ${event.tarihler[dec]["bitis"]}";
                                   radioSecenekler.add(secenek);
                                 }
-
-                                await showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Scaffold(
-                                        backgroundColor: Colors.transparent,
-                                        body: Center(
-                                          child: Container(
-                                              color: Colors.white,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  3,
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Text(
-                                                    "Etkinliğin son tarihini seçiniz",
-                                                    style:
-                                                        TextStyle(fontSize: 20),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                  ListView.builder(
-                                                      shrinkWrap: true,
-                                                      itemCount: radioSecenekler
-                                                          .length,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        return Row(
-                                                          children: [
-                                                            Container(
-                                                                child: Checkbox(
-                                                                    value: true,
-                                                                    onChanged:
-                                                                        (value) {}),
-                                                                width: 50,
-                                                                height: 50),
-                                                            RaisedButton(
-                                                              onPressed: () {
-                                                                event.setEventInstructionAfterDecide(event
-                                                                        .tarihler[
-                                                                    lastDecision[
-                                                                        index]]);
-                                                                DataBaseConnection
-                                                                    .closeEvent(
-                                                                        event
-                                                                            .eventID);
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop(false);
-                                                              },
-                                                              child: Text(
-                                                                  radioSecenekler[
-                                                                      index]),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      }),
-                                                ],
-                                              )),
-                                        ),
-                                      );
-                                    });
+                                
                               } else {
                                 var secilen =
                                     event.tarihler[lastDecision.elementAt(0)];
