@@ -113,16 +113,15 @@ class _RegisterState extends State<Register> {
                 ),
                 onPressed: () async {
                   print(displayName); //denemek için yazdırdım
-                  DataSnapshot userNameDbResult =
-                      await DataBaseConnection.getUserName(displayName);
-                  print(userNameDbResult.value is Future);
-                  if (userNameDbResult.value == null) {
+                  bool userNameDbResult =
+                      await DataBaseConnection.getInfoAboutIfUserNameIsValid(
+                          displayName);
+                  print(userNameDbResult);
+                  if (userNameDbResult) {
                     if (_formKey.currentState.validate()) {
                       dynamic result = await _auth.realRegister(
                           email, password, displayName);
-                      print("Kaydedildi.");
-                      if (result == null) {
-                        setState(() => error = 'Please supply a valid email.');
+                      if (result != null) {
                         final snackBar = SnackBar(
                             backgroundColor: Colors.lightBlue,
                             content: Text(
@@ -130,11 +129,35 @@ class _RegisterState extends State<Register> {
                               style: TextStyle(fontSize: 20),
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
                         Navigator.of(context).pop();
+                      }else{
+                        final snackBar = SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text(
+                            "Lütfen girilen bilgileri tekrar kontrol ediniz.",
+                            style: TextStyle(fontSize: 20),
+                          ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
+                    } else {
+                      final snackBar = SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text(
+                            "Lütfen girilen bilgileri tekrar kontrol ediniz.",
+                            style: TextStyle(fontSize: 20),
+                          ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
                   } else {
-                    setState(() => error = 'This username already taken.');
+                    setState(() => error = '');
+                    final snackBar = SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text(
+                          "Bu kullanıcı çoktan alınmış.",
+                          style: TextStyle(fontSize: 20),
+                        ));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     print("Kaydedilmedi");
                   }
                 },

@@ -76,8 +76,10 @@ class _ResetPage extends State<ResetPass> {
                         _auth.sendResetReqPassword(email);
                         final snackBar = SnackBar(
                             backgroundColor: Colors.lightBlue,
-                            content:
-                                Text("Parola sıfırlama maili $email 'a gönderildi!",style: TextStyle(fontSize: 20),));
+                            content: Text(
+                              "Parola sıfırlama maili $email 'a gönderildi!",
+                              style: TextStyle(fontSize: 15),
+                            ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     })

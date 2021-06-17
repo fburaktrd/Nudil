@@ -237,14 +237,15 @@ class DataBaseConnection {
     return snap.value;
   }
 
-  static setUserDisplayName(String uid, String displayName) {
-    ref.child("UserNames").child(uid).set(displayName);
+  static Future<bool> getInfoAboutIfUserNameIsValid(String displayName) async {
+    DataSnapshot snap;
+    snap = await ref.child("Users").once();
+    
+    return snap.value.keys.contains(displayName) ? false : true ;
   }
 
-  static Future<DataSnapshot> getUserName(String uid) async {
-    DataSnapshot snap;
-    snap = await ref.child("UserNames").child(uid).once();
-    return snap;
+  static setUserDisplayName(String uid, String displayName) {
+    ref.child("UserNames").child(uid).set(displayName);
   }
 
   static closeEvent(String eventID) {

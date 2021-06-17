@@ -9,6 +9,7 @@ class AuthService {
     FirebaseUser currentUser = await _auth.currentUser();
     return currentUser.uid;
   }
+
   Future getUser() async {
     try {
       FirebaseUser user = await _auth.currentUser();
@@ -20,6 +21,7 @@ class AuthService {
       return null;
     }
   }
+
   // create user obj based on FirabaseUser
   User _userFromFirebaseUser(FirebaseUser user) {
     return user != null ? User(uid: user.uid) : null;
@@ -43,10 +45,11 @@ class AuthService {
       return null;
     }
   }
-  
+
   void sendResetReqPassword(String email) {
     _auth.sendPasswordResetEmail(email: email);
   }
+
   // sign in with email & password
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
@@ -76,11 +79,15 @@ class AuthService {
 
   Future realRegister(String email, String password, String displayName) async {
     var val = await registerWithEmailAndPassword(email, password);
-    DataBaseConnection.setUser(val[0].uid, email, displayName);
-    print("buraaassıı hoştur");
-    print(val[0].displayName);
-    DataBaseConnection.setUserDisplayName(val[0].uid, displayName);
-    return val[1];
+    if (val != null) {
+      DataBaseConnection.setUser(val[0].uid, email, displayName);
+      print("buraaassıı hoştur");
+      print(val[0].displayName);
+      DataBaseConnection.setUserDisplayName(val[0].uid, displayName);
+      return val[1];
+    } else {
+      return val;
+    }
   }
 
   // sign out
