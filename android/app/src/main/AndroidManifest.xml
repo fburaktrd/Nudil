@@ -2,7 +2,7 @@
     package="com.example.nyp_proje">
         <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="Noodle"
+        android:label="Nudıl"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -1,0 +1,72 @@
+{
+  "Comments" : {
+    "eventID" : {
+      "timestamp" : "14:19 > displayName:Message"
+    }
+  },
+  "Events" : {
+    "eventId" : {
+      "creatorId" : "user",
+      "instruction" : "ins",
+      "isOpen" : true,
+      "location" : {
+        "g" : 0,
+        "lat" : 1,
+        "long" : 2
+      },
+      "secenekler" : {
+        "10" : {
+          "baslangic" : "12:00",
+          "bitis" : "15:00",
+          "tarih" : "15.06.2021"
+        },
+        "20" : {
+          "baslangic" : "12:00",
+          "bitis" : "21:00",
+          "tarih" : "16.06.2021"
+        }
+      },
+      "timeStamp" : 1623075423963636,
+      "title" : "Proje"
+    }
+  },
+  "MyEvents" : {
+    "userName" : {
+      "eventId" : true
+    }
+  },
+  "ParticipantOfEvent" : {
+    "eventId" : {
+      "userName" : {
+        "10" : false,
+        "20" : false
+      },
+      "userName2" : {
+        "10" : true,
+        "20" : false
+      }
+  },
+  "Social" : {
+    "userName" : {
+      "friend": {
+        "userName2": true,
+        "userName3": true
+
+      },
+      "request": {
+        "userName4": false
+      }
+    }
+    
+  },
+  "UserNames" : {
+    "uid" : "userName"
+  },
+  "Users" : {
+    "userName" : {
+      "displayName" : "userName",
+      "email" : "userEmail",
+      "uid" : "uid"
+    }
+  }
+}

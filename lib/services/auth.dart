@@ -13,7 +13,6 @@ class AuthService {
   Future getUser() async {
     try {
       FirebaseUser user = await _auth.currentUser();
-      print("get user iç");
       print(user.uid);
       return user.uid;
     } catch (e) {
@@ -48,6 +47,7 @@ class AuthService {
 
   void sendResetReqPassword(String email) {
     _auth.sendPasswordResetEmail(email: email);
+    
   }
 
   // sign in with email & password
