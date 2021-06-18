@@ -66,7 +66,6 @@ class DataBaseConnection {
   static Future<List<String>> returnFriends(String userName) async {
     List<String> friendList = [];
     DataSnapshot snap;
-    friendList.clear();
     try {
       snap = await ref.child("Social").child(userName).child("friend").once();
       for (String eleman in snap.value.keys) {
@@ -82,7 +81,6 @@ class DataBaseConnection {
   static Future<List<String>> returnRequests(String userName) async {
     List<String> requestList = [];
     DataSnapshot snap;
-    requestList.clear();
     try {
       snap = await ref.child("Social").child(userName).child("request").once();
       for (String eleman in snap.value.keys) {
@@ -138,7 +136,6 @@ class DataBaseConnection {
   static Future<List<String>> getEventNames(String userName) async {
     DataSnapshot snap;
     List<String> eventList = [];
-    eventList.clear();
     snap = await ref.child("MyEvents").child(userName).once();
     if (snap.value != null) {
       for (String eleman in snap.value.keys) {
@@ -153,7 +150,6 @@ class DataBaseConnection {
   static Future<Map> getChoices(String eventId) async {
     DataSnapshot snap;
     Map dates = {};
-    dates.clear();
     snap = await ref.child("Events").child(eventId).child("secenekler").once();
 
     dates = snap.value;
@@ -169,7 +165,6 @@ class DataBaseConnection {
 
   static Future<List<String>> getParticipantChoices(String userName) async {
     List<String> choices = [];
-    choices.clear();
     DataSnapshot snap;
     snap = await ref.child("ParticipantOfEvent").child(userName).once();
     if (snap.value != null) {
@@ -214,7 +209,6 @@ class DataBaseConnection {
   static Future<List<String>> getEventTitles(List<String> events) async {
     DataSnapshot snap;
     List<String> eventTitle = [];
-    eventTitle.clear();
     try {
       for (String eleman in events) {
         snap = await ref.child("Events").child(eleman).child("title").once();
