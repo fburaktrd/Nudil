@@ -5,8 +5,6 @@ import 'package:intl/intl.dart';
 
 class DataBaseConnection {
   static final ref = FirebaseDatabase.instance.reference();
-  static List<String> eventList = [];
-  static List<String> eventTitle = [];
 
   static void setComments(String displayName, String eventId, String comment) {
     var now = new DateTime.now();
@@ -139,6 +137,7 @@ class DataBaseConnection {
 
   static Future<List<String>> getEventNames(String userName) async {
     DataSnapshot snap;
+    List<String> eventList = [];
     eventList.clear();
     snap = await ref.child("MyEvents").child(userName).once();
     if (snap.value != null) {
@@ -214,6 +213,7 @@ class DataBaseConnection {
 
   static Future<List<String>> getEventTitles(List<String> events) async {
     DataSnapshot snap;
+    List<String> eventTitle = [];
     eventTitle.clear();
     try {
       for (String eleman in events) {
